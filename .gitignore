@@ -1,0 +1,12 @@
+# Unity auto-generated folders
+Library/
+Temp/
+Obj/
+Build/
+Logs/
+MemoryCaptures/
+UserSettings/
+
+# OS-specific
+.DS_Store
+Thumbs.db
