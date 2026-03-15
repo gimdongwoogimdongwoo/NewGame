@@ -1,0 +1,685 @@
+diff --git a/Assembly-CSharp.csproj b/Assembly-CSharp.csproj
+index cdf71bc..cd85acd 100644
+--- a/Assembly-CSharp.csproj
++++ b/Assembly-CSharp.csproj
+@@ -24,7 +24,7 @@
+   </PropertyGroup>
+   <PropertyGroup>
+     <NoWarn>0169;USG0001</NoWarn>
+-    <DefineConstants>UNITY_6000_3_6;UNITY_6000_3;UNITY_6000;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER;UNITY_2019_4_OR_NEWER;UNITY_2020_1_OR_NEWER;UNITY_2020_2_OR_NEWER;UNITY_2020_3_OR_NEWER;UNITY_2021_1_OR_NEWER;UNITY_2021_2_OR_NEWER;UNITY_2021_3_OR_NEWER;UNITY_2022_1_OR_NEWER;UNITY_2022_2_OR_NEWER;UNITY_2022_3_OR_NEWER;UNITY_2023_1_OR_NEWER;UNITY_2023_2_OR_NEWER;UNITY_2023_3_OR_NEWER;UNITY_6000_0_OR_NEWER;UNITY_6000_1_OR_NEWER;UNITY_6000_2_OR_NEWER;UNITY_6000_3_OR_NEWER;PLATFORM_ARCH_64;UNITY_64;UNITY_INCLUDE_TESTS;ENABLE_AR;ENABLE_AUDIO;ENABLE_AUDIO_SCRIPTABLE_PIPELINE;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_EVENT_QUEUE;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_TEXTURE_STREAMING;ENABLE_VIRTUALTEXTURING;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_UNITYWEBREQUEST;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_UNITY_CONSENT;ENABLE_UNITY_CLOUD_IDENTIFIERS;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_NATIVE_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_EDITOR_GAME_SERVICES;ENABLE_UNITY_GAME_SERVICES_ANALYTICS_SUPPORT;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_GENERATE_NATIVE_PLUGINS_FOR_ASSEMBLIES_API;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;ENABLE_MANAGED_ANIMATION_JOBS;ENABLE_MANAGED_AUDIO_JOBS;ENABLE_MANAGED_UNITYTLS;INCLUDE_DYNAMIC_GI;ENABLE_SCRIPTING_GC_WBARRIERS;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_MARSHALLING_TESTS;ENABLE_VIDEO;ENABLE_NAVIGATION_OFFMESHLINK_TO_NAVMESHLINK;ENABLE_ACCELERATOR_CLIENT_DEBUGGING;ENABLE_ACCESSIBILITY_SCREEN_READER;TEXTCORE_1_0_OR_NEWER;EDITOR_ONLY_NAVMESH_BUILDER_DEPRECATED;PLATFORM_STANDALONE_WIN;PLATFORM_STANDALONE;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_NVIDIA;ENABLE_AMD;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_CLOUD_SERVICES_ENGINE_DIAGNOSTICS;ENABLE_OUT_OF_PROCESS_CRASH_HANDLER;ENABLE_CLUSTER_SYNC;ENABLE_CLUSTERINPUT;PLATFORM_UPDATES_TIME_OUTSIDE_OF_PLAYER_LOOP;GFXDEVICE_WAITFOREVENT_MESSAGEPUMP;PLATFORM_USES_EXPLICIT_MEMORY_MANAGER_INITIALIZER;PLATFORM_SUPPORTS_WAIT_FOR_PRESENTATION;PLATFORM_SUPPORTS_SPLIT_GRAPHICS_JOBS;ENABLE_MONO;NET_STANDARD_2_0;NET_STANDARD;NET_STANDARD_2_1;NETSTANDARD;NETSTANDARD2_1;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_UNITY_COLLECTIONS_CHECKS;ENABLE_BURST_AOT;UNITY_TEAM_LICENSE;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_DIRECTOR;ENABLE_LOCALIZATION;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_TILEMAP;ENABLE_TIMELINE;ENABLE_INPUT_SYSTEM;TEXTCORE_FONT_ENGINE_1_5_OR_NEWER;TEXTCORE_TEXT_ENGINE_1_5_OR_NEWER;TEXTCORE_FONT_ENGINE_1_6_OR_NEWER;CSHARP_7_OR_LATER;CSHARP_7_3_OR_NEWER</DefineConstants>
++    <DefineConstants>UNITY_6000_3_6;UNITY_6000_3;UNITY_6000;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER;UNITY_2019_4_OR_NEWER;UNITY_2020_1_OR_NEWER;UNITY_2020_2_OR_NEWER;UNITY_2020_3_OR_NEWER;UNITY_2021_1_OR_NEWER;UNITY_2021_2_OR_NEWER;UNITY_2021_3_OR_NEWER;UNITY_2022_1_OR_NEWER;UNITY_2022_2_OR_NEWER;UNITY_2022_3_OR_NEWER;UNITY_2023_1_OR_NEWER;UNITY_2023_2_OR_NEWER;UNITY_2023_3_OR_NEWER;UNITY_6000_0_OR_NEWER;UNITY_6000_1_OR_NEWER;UNITY_6000_2_OR_NEWER;UNITY_6000_3_OR_NEWER;PLATFORM_ARCH_64;UNITY_64;UNITY_INCLUDE_TESTS;ENABLE_AR;ENABLE_AUDIO;ENABLE_AUDIO_SCRIPTABLE_PIPELINE;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_EVENT_QUEUE;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_TEXTURE_STREAMING;ENABLE_VIRTUALTEXTURING;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_UNITYWEBREQUEST;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_UNITY_CONSENT;ENABLE_UNITY_CLOUD_IDENTIFIERS;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_NATIVE_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_EDITOR_GAME_SERVICES;ENABLE_UNITY_GAME_SERVICES_ANALYTICS_SUPPORT;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_GENERATE_NATIVE_PLUGINS_FOR_ASSEMBLIES_API;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;ENABLE_MANAGED_ANIMATION_JOBS;ENABLE_MANAGED_AUDIO_JOBS;ENABLE_MANAGED_UNITYTLS;INCLUDE_DYNAMIC_GI;ENABLE_SCRIPTING_GC_WBARRIERS;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_MARSHALLING_TESTS;ENABLE_VIDEO;ENABLE_NAVIGATION_OFFMESHLINK_TO_NAVMESHLINK;ENABLE_ACCELERATOR_CLIENT_DEBUGGING;ENABLE_ACCESSIBILITY_SCREEN_READER;TEXTCORE_1_0_OR_NEWER;EDITOR_ONLY_NAVMESH_BUILDER_DEPRECATED;PLATFORM_STANDALONE_WIN;PLATFORM_STANDALONE;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_NVIDIA;ENABLE_AMD;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_CLOUD_SERVICES_ENGINE_DIAGNOSTICS;ENABLE_OUT_OF_PROCESS_CRASH_HANDLER;ENABLE_CLUSTER_SYNC;ENABLE_CLUSTERINPUT;PLATFORM_UPDATES_TIME_OUTSIDE_OF_PLAYER_LOOP;GFXDEVICE_WAITFOREVENT_MESSAGEPUMP;PLATFORM_USES_EXPLICIT_MEMORY_MANAGER_INITIALIZER;PLATFORM_SUPPORTS_WAIT_FOR_PRESENTATION;PLATFORM_SUPPORTS_SPLIT_GRAPHICS_JOBS;ENABLE_MONO;NET_STANDARD_2_0;NET_STANDARD;NET_STANDARD_2_1;NETSTANDARD;NETSTANDARD2_1;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_UNITY_COLLECTIONS_CHECKS;ENABLE_BURST_AOT;UNITY_TEAM_LICENSE;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_DIRECTOR;ENABLE_LOCALIZATION;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_TILEMAP;ENABLE_TIMELINE;ENABLE_INPUT_SYSTEM;ENABLE_LEGACY_INPUT_MANAGER;TEXTCORE_FONT_ENGINE_1_5_OR_NEWER;TEXTCORE_TEXT_ENGINE_1_5_OR_NEWER;TEXTCORE_FONT_ENGINE_1_6_OR_NEWER;CSHARP_7_OR_LATER;CSHARP_7_3_OR_NEWER</DefineConstants>
+     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+   </PropertyGroup>
+   <PropertyGroup>
+diff --git a/Assets/Scenes/GameScene.unity b/Assets/Scenes/GameScene.unity
+index 9545a74..78d40c1 100644
+--- a/Assets/Scenes/GameScene.unity
++++ b/Assets/Scenes/GameScene.unity
+@@ -119,6 +119,164 @@ NavMeshSettings:
+     debug:
+       m_Flags: 0
+   m_NavMeshData: {fileID: 0}
++--- !u!1 &848293921
++GameObject:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  serializedVersion: 6
++  m_Component:
++  - component: {fileID: 848293926}
++  - component: {fileID: 848293925}
++  - component: {fileID: 848293924}
++  - component: {fileID: 848293923}
++  - component: {fileID: 848293922}
++  m_Layer: 0
++  m_Name: Player
++  m_TagString: Untagged
++  m_Icon: {fileID: 0}
++  m_NavMeshLayer: 0
++  m_StaticEditorFlags: 0
++  m_IsActive: 1
++--- !u!114 &848293922
++MonoBehaviour:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 848293921}
++  m_Enabled: 1
++  m_EditorHideFlags: 0
++  m_Script: {fileID: 11500000, guid: 4f0e6fd271694230bf2d98cff102ac41, type: 3}
++  m_Name: 
++  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement2D
++  moveSpeed: 5
++  animationTurnBuffer: 0.1
++  stateCrossFadeDuration: 0.04
++--- !u!50 &848293923
++Rigidbody2D:
++  serializedVersion: 5
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 848293921}
++  m_BodyType: 0
++  m_Simulated: 1
++  m_UseFullKinematicContacts: 0
++  m_UseAutoMass: 0
++  m_Mass: 1
++  m_LinearDamping: 0
++  m_AngularDamping: 0.05
++  m_GravityScale: 0
++  m_Material: {fileID: 0}
++  m_IncludeLayers:
++    serializedVersion: 2
++    m_Bits: 0
++  m_ExcludeLayers:
++    serializedVersion: 2
++    m_Bits: 0
++  m_Interpolate: 0
++  m_SleepingMode: 1
++  m_CollisionDetection: 0
++  m_Constraints: 0
++--- !u!95 &848293924
++Animator:
++  serializedVersion: 7
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 848293921}
++  m_Enabled: 1
++  m_Avatar: {fileID: 0}
++  m_Controller: {fileID: 9100000, guid: ff4570055521fa945807dca4cba9e0b1, type: 2}
++  m_CullingMode: 0
++  m_UpdateMode: 0
++  m_ApplyRootMotion: 0
++  m_LinearVelocityBlending: 0
++  m_StabilizeFeet: 0
++  m_AnimatePhysics: 0
++  m_WarningMessage: 
++  m_HasTransformHierarchy: 1
++  m_AllowConstantClipSamplingOptimization: 1
++  m_KeepAnimatorStateOnDisable: 0
++  m_WriteDefaultValuesOnDisable: 0
++--- !u!212 &848293925
++SpriteRenderer:
++  serializedVersion: 2
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 848293921}
++  m_Enabled: 1
++  m_CastShadows: 0
++  m_ReceiveShadows: 0
++  m_DynamicOccludee: 1
++  m_StaticShadowCaster: 0
++  m_MotionVectors: 1
++  m_LightProbeUsage: 1
++  m_ReflectionProbeUsage: 1
++  m_RayTracingMode: 0
++  m_RayTraceProcedural: 0
++  m_RayTracingAccelStructBuildFlagsOverride: 0
++  m_RayTracingAccelStructBuildFlags: 1
++  m_SmallMeshCulling: 1
++  m_ForceMeshLod: -1
++  m_MeshLodSelectionBias: 0
++  m_RenderingLayerMask: 1
++  m_RendererPriority: 0
++  m_Materials:
++  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
++  m_StaticBatchInfo:
++    firstSubMesh: 0
++    subMeshCount: 0
++  m_StaticBatchRoot: {fileID: 0}
++  m_ProbeAnchor: {fileID: 0}
++  m_LightProbeVolumeOverride: {fileID: 0}
++  m_ScaleInLightmap: 1
++  m_ReceiveGI: 1
++  m_PreserveUVs: 0
++  m_IgnoreNormalsForChartDetection: 0
++  m_ImportantGI: 0
++  m_StitchLightmapSeams: 1
++  m_SelectedEditorRenderState: 0
++  m_MinimumChartSize: 4
++  m_AutoUVMaxDistance: 0.5
++  m_AutoUVMaxAngle: 89
++  m_LightmapParameters: {fileID: 0}
++  m_GlobalIlluminationMeshLod: 0
++  m_SortingLayerID: 0
++  m_SortingLayer: 0
++  m_SortingOrder: 0
++  m_MaskInteraction: 0
++  m_Sprite: {fileID: 0}
++  m_Color: {r: 1, g: 1, b: 1, a: 1}
++  m_FlipX: 0
++  m_FlipY: 0
++  m_DrawMode: 0
++  m_Size: {x: 1, y: 1}
++  m_AdaptiveModeThreshold: 0.5
++  m_SpriteTileMode: 0
++  m_WasSpriteAssigned: 0
++  m_SpriteSortPoint: 0
++--- !u!4 &848293926
++Transform:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 848293921}
++  serializedVersion: 2
++  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
++  m_LocalPosition: {x: 0, y: 0, z: 0}
++  m_LocalScale: {x: 1, y: 1, z: 1}
++  m_ConstrainProportionsScale: 0
++  m_Children: []
++  m_Father: {fileID: 0}
++  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+ --- !u!1 &1790802468
+ GameObject:
+   m_ObjectHideFlags: 0
+@@ -130,6 +288,7 @@ GameObject:
+   - component: {fileID: 1790802471}
+   - component: {fileID: 1790802470}
+   - component: {fileID: 1790802469}
++  - component: {fileID: 1790802472}
+   m_Layer: 0
+   m_Name: Main Camera
+   m_TagString: MainCamera
+@@ -211,8 +370,53 @@ Transform:
+   m_Children: []
+   m_Father: {fileID: 0}
+   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
++--- !u!114 &1790802472
++MonoBehaviour:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 1790802468}
++  m_Enabled: 1
++  m_EditorHideFlags: 0
++  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
++  m_Name: 
++  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalCameraData
++  m_RenderShadows: 1
++  m_RequiresDepthTextureOption: 2
++  m_RequiresOpaqueTextureOption: 2
++  m_CameraType: 0
++  m_Cameras: []
++  m_RendererIndex: -1
++  m_VolumeLayerMask:
++    serializedVersion: 2
++    m_Bits: 1
++  m_VolumeTrigger: {fileID: 0}
++  m_VolumeFrameworkUpdateModeOption: 2
++  m_RenderPostProcessing: 0
++  m_Antialiasing: 0
++  m_AntialiasingQuality: 2
++  m_StopNaN: 0
++  m_Dithering: 0
++  m_ClearDepth: 1
++  m_AllowXRRendering: 1
++  m_AllowHDROutput: 1
++  m_UseScreenCoordOverride: 0
++  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
++  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
++  m_RequiresDepthTexture: 0
++  m_RequiresColorTexture: 0
++  m_TaaSettings:
++    m_Quality: 3
++    m_FrameInfluence: 0.1
++    m_JitterScale: 1
++    m_MipBias: 0
++    m_VarianceClampScale: 0.9
++    m_ContrastAdaptiveSharpening: 0
++  m_Version: 2
+ --- !u!1660057539 &9223372036854775807
+ SceneRoots:
+   m_ObjectHideFlags: 0
+   m_Roots:
+   - {fileID: 1790802471}
++  - {fileID: 848293926}
+diff --git "a/Assets/Sprite/ChatGPT Image 2026\353\205\204 3\354\233\224 8\354\235\274 \354\230\244\355\233\204 07_53_49-Sheet.png.meta" "b/Assets/Sprite/ChatGPT Image 2026\353\205\204 3\354\233\224 8\354\235\274 \354\230\244\355\233\204 07_53_49-Sheet.png.meta"
+index cb4d9b5..f771f46 100644
+--- "a/Assets/Sprite/ChatGPT Image 2026\353\205\204 3\354\233\224 8\354\235\274 \354\230\244\355\233\204 07_53_49-Sheet.png.meta"	
++++ "b/Assets/Sprite/ChatGPT Image 2026\353\205\204 3\354\233\224 8\354\235\274 \354\230\244\355\233\204 07_53_49-Sheet.png.meta"	
+@@ -108,7 +108,7 @@ TextureImporter:
+   spriteMeshType: 1
+   alignment: 0
+   spritePivot: {x: 0.5, y: 0.5}
+-  spritePixelsToUnits: 512
++  spritePixelsToUnits: 100
+   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+   spriteGenerateFallbackPhysicsShape: 1
+   alphaUsage: 1
+@@ -186,12 +186,12 @@ TextureImporter:
+       name: "ChatGPT Image 2026\uB144 3\uC6D4 8\uC77C \uC624\uD6C4 07_53_49-Sheet_0"
+       rect:
+         serializedVersion: 2
+-        x: 0
++        x: 119
+         y: 512
+-        width: 512
+-        height: 512
++        width: 348
++        height: 441
+       alignment: 0
+-      pivot: {x: 0.5, y: 0.5}
++      pivot: {x: 0, y: 0}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       customData: 
+       outline: []
+@@ -208,12 +208,12 @@ TextureImporter:
+       name: "ChatGPT Image 2026\uB144 3\uC6D4 8\uC77C \uC624\uD6C4 07_53_49-Sheet_1"
+       rect:
+         serializedVersion: 2
+-        x: 512
+-        y: 512
+-        width: 512
+-        height: 512
++        x: 568
++        y: 580
++        width: 362
++        height: 373
+       alignment: 0
+-      pivot: {x: 0.5, y: 0.5}
++      pivot: {x: 0, y: 0}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       customData: 
+       outline: []
+@@ -230,12 +230,12 @@ TextureImporter:
+       name: "ChatGPT Image 2026\uB144 3\uC6D4 8\uC77C \uC624\uD6C4 07_53_49-Sheet_2"
+       rect:
+         serializedVersion: 2
+-        x: 1024
++        x: 1143
+         y: 512
+-        width: 512
+-        height: 512
++        width: 348
++        height: 451
+       alignment: 0
+-      pivot: {x: 0.5, y: 0.5}
++      pivot: {x: 0, y: 0}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       customData: 
+       outline: []
+@@ -252,12 +252,12 @@ TextureImporter:
+       name: "ChatGPT Image 2026\uB144 3\uC6D4 8\uC77C \uC624\uD6C4 07_53_49-Sheet_3"
+       rect:
+         serializedVersion: 2
+-        x: 1536
+-        y: 512
+-        width: 512
+-        height: 512
++        x: 1592
++        y: 590
++        width: 362
++        height: 373
+       alignment: 0
+-      pivot: {x: 0.5, y: 0.5}
++      pivot: {x: 0, y: 0}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       customData: 
+       outline: []
+@@ -274,12 +274,12 @@ TextureImporter:
+       name: "ChatGPT Image 2026\uB144 3\uC6D4 8\uC77C \uC624\uD6C4 07_53_49-Sheet_4"
+       rect:
+         serializedVersion: 2
+-        x: 2048
++        x: 2167
+         y: 512
+-        width: 512
+-        height: 512
++        width: 348
++        height: 441
+       alignment: 0
+-      pivot: {x: 0.5, y: 0.5}
++      pivot: {x: 0, y: 0}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       customData: 
+       outline: []
+@@ -296,12 +296,12 @@ TextureImporter:
+       name: "ChatGPT Image 2026\uB144 3\uC6D4 8\uC77C \uC624\uD6C4 07_53_49-Sheet_5"
+       rect:
+         serializedVersion: 2
+-        x: 2560
+-        y: 512
+-        width: 512
+-        height: 512
++        x: 2616
++        y: 580
++        width: 362
++        height: 373
+       alignment: 0
+-      pivot: {x: 0.5, y: 0.5}
++      pivot: {x: 0, y: 0}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       customData: 
+       outline: []
+@@ -318,12 +318,12 @@ TextureImporter:
+       name: "ChatGPT Image 2026\uB144 3\uC6D4 8\uC77C \uC624\uD6C4 07_53_49-Sheet_6"
+       rect:
+         serializedVersion: 2
+-        x: 3072
++        x: 3191
+         y: 512
+-        width: 512
+-        height: 512
++        width: 348
++        height: 441
+       alignment: 0
+-      pivot: {x: 0.5, y: 0.5}
++      pivot: {x: 0, y: 0}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       customData: 
+       outline: []
+@@ -340,12 +340,12 @@ TextureImporter:
+       name: "ChatGPT Image 2026\uB144 3\uC6D4 8\uC77C \uC624\uD6C4 07_53_49-Sheet_7"
+       rect:
+         serializedVersion: 2
+-        x: 3584
+-        y: 512
+-        width: 512
+-        height: 512
++        x: 3640
++        y: 580
++        width: 362
++        height: 373
+       alignment: 0
+-      pivot: {x: 0.5, y: 0.5}
++      pivot: {x: 0, y: 0}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       customData: 
+       outline: []
+@@ -362,12 +362,12 @@ TextureImporter:
+       name: "ChatGPT Image 2026\uB144 3\uC6D4 8\uC77C \uC624\uD6C4 07_53_49-Sheet_8"
+       rect:
+         serializedVersion: 2
+-        x: 0
+-        y: 0
+-        width: 512
+-        height: 512
++        x: 155
++        y: 88
++        width: 254
++        height: 352
+       alignment: 0
+-      pivot: {x: 0.5, y: 0.5}
++      pivot: {x: 0, y: 0}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       customData: 
+       outline: []
+@@ -384,12 +384,12 @@ TextureImporter:
+       name: "ChatGPT Image 2026\uB144 3\uC6D4 8\uC77C \uC624\uD6C4 07_53_49-Sheet_9"
+       rect:
+         serializedVersion: 2
+-        x: 512
+-        y: 0
+-        width: 512
+-        height: 512
++        x: 623
++        y: 95
++        width: 250
++        height: 346
+       alignment: 0
+-      pivot: {x: 0.5, y: 0.5}
++      pivot: {x: 0, y: 0}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       customData: 
+       outline: []
+@@ -406,12 +406,12 @@ TextureImporter:
+       name: "ChatGPT Image 2026\uB144 3\uC6D4 8\uC77C \uC624\uD6C4 07_53_49-Sheet_10"
+       rect:
+         serializedVersion: 2
+-        x: 1024
+-        y: 0
+-        width: 512
+-        height: 512
++        x: 1019
++        y: 282
++        width: 6
++        height: 18
+       alignment: 0
+-      pivot: {x: 0.5, y: 0.5}
++      pivot: {x: 0, y: 0}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       customData: 
+       outline: []
+@@ -428,12 +428,12 @@ TextureImporter:
+       name: "ChatGPT Image 2026\uB144 3\uC6D4 8\uC77C \uC624\uD6C4 07_53_49-Sheet_11"
+       rect:
+         serializedVersion: 2
+-        x: 1536
+-        y: 0
+-        width: 512
+-        height: 512
++        x: 1179
++        y: 98
++        width: 254
++        height: 352
+       alignment: 0
+-      pivot: {x: 0.5, y: 0.5}
++      pivot: {x: 0, y: 0}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       customData: 
+       outline: []
+@@ -450,12 +450,12 @@ TextureImporter:
+       name: "ChatGPT Image 2026\uB144 3\uC6D4 8\uC77C \uC624\uD6C4 07_53_49-Sheet_12"
+       rect:
+         serializedVersion: 2
+-        x: 2048
+-        y: 0
+-        width: 512
+-        height: 512
++        x: 1647
++        y: 105
++        width: 250
++        height: 346
+       alignment: 0
+-      pivot: {x: 0.5, y: 0.5}
++      pivot: {x: 0, y: 0}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       customData: 
+       outline: []
+@@ -472,12 +472,12 @@ TextureImporter:
+       name: "ChatGPT Image 2026\uB144 3\uC6D4 8\uC77C \uC624\uD6C4 07_53_49-Sheet_13"
+       rect:
+         serializedVersion: 2
+-        x: 2560
+-        y: 0
+-        width: 512
+-        height: 512
++        x: 2043
++        y: 292
++        width: 6
++        height: 18
+       alignment: 0
+-      pivot: {x: 0.5, y: 0.5}
++      pivot: {x: 0, y: 0}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       customData: 
+       outline: []
+@@ -494,12 +494,12 @@ TextureImporter:
+       name: "ChatGPT Image 2026\uB144 3\uC6D4 8\uC77C \uC624\uD6C4 07_53_49-Sheet_14"
+       rect:
+         serializedVersion: 2
+-        x: 3072
+-        y: 0
+-        width: 512
+-        height: 512
++        x: 2203
++        y: 88
++        width: 254
++        height: 352
+       alignment: 0
+-      pivot: {x: 0.5, y: 0.5}
++      pivot: {x: 0, y: 0}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       customData: 
+       outline: []
+@@ -516,12 +516,12 @@ TextureImporter:
+       name: "ChatGPT Image 2026\uB144 3\uC6D4 8\uC77C \uC624\uD6C4 07_53_49-Sheet_15"
+       rect:
+         serializedVersion: 2
+-        x: 3584
+-        y: 0
+-        width: 512
+-        height: 512
++        x: 2671
++        y: 87
++        width: 250
++        height: 354
+       alignment: 0
+-      pivot: {x: 0.5, y: 0.5}
++      pivot: {x: 0, y: 0}
+       border: {x: 0, y: 0, z: 0, w: 0}
+       customData: 
+       outline: []
+@@ -534,11 +534,99 @@ TextureImporter:
+       indices: 
+       edges: []
+       weights: []
++    - serializedVersion: 2
++      name: "ChatGPT Image 2026\uB144 3\uC6D4 8\uC77C \uC624\uD6C4 07_53_49-Sheet_16"
++      rect:
++        serializedVersion: 2
++        x: 3067
++        y: 282
++        width: 6
++        height: 18
++      alignment: 0
++      pivot: {x: 0, y: 0}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      customData: 
++      outline: []
++      physicsShape: []
++      tessellationDetail: -1
++      bones: []
++      spriteID: 35eb70b3ae5894a20800000000000000
++      internalID: 3047113863952055891
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    - serializedVersion: 2
++      name: "ChatGPT Image 2026\uB144 3\uC6D4 8\uC77C \uC624\uD6C4 07_53_49-Sheet_17"
++      rect:
++        serializedVersion: 2
++        x: 3227
++        y: 88
++        width: 254
++        height: 352
++      alignment: 0
++      pivot: {x: 0, y: 0}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      customData: 
++      outline: []
++      physicsShape: []
++      tessellationDetail: -1
++      bones: []
++      spriteID: d251d534bd363d350800000000000000
++      internalID: 6040281318613128493
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    - serializedVersion: 2
++      name: "ChatGPT Image 2026\uB144 3\uC6D4 8\uC77C \uC624\uD6C4 07_53_49-Sheet_18"
++      rect:
++        serializedVersion: 2
++        x: 3695
++        y: 88
++        width: 250
++        height: 353
++      alignment: 0
++      pivot: {x: 0, y: 0}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      customData: 
++      outline: []
++      physicsShape: []
++      tessellationDetail: -1
++      bones: []
++      spriteID: 96d718f0c96699b60800000000000000
++      internalID: 7753341053956095337
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
++    - serializedVersion: 2
++      name: "ChatGPT Image 2026\uB144 3\uC6D4 8\uC77C \uC624\uD6C4 07_53_49-Sheet_19"
++      rect:
++        serializedVersion: 2
++        x: 4091
++        y: 282
++        width: 5
++        height: 18
++      alignment: 0
++      pivot: {x: 0, y: 0}
++      border: {x: 0, y: 0, z: 0, w: 0}
++      customData: 
++      outline: []
++      physicsShape: []
++      tessellationDetail: -1
++      bones: []
++      spriteID: 31895d254d5d3b0e0800000000000000
++      internalID: -2255223880482973677
++      vertices: []
++      indices: 
++      edges: []
++      weights: []
+     outline: []
+     customData: 
+     physicsShape: []
+     bones: []
+-    spriteID: 2a3fb869d24ecfb4d9cb3f6ab7020be1
++    spriteID: 
+     internalID: 0
+     vertices: []
+     indices: 
+@@ -546,9 +634,7 @@ TextureImporter:
+     weights: []
+     secondaryTextures: []
+     spriteCustomMetadata:
+-      entries:
+-      - key: SpriteEditor.SliceSettings
+-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":512.0,"y":512.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
++      entries: []
+     nameFileIdTable:
+       "ChatGPT Image 2026\uB144 3\uC6D4 8\uC77C \uC624\uD6C4 07_53_49-Sheet_0": -7470580193479229506
+       "ChatGPT Image 2026\uB144 3\uC6D4 8\uC77C \uC624\uD6C4 07_53_49-Sheet_1": 8436774690455981779
+@@ -558,6 +644,10 @@ TextureImporter:
+       "ChatGPT Image 2026\uB144 3\uC6D4 8\uC77C \uC624\uD6C4 07_53_49-Sheet_13": -3570478227497810010
+       "ChatGPT Image 2026\uB144 3\uC6D4 8\uC77C \uC624\uD6C4 07_53_49-Sheet_14": -784595124234566271
+       "ChatGPT Image 2026\uB144 3\uC6D4 8\uC77C \uC624\uD6C4 07_53_49-Sheet_15": 6158696951673727092
++      "ChatGPT Image 2026\uB144 3\uC6D4 8\uC77C \uC624\uD6C4 07_53_49-Sheet_16": 3047113863952055891
++      "ChatGPT Image 2026\uB144 3\uC6D4 8\uC77C \uC624\uD6C4 07_53_49-Sheet_17": 6040281318613128493
++      "ChatGPT Image 2026\uB144 3\uC6D4 8\uC77C \uC624\uD6C4 07_53_49-Sheet_18": 7753341053956095337
++      "ChatGPT Image 2026\uB144 3\uC6D4 8\uC77C \uC624\uD6C4 07_53_49-Sheet_19": -2255223880482973677
+       "ChatGPT Image 2026\uB144 3\uC6D4 8\uC77C \uC624\uD6C4 07_53_49-Sheet_2": -7574984809132116204
+       "ChatGPT Image 2026\uB144 3\uC6D4 8\uC77C \uC624\uD6C4 07_53_49-Sheet_3": 1506853600495816631
+       "ChatGPT Image 2026\uB144 3\uC6D4 8\uC77C \uC624\uD6C4 07_53_49-Sheet_4": -1196644843762517146
+diff --git a/NewGame.slnx b/NewGame.slnx
+index 5f9b78c..20919c7 100644
+--- a/NewGame.slnx
++++ b/NewGame.slnx
+@@ -1,2 +1,3 @@
+ ﻿<Solution>
++  <Project Path="Assembly-CSharp.csproj" />
+ </Solution>
+diff --git a/ProjectSettings/ProjectSettings.asset b/ProjectSettings/ProjectSettings.asset
+index 426a175..63f3925 100644
+--- a/ProjectSettings/ProjectSettings.asset
++++ b/ProjectSettings/ProjectSettings.asset
+@@ -772,7 +772,7 @@ PlayerSettings:
+   qnxGraphicConfPath: 
+   apiCompatibilityLevel: 6
+   captureStartupLogs: {}
+-  activeInputHandler: 1
++  activeInputHandler: 2
+   windowsGamepadBackendHint: 0
+   cloudProjectId: 34149de6-2409-4c37-afa3-8e0a15efa115
+   framebufferDepthMemorylessMode: 0
