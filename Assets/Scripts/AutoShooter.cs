@@ -15,10 +15,19 @@ public class AutoShooter : MonoBehaviour
     [SerializeField] private float damage = 10f;
     [SerializeField] private float speed = 8f;
     [SerializeField] private float lifeTime = 2f;
+
+    [SerializeField] private float scale = 0.75f;
+
     [SerializeField] private float scale = 1f;
+
 
     private Vector2 lastInputDirection = Vector2.down;
     private Vector2 previousAimDirection = Vector2.down;
+
+
+    private Vector2 lastInputDirection = Vector2.right;
+    private Vector2 previousAimDirection = Vector2.right;
+
     private float nextFireTime;
     private float nextTurnAllowedTime;
 
