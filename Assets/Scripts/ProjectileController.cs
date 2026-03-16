@@ -8,10 +8,19 @@ public class ProjectileController : MonoBehaviour
     [SerializeField] private float damage = 10f;
     [SerializeField] private float speed = 8f;
     [SerializeField] private float lifeTime = 2f;
+
+    [SerializeField] private float scale = 0.75f;
+
     [SerializeField] private float scale = 1f;
+
 
     [Header("Hit Settings")]
     [SerializeField] private string enemyLayerName = "Enemy";
+
+
+    [Header("Visual Settings")]
+    [SerializeField] private float rotationOffset = 180f;
+
 
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
@@ -81,7 +90,11 @@ public class ProjectileController : MonoBehaviour
         }
 
         float angle = Mathf.Atan2(direction.y, Mathf.Abs(direction.x)) * Mathf.Rad2Deg;
+
+        transform.rotation = Quaternion.Euler(0f, 0f, angle + rotationOffset);
+
         transform.rotation = Quaternion.Euler(0f, 0f, angle);
+
         spriteRenderer.flipX = direction.x < 0f;
     }
 
