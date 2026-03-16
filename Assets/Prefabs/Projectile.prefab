@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8965947763362955775}
   - component: {fileID: 2905019032715687691}
   - component: {fileID: 2427724692356208014}
-  - component: {fileID: 4236508514994780360}
+  - component: {fileID: 9108403860877988996}
   m_Layer: 0
   m_Name: Projectile
   m_TagString: Untagged
@@ -28,13 +28,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9134668778580229680}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.09, y: 0.02, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0.0010902806, w: -0.9999994}
+  m_LocalPosition: {x: -0.09, y: 0.020000022, z: 0}
   m_LocalScale: {x: 0.9434859, y: 1.0000898, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 360.125}
 --- !u!212 &8965947763362955775
 SpriteRenderer:
   serializedVersion: 2
@@ -157,7 +157,7 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: -0.49999997, y: 0.081123345}
   m_Radius: 0.42418045
---- !u!114 &4236508514994780360
+--- !u!114 &9108403860877988996
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
