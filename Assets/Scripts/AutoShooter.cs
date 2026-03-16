@@ -17,8 +17,8 @@ public class AutoShooter : MonoBehaviour
     [SerializeField] private float lifeTime = 2f;
     [SerializeField] private float scale = 1f;
 
-    private Vector2 lastInputDirection = Vector2.right;
-    private Vector2 previousAimDirection = Vector2.right;
+    private Vector2 lastInputDirection = Vector2.down;
+    private Vector2 previousAimDirection = Vector2.down;
     private float nextFireTime;
     private float nextTurnAllowedTime;
 
@@ -60,7 +60,7 @@ public class AutoShooter : MonoBehaviour
             spawnPoint = transform;
         }
 
-        Vector2 currentAimDirection = lastInputDirection.sqrMagnitude > 0f ? lastInputDirection.normalized : Vector2.right;
+        Vector2 currentAimDirection = lastInputDirection.sqrMagnitude > 0f ? lastInputDirection.normalized : Vector2.down;
 
         if (Vector2.Dot(currentAimDirection, previousAimDirection) < 0.999f)
         {
@@ -79,9 +79,19 @@ public class AutoShooter : MonoBehaviour
 
     private void Fire(Vector2 direction)
     {
-        Quaternion baseRotation = baseRotationReference != null ? baseRotationReference.rotation : Quaternion.identity;
-        ProjectileController projectile = Instantiate(projectilePrefab, spawnPoint.position, baseRotation);
+        // 입력 방향 반대
+        Vector2 flippedDirection = direction;
 
-        projectile.Initialize(direction, damage, speed, lifeTime, scale);
+        // 기준 회전 (없으면 identity)
+        Quaternion baseRotation = baseRotationReference != null ? baseRotationReference.rotation : Quaternion.identity;
+
+        // 2D에서는 Z축 기준으로 180도 회전
+        Quaternion flippedRotation = baseRotation * Quaternion.Euler(0f, 0f, 180f);
+
+        // 발사체 생성
+        ProjectileController projectile = Instantiate(projectilePrefab, spawnPoint.position, flippedRotation);
+
+        // 이동 방향도 반대로 초기화
+        projectile.Initialize(flippedDirection, damage, speed, lifeTime, scale);
     }
 }

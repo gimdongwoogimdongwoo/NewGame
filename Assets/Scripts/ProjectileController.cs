@@ -15,7 +15,7 @@ public class ProjectileController : MonoBehaviour
 
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
-    private Vector2 moveDirection = Vector2.right;
+    private Vector2 moveDirection = Vector2.down;
     private int enemyLayer = -1;
     private bool isInitialized;
 
@@ -39,7 +39,7 @@ public class ProjectileController : MonoBehaviour
 
         if (!isInitialized)
         {
-            SetDirection(Vector2.right);
+            SetDirection(Vector2.down);
         }
     }
 
@@ -69,7 +69,7 @@ public class ProjectileController : MonoBehaviour
 
     private void SetDirection(Vector2 direction)
     {
-        moveDirection = direction.sqrMagnitude > 0f ? direction.normalized : Vector2.right;
+        moveDirection = direction.sqrMagnitude > 0f ? direction.normalized : Vector2.down;
         ApplySpriteOrientation(moveDirection);
     }
 
@@ -105,4 +105,5 @@ public class ProjectileController : MonoBehaviour
         target.SendMessage("TakeDamage", damage, SendMessageOptions.DontRequireReceiver);
         Destroy(gameObject);
     }
+
 }

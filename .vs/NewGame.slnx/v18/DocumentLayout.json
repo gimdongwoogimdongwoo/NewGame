@@ -3,8 +3,12 @@
   "WorkspaceRootPath": "C:\\UnityProject\\NewGame\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\UnityProject\\NewGame\\Assets\\Scripts\\NewEmptyCSharpScript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\NewEmptyCSharpScript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\unityproject\\newgame\\assets\\scripts\\projectilecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\projectilecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\UnityProject\\NewGame\\Assets\\Scripts\\AutoShooter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\AutoShooter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -19,14 +23,27 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "NewEmptyCSharpScript.cs",
-              "DocumentMoniker": "C:\\UnityProject\\NewGame\\Assets\\Scripts\\NewEmptyCSharpScript.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\NewEmptyCSharpScript.cs",
-              "ToolTip": "C:\\UnityProject\\NewGame\\Assets\\Scripts\\NewEmptyCSharpScript.cs",
-              "RelativeToolTip": "Assets\\Scripts\\NewEmptyCSharpScript.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAABAAAAAAAAAA==",
+              "Title": "ProjectileController.cs",
+              "DocumentMoniker": "C:\\UnityProject\\NewGame\\Assets\\Scripts\\ProjectileController.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\ProjectileController.cs",
+              "ToolTip": "C:\\UnityProject\\NewGame\\Assets\\Scripts\\ProjectileController.cs",
+              "RelativeToolTip": "Assets\\Scripts\\ProjectileController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAABCAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-15T11:37:35.887Z",
+              "WhenOpened": "2026-03-16T11:49:06.747Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AutoShooter.cs",
+              "DocumentMoniker": "C:\\UnityProject\\NewGame\\Assets\\Scripts\\AutoShooter.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\AutoShooter.cs",
+              "ToolTip": "C:\\UnityProject\\NewGame\\Assets\\Scripts\\AutoShooter.cs",
+              "RelativeToolTip": "Assets\\Scripts\\AutoShooter.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAADwvz4AAAB4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-16T11:54:13.301Z",
               "EditorCaption": ""
             }
           ]
