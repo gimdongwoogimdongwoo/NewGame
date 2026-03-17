@@ -29,8 +29,8 @@ Transform:
   m_GameObject: {fileID: 9134668778580229680}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.0010902806, w: -0.9999994}
-  m_LocalPosition: {x: -0.09, y: 0.020000022, z: 0}
-  m_LocalScale: {x: 0.9434859, y: 1.0000898, z: 1}
+  m_LocalPosition: {x: -0.09, y: 0.0072, z: 0}
+  m_LocalScale: {x: 0.9434859, y: 1.0128909, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -174,3 +174,4 @@ MonoBehaviour:
   lifeTime: 3
   scale: 1
   enemyLayerName: Enemy
+  rotationOffset: 180

@@ -11,7 +11,6 @@ public class ProjectileController : MonoBehaviour
 
     [SerializeField] private float scale = 0.75f;
 
-    [SerializeField] private float scale = 1f;
 
 
     [Header("Hit Settings")]
