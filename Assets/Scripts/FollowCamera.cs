@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Camera))]
 public class FollowCamera : MonoBehaviour
 {
     [SerializeField] private string targetTag = "player";
@@ -8,6 +9,12 @@ public class FollowCamera : MonoBehaviour
 
     private Transform target;
     private Vector3 currentVelocity;
+    private Camera targetCamera;
+
+    private void Awake()
+    {
+        targetCamera = GetComponent<Camera>();
+    }
 
     private void Start()
     {
@@ -26,6 +33,12 @@ public class FollowCamera : MonoBehaviour
         }
 
         Vector3 targetPosition = new Vector3(target.position.x, target.position.y, fixedZ);
+
+        if (MapBoundaryController.Instance != null)
+        {
+            targetPosition = MapBoundaryController.Instance.ClampCameraCenter(targetPosition, targetCamera);
+        }
+
         transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref currentVelocity, smoothTime);
     }
 
