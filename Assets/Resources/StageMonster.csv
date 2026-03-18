@@ -1,0 +1,3 @@
+StageId,MonsterId,SpawnStartSec,WaveIntervalSec,WaveSizeStart,WaveSizeGrowth,WaveSizeMax,TotalBudget,MaxAliveCap
+1,Monster_1,2,6,2,1,8,40,10
+1,Monster_2,8,10,1,1,5,20,6
