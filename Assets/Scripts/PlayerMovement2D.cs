@@ -34,7 +34,14 @@ public class PlayerMovement2D : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.linearVelocity = moveInput * moveSpeed;
+        Vector2 desiredPosition = rb.position + (moveInput * moveSpeed * Time.fixedDeltaTime);
+
+        if (MapBoundaryController.Instance != null)
+        {
+            desiredPosition = MapBoundaryController.Instance.ClampPosition(desiredPosition);
+        }
+
+        rb.MovePosition(desiredPosition);
     }
 
     private void OnDisable()
