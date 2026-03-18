@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 using UnityEngine.Serialization;
 
 public class MonsterSpawner : MonoBehaviour
@@ -13,6 +14,15 @@ public class MonsterSpawner : MonoBehaviour
     [SerializeField] private float spawnOuterPadding = 3f;
     [SerializeField] private List<MonsterPrefabEntry> monsterPrefabs = new();
 
+
+public class MonsterSpawner : MonoBehaviour
+{
+    [SerializeField] private Camera targetCamera;
+    [SerializeField] private Transform player;
+    [SerializeField] private float spawnPadding = 1f;
+    [SerializeField] private float spawnOuterPadding = 3f;
+
+
     private readonly List<SpawnRuntimeState> runtimeStates = new();
 
     private void Start()
@@ -24,12 +34,25 @@ public class MonsterSpawner : MonoBehaviour
 
         ResolvePlayerReference();
 
+
         int resolvedStageId = stageId > 0 ? stageId : StageCsvLoader.ResolveCurrentStageId();
         List<StageMonsterSpawnRule> stageRules = StageCsvLoader.LoadStageMonsterRules(resolvedStageId);
 
         foreach (StageMonsterSpawnRule rule in stageRules)
         {
             GameObject prefab = FindPrefab(rule.MonsterId);
+
+        int stageId = StageCsvLoader.ResolveCurrentStageId();
+        List<StageMonsterSpawnRule> stageRules = StageCsvLoader.LoadStageMonsterRules(stageId);
+
+        foreach (StageMonsterSpawnRule rule in stageRules)
+        {
+            GameObject prefab = Resources.Load<GameObject>(rule.MonsterId);
+            if (prefab == null)
+            {
+                prefab = Resources.Load<GameObject>($"Prefabs/{rule.MonsterId}");
+            }
+
 
             if (prefab == null)
             {
@@ -110,7 +133,11 @@ public class MonsterSpawner : MonoBehaviour
 
         float halfHeight = targetCamera.orthographicSize;
         float halfWidth = halfHeight * targetCamera.aspect;
+
         float minRadius = Mathf.Sqrt((halfWidth * halfWidth) + (halfHeight * halfHeight)) + spawnRadiusPadding;
+
+        float minRadius = Mathf.Sqrt((halfWidth * halfWidth) + (halfHeight * halfHeight)) + spawnPadding;
+
 
         for (int i = 0; i < 8; i++)
         {
@@ -161,6 +188,7 @@ public class MonsterSpawner : MonoBehaviour
         }
     }
 
+
     private GameObject FindPrefab(string monsterId)
     {
         foreach (MonsterPrefabEntry entry in monsterPrefabs)
@@ -188,6 +216,8 @@ public class MonsterSpawner : MonoBehaviour
         public string MonsterId;
         public GameObject Prefab;
     }
+
+
 
     private sealed class SpawnRuntimeState
     {
