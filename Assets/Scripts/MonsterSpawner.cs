@@ -12,6 +12,11 @@ public class MonsterSpawner : MonoBehaviour
     [FormerlySerializedAs("spawnPadding")]
     [SerializeField] private float spawnRadiusPadding = 1f;
     [SerializeField] private float spawnOuterPadding = 3f;
+
+    [SerializeField] private List<GameObject> monsterPrefabs = new List<GameObject>();
+
+    private readonly List<SpawnRuntimeState> runtimeStates = new List<SpawnRuntimeState>();
+
     [SerializeField] private List<MonsterPrefabEntry> monsterPrefabs = new();
 
 
@@ -34,6 +39,12 @@ public class MonsterSpawner : MonoBehaviour
 
         ResolvePlayerReference();
 
+        if (player == null)
+        {
+            Debug.LogError("MonsterSpawner could not find PlayerMovement2D target. Assign player Transform in Inspector.");
+            return;
+        }
+
 
         int resolvedStageId = stageId > 0 ? stageId : StageCsvLoader.ResolveCurrentStageId();
         List<StageMonsterSpawnRule> stageRules = StageCsvLoader.LoadStageMonsterRules(resolvedStageId);
@@ -41,6 +52,7 @@ public class MonsterSpawner : MonoBehaviour
         foreach (StageMonsterSpawnRule rule in stageRules)
         {
             GameObject prefab = FindPrefab(rule.MonsterId);
+
 
         int stageId = StageCsvLoader.ResolveCurrentStageId();
         List<StageMonsterSpawnRule> stageRules = StageCsvLoader.LoadStageMonsterRules(stageId);
@@ -52,6 +64,7 @@ public class MonsterSpawner : MonoBehaviour
             {
                 prefab = Resources.Load<GameObject>($"Prefabs/{rule.MonsterId}");
             }
+
 
 
             if (prefab == null)
@@ -136,7 +149,12 @@ public class MonsterSpawner : MonoBehaviour
 
         float minRadius = Mathf.Sqrt((halfWidth * halfWidth) + (halfHeight * halfHeight)) + spawnRadiusPadding;
 
+
+
+        float minRadius = Mathf.Sqrt((halfWidth * halfWidth) + (halfHeight * halfHeight)) + spawnRadiusPadding;
+
         float minRadius = Mathf.Sqrt((halfWidth * halfWidth) + (halfHeight * halfHeight)) + spawnPadding;
+
 
 
         for (int i = 0; i < 8; i++)
@@ -174,6 +192,9 @@ public class MonsterSpawner : MonoBehaviour
             return;
         }
 
+
+        PlayerMovement2D playerMovement = FindObjectOfType<PlayerMovement2D>();
+
         GameObject tagged = GameObject.FindGameObjectWithTag("player");
         if (tagged != null)
         {
@@ -182,11 +203,21 @@ public class MonsterSpawner : MonoBehaviour
         }
 
         PlayerMovement2D playerMovement = FindFirstObjectByType<PlayerMovement2D>();
+
         if (playerMovement != null)
         {
             player = playerMovement.transform;
         }
     }
+
+
+    private GameObject FindPrefab(string monsterId)
+    {
+        foreach (GameObject prefabEntry in monsterPrefabs)
+        {
+            if (prefabEntry != null && prefabEntry.name == monsterId)
+            {
+                return prefabEntry;
 
 
     private GameObject FindPrefab(string monsterId)
@@ -198,6 +229,7 @@ public class MonsterSpawner : MonoBehaviour
                 entry.MonsterId == monsterId)
             {
                 return entry.Prefab;
+
             }
         }
 
@@ -209,6 +241,7 @@ public class MonsterSpawner : MonoBehaviour
 
         return prefab;
     }
+
 
     [System.Serializable]
     private struct MonsterPrefabEntry
