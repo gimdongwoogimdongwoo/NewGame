@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 
 public class MonsterSpawner : MonoBehaviour
 {
-    [SerializeField] private int stageId = -1;
+
     [SerializeField] private Camera targetCamera;
     [SerializeField] private Transform player;
     [FormerlySerializedAs("spawnPadding")]
@@ -16,6 +16,7 @@ public class MonsterSpawner : MonoBehaviour
     [SerializeField] private List<GameObject> monsterPrefabs = new List<GameObject>();
 
     private readonly List<SpawnRuntimeState> runtimeStates = new List<SpawnRuntimeState>();
+
 
     [SerializeField] private List<MonsterPrefabEntry> monsterPrefabs = new();
 
@@ -29,6 +30,7 @@ public class MonsterSpawner : MonoBehaviour
 
 
     private readonly List<SpawnRuntimeState> runtimeStates = new();
+
 
     private void Start()
     {
@@ -46,12 +48,18 @@ public class MonsterSpawner : MonoBehaviour
         }
 
 
+        int activeStageId = overrideStageId > 0 ? overrideStageId : StageCsvLoader.ResolveCurrentStageId();
+        List<StageMonsterSpawnRule> stageRules = StageCsvLoader.LoadStageMonsterRules(activeStageId);
+
+
         int resolvedStageId = stageId > 0 ? stageId : StageCsvLoader.ResolveCurrentStageId();
         List<StageMonsterSpawnRule> stageRules = StageCsvLoader.LoadStageMonsterRules(resolvedStageId);
+
 
         foreach (StageMonsterSpawnRule rule in stageRules)
         {
             GameObject prefab = FindPrefab(rule.MonsterId);
+
 
 
         int stageId = StageCsvLoader.ResolveCurrentStageId();
@@ -67,11 +75,32 @@ public class MonsterSpawner : MonoBehaviour
 
 
 
+
             if (prefab == null)
             {
                 Debug.LogWarning($"Monster prefab '{rule.MonsterId}' was not found under Resources. Skipping this rule.");
                 continue;
             }
+
+
+            SpawnRuntimeState runtimeState = new SpawnRuntimeState(rule, prefab);
+            runtimeStates.Add(runtimeState);
+            StartCoroutine(RunSpawnLoop(runtimeState));
+        }
+    }
+
+    private IEnumerator RunSpawnLoop(SpawnRuntimeState runtimeState)
+    {
+        yield return new WaitForSeconds(runtimeState.Rule.SpawnStartSec);
+
+        while (runtimeState.SpawnedTotal < runtimeState.Rule.TotalBudget)
+        {
+            int waveSize = Mathf.Min(
+                runtimeState.Rule.WaveSizeStart + (runtimeState.WaveIndex * runtimeState.Rule.WaveSizeGrowth),
+                runtimeState.Rule.WaveSizeMax);
+
+            int remainingBudget = runtimeState.Rule.TotalBudget - runtimeState.SpawnedTotal;
+            int aliveCapacity = runtimeState.Rule.MaxAliveCap - runtimeState.AliveCount;
 
             SpawnRuntimeState state = new SpawnRuntimeState(rule, prefab);
             runtimeStates.Add(state);
@@ -91,10 +120,25 @@ public class MonsterSpawner : MonoBehaviour
 
             int remainingBudget = state.Rule.TotalBudget - state.SpawnedTotal;
             int aliveCapacity = state.Rule.MaxAliveCap - state.AliveCount;
+
             int spawnCount = Mathf.Min(waveSize, remainingBudget, aliveCapacity);
 
             for (int i = 0; i < spawnCount; i++)
             {
+
+                SpawnMonster(runtimeState);
+            }
+
+            runtimeState.WaveIndex++;
+            yield return new WaitForSeconds(runtimeState.Rule.WaveIntervalSec);
+        }
+    }
+
+    private void SpawnMonster(SpawnRuntimeState runtimeState)
+    {
+        Vector2 spawnPosition = ResolveSpawnPosition();
+        GameObject monster = Instantiate(runtimeState.Prefab, spawnPosition, Quaternion.identity);
+
                 SpawnMonster(state);
             }
 
@@ -107,6 +151,7 @@ public class MonsterSpawner : MonoBehaviour
     {
         Vector2 spawnPosition = ResolveSpawnPosition();
         GameObject monster = Instantiate(state.Prefab, spawnPosition, Quaternion.identity);
+
 
         MonsterChasePlayer chase = monster.GetComponent<MonsterChasePlayer>();
         if (chase == null)
@@ -122,10 +167,17 @@ public class MonsterSpawner : MonoBehaviour
             lifetime = monster.AddComponent<SpawnedMonsterLifetime>();
         }
 
+
+        lifetime.Initialize(() => runtimeState.AliveCount = Mathf.Max(0, runtimeState.AliveCount - 1));
+
+        runtimeState.SpawnedTotal++;
+        runtimeState.AliveCount++;
+
         lifetime.Initialize(() => state.AliveCount = Mathf.Max(0, state.AliveCount - 1));
 
         state.SpawnedTotal++;
         state.AliveCount++;
+
     }
 
     private Vector2 ResolveSpawnPosition()
@@ -150,10 +202,14 @@ public class MonsterSpawner : MonoBehaviour
         float minRadius = Mathf.Sqrt((halfWidth * halfWidth) + (halfHeight * halfHeight)) + spawnRadiusPadding;
 
 
+        float minRadius = Mathf.Sqrt((halfWidth * halfWidth) + (halfHeight * halfHeight)) + spawnRadiusPadding;
+
+
 
         float minRadius = Mathf.Sqrt((halfWidth * halfWidth) + (halfHeight * halfHeight)) + spawnRadiusPadding;
 
         float minRadius = Mathf.Sqrt((halfWidth * halfWidth) + (halfHeight * halfHeight)) + spawnPadding;
+
 
 
 
@@ -195,6 +251,9 @@ public class MonsterSpawner : MonoBehaviour
 
         PlayerMovement2D playerMovement = FindObjectOfType<PlayerMovement2D>();
 
+
+        PlayerMovement2D playerMovement = FindObjectOfType<PlayerMovement2D>();
+
         GameObject tagged = GameObject.FindGameObjectWithTag("player");
         if (tagged != null)
         {
@@ -204,11 +263,14 @@ public class MonsterSpawner : MonoBehaviour
 
         PlayerMovement2D playerMovement = FindFirstObjectByType<PlayerMovement2D>();
 
+
         if (playerMovement != null)
         {
             player = playerMovement.transform;
         }
     }
+
+
 
 
     private GameObject FindPrefab(string monsterId)
@@ -218,6 +280,20 @@ public class MonsterSpawner : MonoBehaviour
             if (prefabEntry != null && prefabEntry.name == monsterId)
             {
                 return prefabEntry;
+
+            }
+        }
+
+        GameObject loadedPrefab = Resources.Load<GameObject>(monsterId);
+        if (loadedPrefab == null)
+        {
+            loadedPrefab = Resources.Load<GameObject>($"Prefabs/{monsterId}");
+        }
+
+        return loadedPrefab;
+    }
+
+
 
 
     private GameObject FindPrefab(string monsterId)
@@ -249,6 +325,7 @@ public class MonsterSpawner : MonoBehaviour
         public string MonsterId;
         public GameObject Prefab;
     }
+
 
 
 
