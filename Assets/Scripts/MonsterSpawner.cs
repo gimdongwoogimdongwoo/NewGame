@@ -1,19 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 using UnityEngine.Serialization;
 
 public class MonsterSpawner : MonoBehaviour
 {
-    [SerializeField] private int overrideStageId = -1;
+
     [SerializeField] private Camera targetCamera;
     [SerializeField] private Transform player;
     [FormerlySerializedAs("spawnPadding")]
     [SerializeField] private float spawnRadiusPadding = 1f;
     [SerializeField] private float spawnOuterPadding = 3f;
+
     [SerializeField] private List<GameObject> monsterPrefabs = new List<GameObject>();
 
     private readonly List<SpawnRuntimeState> runtimeStates = new List<SpawnRuntimeState>();
+
+
+    [SerializeField] private List<MonsterPrefabEntry> monsterPrefabs = new();
+
+
+public class MonsterSpawner : MonoBehaviour
+{
+    [SerializeField] private Camera targetCamera;
+    [SerializeField] private Transform player;
+    [SerializeField] private float spawnPadding = 1f;
+    [SerializeField] private float spawnOuterPadding = 3f;
+
+
+    private readonly List<SpawnRuntimeState> runtimeStates = new();
+
 
     private void Start()
     {
@@ -23,24 +40,48 @@ public class MonsterSpawner : MonoBehaviour
         }
 
         ResolvePlayerReference();
+
         if (player == null)
         {
             Debug.LogError("MonsterSpawner could not find PlayerMovement2D target. Assign player Transform in Inspector.");
             return;
         }
 
+
         int activeStageId = overrideStageId > 0 ? overrideStageId : StageCsvLoader.ResolveCurrentStageId();
         List<StageMonsterSpawnRule> stageRules = StageCsvLoader.LoadStageMonsterRules(activeStageId);
+
+
+        int resolvedStageId = stageId > 0 ? stageId : StageCsvLoader.ResolveCurrentStageId();
+        List<StageMonsterSpawnRule> stageRules = StageCsvLoader.LoadStageMonsterRules(resolvedStageId);
+
 
         foreach (StageMonsterSpawnRule rule in stageRules)
         {
             GameObject prefab = FindPrefab(rule.MonsterId);
+
+
+
+        int stageId = StageCsvLoader.ResolveCurrentStageId();
+        List<StageMonsterSpawnRule> stageRules = StageCsvLoader.LoadStageMonsterRules(stageId);
+
+        foreach (StageMonsterSpawnRule rule in stageRules)
+        {
+            GameObject prefab = Resources.Load<GameObject>(rule.MonsterId);
+            if (prefab == null)
+            {
+                prefab = Resources.Load<GameObject>($"Prefabs/{rule.MonsterId}");
+            }
+
+
+
 
             if (prefab == null)
             {
                 Debug.LogWarning($"Monster prefab '{rule.MonsterId}' was not found under Resources. Skipping this rule.");
                 continue;
             }
+
 
             SpawnRuntimeState runtimeState = new SpawnRuntimeState(rule, prefab);
             runtimeStates.Add(runtimeState);
@@ -60,10 +101,31 @@ public class MonsterSpawner : MonoBehaviour
 
             int remainingBudget = runtimeState.Rule.TotalBudget - runtimeState.SpawnedTotal;
             int aliveCapacity = runtimeState.Rule.MaxAliveCap - runtimeState.AliveCount;
+
+            SpawnRuntimeState state = new SpawnRuntimeState(rule, prefab);
+            runtimeStates.Add(state);
+            StartCoroutine(RunSpawnLoop(state));
+        }
+    }
+
+    private IEnumerator RunSpawnLoop(SpawnRuntimeState state)
+    {
+        yield return new WaitForSeconds(state.Rule.SpawnStartSec);
+
+        while (state.SpawnedTotal < state.Rule.TotalBudget)
+        {
+            int waveSize = Mathf.Min(
+                state.Rule.WaveSizeStart + (state.WaveIndex * state.Rule.WaveSizeGrowth),
+                state.Rule.WaveSizeMax);
+
+            int remainingBudget = state.Rule.TotalBudget - state.SpawnedTotal;
+            int aliveCapacity = state.Rule.MaxAliveCap - state.AliveCount;
+
             int spawnCount = Mathf.Min(waveSize, remainingBudget, aliveCapacity);
 
             for (int i = 0; i < spawnCount; i++)
             {
+
                 SpawnMonster(runtimeState);
             }
 
@@ -76,6 +138,20 @@ public class MonsterSpawner : MonoBehaviour
     {
         Vector2 spawnPosition = ResolveSpawnPosition();
         GameObject monster = Instantiate(runtimeState.Prefab, spawnPosition, Quaternion.identity);
+
+                SpawnMonster(state);
+            }
+
+            state.WaveIndex++;
+            yield return new WaitForSeconds(state.Rule.WaveIntervalSec);
+        }
+    }
+
+    private void SpawnMonster(SpawnRuntimeState state)
+    {
+        Vector2 spawnPosition = ResolveSpawnPosition();
+        GameObject monster = Instantiate(state.Prefab, spawnPosition, Quaternion.identity);
+
 
         MonsterChasePlayer chase = monster.GetComponent<MonsterChasePlayer>();
         if (chase == null)
@@ -91,10 +167,17 @@ public class MonsterSpawner : MonoBehaviour
             lifetime = monster.AddComponent<SpawnedMonsterLifetime>();
         }
 
+
         lifetime.Initialize(() => runtimeState.AliveCount = Mathf.Max(0, runtimeState.AliveCount - 1));
 
         runtimeState.SpawnedTotal++;
         runtimeState.AliveCount++;
+
+        lifetime.Initialize(() => state.AliveCount = Mathf.Max(0, state.AliveCount - 1));
+
+        state.SpawnedTotal++;
+        state.AliveCount++;
+
     }
 
     private Vector2 ResolveSpawnPosition()
@@ -115,7 +198,20 @@ public class MonsterSpawner : MonoBehaviour
 
         float halfHeight = targetCamera.orthographicSize;
         float halfWidth = halfHeight * targetCamera.aspect;
+
         float minRadius = Mathf.Sqrt((halfWidth * halfWidth) + (halfHeight * halfHeight)) + spawnRadiusPadding;
+
+
+        float minRadius = Mathf.Sqrt((halfWidth * halfWidth) + (halfHeight * halfHeight)) + spawnRadiusPadding;
+
+
+
+        float minRadius = Mathf.Sqrt((halfWidth * halfWidth) + (halfHeight * halfHeight)) + spawnRadiusPadding;
+
+        float minRadius = Mathf.Sqrt((halfWidth * halfWidth) + (halfHeight * halfHeight)) + spawnPadding;
+
+
+
 
         for (int i = 0; i < 8; i++)
         {
@@ -152,12 +248,30 @@ public class MonsterSpawner : MonoBehaviour
             return;
         }
 
+
         PlayerMovement2D playerMovement = FindObjectOfType<PlayerMovement2D>();
+
+
+        PlayerMovement2D playerMovement = FindObjectOfType<PlayerMovement2D>();
+
+        GameObject tagged = GameObject.FindGameObjectWithTag("player");
+        if (tagged != null)
+        {
+            player = tagged.transform;
+            return;
+        }
+
+        PlayerMovement2D playerMovement = FindFirstObjectByType<PlayerMovement2D>();
+
+
         if (playerMovement != null)
         {
             player = playerMovement.transform;
         }
     }
+
+
+
 
     private GameObject FindPrefab(string monsterId)
     {
@@ -166,6 +280,7 @@ public class MonsterSpawner : MonoBehaviour
             if (prefabEntry != null && prefabEntry.name == monsterId)
             {
                 return prefabEntry;
+
             }
         }
 
@@ -177,6 +292,42 @@ public class MonsterSpawner : MonoBehaviour
 
         return loadedPrefab;
     }
+
+
+
+
+    private GameObject FindPrefab(string monsterId)
+    {
+        foreach (MonsterPrefabEntry entry in monsterPrefabs)
+        {
+            if (!string.IsNullOrWhiteSpace(entry.MonsterId) &&
+                entry.Prefab != null &&
+                entry.MonsterId == monsterId)
+            {
+                return entry.Prefab;
+
+            }
+        }
+
+        GameObject prefab = Resources.Load<GameObject>(monsterId);
+        if (prefab == null)
+        {
+            prefab = Resources.Load<GameObject>($"Prefabs/{monsterId}");
+        }
+
+        return prefab;
+    }
+
+
+    [System.Serializable]
+    private struct MonsterPrefabEntry
+    {
+        public string MonsterId;
+        public GameObject Prefab;
+    }
+
+
+
 
     private sealed class SpawnRuntimeState
     {
