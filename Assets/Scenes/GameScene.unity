@@ -119,8 +119,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
-<<<<<<< HEAD
---- !u!1001 &373529203
+
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -1113,10 +1112,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1cbb7adc5c07b0141ba17db76190aafe, type: 3}
---- !u!1 &848293921
-=======
 
->>>>>>> 25d185735d2a53bbed77955116ac60ef8985bd00
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1275,8 +1271,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-<<<<<<< HEAD
---- !u!114 &848293927
+
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1297,7 +1292,7 @@ MonoBehaviour:
   speed: 8
   lifeTime: 2
   scale: 0.75
---- !u!1 &856205870
+
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1315,7 +1310,7 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &856205871
+
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1328,7 +1323,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MapBoundaryController
   boundaryCollider: {fileID: 856205872}
---- !u!61 &856205872
+
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1374,7 +1369,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 29.008831, y: 20.060825}
   m_EdgeRadius: 0
---- !u!4 &856205873
+
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1389,10 +1384,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1790802468
-=======
 
->>>>>>> 25d185735d2a53bbed77955116ac60ef8985bd00
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1471,7 +1463,7 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!4 &1790802471
+
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1486,7 +1478,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1790802472
+
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1530,9 +1522,6 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
-<<<<<<< HEAD
---- !u!114 &1790802473
-=======
 
 GameObject:
   m_ObjectHideFlags: 0
@@ -1566,24 +1555,37 @@ Transform:
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 
->>>>>>> 25d185735d2a53bbed77955116ac60ef8985bd00
+
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+
+  m_GameObject: {fileID: 2000000000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccf5378702804e0996bccb6367bc501c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterSpawner
+  stageId: -1
+  targetCamera: {fileID: 0}
+  player: {fileID: 0}
+  spawnRadiusPadding: 1
+  spawnOuterPadding: 3
+  monsterPrefabs: []
+
   m_GameObject: {fileID: 1790802468}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c8f18c59e80a4503b9e4ae1b1728bd1a, type: 3}
   m_Name: 
-<<<<<<< HEAD
+
   m_EditorClassIdentifier: Assembly-CSharp::FollowCamera
   targetTag: Player
   smoothTime: 0.15
   fixedZ: -10
---- !u!1660057539 &9223372036854775807
-=======
+
   m_EditorClassIdentifier: Assembly-CSharp::MonsterSpawner
 
   stageId: -1
@@ -1601,13 +1603,7 @@ MonoBehaviour:
   spawnOuterPadding: 3
 
 
-
-
->>>>>>> 25d185735d2a53bbed77955116ac60ef8985bd00
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 848293926}
-  - {fileID: 1790802471}
-  - {fileID: 373529203}
-  - {fileID: 856205873}
