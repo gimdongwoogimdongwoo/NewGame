@@ -467,10 +467,12 @@ MonoBehaviour:
   monsterPrefabs: []
 
 
+
   targetCamera: {fileID: 0}
   player: {fileID: 0}
   spawnPadding: 1
   spawnOuterPadding: 3
+
 
 
 

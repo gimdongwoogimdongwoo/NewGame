@@ -7,6 +7,8 @@ using UnityEngine.Serialization;
 public class MonsterSpawner : MonoBehaviour
 {
 
+    [SerializeField] private int overrideStageId = -1;
+
     [SerializeField] private Camera targetCamera;
     [SerializeField] private Transform player;
     [FormerlySerializedAs("spawnPadding")]
@@ -32,6 +34,7 @@ public class MonsterSpawner : MonoBehaviour
     private readonly List<SpawnRuntimeState> runtimeStates = new();
 
 
+
     private void Start()
     {
         if (targetCamera == null)
@@ -46,6 +49,19 @@ public class MonsterSpawner : MonoBehaviour
             Debug.LogError("MonsterSpawner could not find PlayerMovement2D target. Assign player Transform in Inspector.");
             return;
         }
+
+
+        int activeStageId = overrideStageId > 0 ? overrideStageId : StageCsvLoader.ResolveCurrentStageId();
+        List<StageMonsterSpawnRule> stageRules = StageCsvLoader.LoadStageMonsterRules(activeStageId);
+
+        foreach (StageMonsterSpawnRule rule in stageRules)
+        {
+            GameObject prefab = FindPrefab(rule.MonsterId);
+            if (prefab == null)
+            {
+                Debug.LogWarning($"Monster prefab '{rule.MonsterId}' was not found under Resources/Monster Prefabs list.");
+                continue;
+            }
 
 
         int activeStageId = overrideStageId > 0 ? overrideStageId : StageCsvLoader.ResolveCurrentStageId();
@@ -83,6 +99,7 @@ public class MonsterSpawner : MonoBehaviour
             }
 
 
+
             SpawnRuntimeState runtimeState = new SpawnRuntimeState(rule, prefab);
             runtimeStates.Add(runtimeState);
             StartCoroutine(RunSpawnLoop(runtimeState));
@@ -101,6 +118,7 @@ public class MonsterSpawner : MonoBehaviour
 
             int remainingBudget = runtimeState.Rule.TotalBudget - runtimeState.SpawnedTotal;
             int aliveCapacity = runtimeState.Rule.MaxAliveCap - runtimeState.AliveCount;
+
 
             SpawnRuntimeState state = new SpawnRuntimeState(rule, prefab);
             runtimeStates.Add(state);
@@ -121,6 +139,7 @@ public class MonsterSpawner : MonoBehaviour
             int remainingBudget = state.Rule.TotalBudget - state.SpawnedTotal;
             int aliveCapacity = state.Rule.MaxAliveCap - state.AliveCount;
 
+
             int spawnCount = Mathf.Min(waveSize, remainingBudget, aliveCapacity);
 
             for (int i = 0; i < spawnCount; i++)
@@ -139,6 +158,7 @@ public class MonsterSpawner : MonoBehaviour
         Vector2 spawnPosition = ResolveSpawnPosition();
         GameObject monster = Instantiate(runtimeState.Prefab, spawnPosition, Quaternion.identity);
 
+
                 SpawnMonster(state);
             }
 
@@ -151,6 +171,7 @@ public class MonsterSpawner : MonoBehaviour
     {
         Vector2 spawnPosition = ResolveSpawnPosition();
         GameObject monster = Instantiate(state.Prefab, spawnPosition, Quaternion.identity);
+
 
 
         MonsterChasePlayer chase = monster.GetComponent<MonsterChasePlayer>();
@@ -168,6 +189,15 @@ public class MonsterSpawner : MonoBehaviour
         }
 
 
+        lifetime.Initialize(delegate
+        {
+            runtimeState.AliveCount = Mathf.Max(0, runtimeState.AliveCount - 1);
+        });
+
+        runtimeState.SpawnedTotal++;
+        runtimeState.AliveCount++;
+
+
         lifetime.Initialize(() => runtimeState.AliveCount = Mathf.Max(0, runtimeState.AliveCount - 1));
 
         runtimeState.SpawnedTotal++;
@@ -177,6 +207,7 @@ public class MonsterSpawner : MonoBehaviour
 
         state.SpawnedTotal++;
         state.AliveCount++;
+
 
     }
 
@@ -198,6 +229,20 @@ public class MonsterSpawner : MonoBehaviour
 
         float halfHeight = targetCamera.orthographicSize;
         float halfWidth = halfHeight * targetCamera.aspect;
+
+        float minRadius = Mathf.Sqrt((halfWidth * halfWidth) + (halfHeight * halfHeight)) + spawnRadiusPadding;
+
+        for (int i = 0; i < 8; i++)
+        {
+            Vector2 direction = Random.insideUnitCircle.normalized;
+            if (direction == Vector2.zero)
+            {
+                direction = Vector2.right;
+            }
+
+            float distance = Random.Range(minRadius, minRadius + spawnOuterPadding);
+            Vector2 candidate = (Vector2)player.position + (direction * distance);
+
 
         float minRadius = Mathf.Sqrt((halfWidth * halfWidth) + (halfHeight * halfHeight)) + spawnRadiusPadding;
 
@@ -224,6 +269,7 @@ public class MonsterSpawner : MonoBehaviour
             float distance = Random.Range(minRadius, minRadius + spawnOuterPadding);
             Vector2 candidate = (Vector2)player.position + (dir * distance);
 
+
             if (MapBoundaryController.Instance != null)
             {
                 candidate = MapBoundaryController.Instance.ClampPosition(candidate);
@@ -236,9 +282,18 @@ public class MonsterSpawner : MonoBehaviour
         }
 
         Vector2 fallback = (Vector2)player.position + (Vector2.right * minRadius);
+
+        if (MapBoundaryController.Instance != null)
+        {
+            fallback = MapBoundaryController.Instance.ClampPosition(fallback);
+        }
+
+        return fallback;
+
         return MapBoundaryController.Instance != null
             ? MapBoundaryController.Instance.ClampPosition(fallback)
             : fallback;
+
     }
 
     private void ResolvePlayerReference()
@@ -247,6 +302,9 @@ public class MonsterSpawner : MonoBehaviour
         {
             return;
         }
+
+
+        PlayerMovement2D playerMovement = FindObjectOfType<PlayerMovement2D>();
 
 
         PlayerMovement2D playerMovement = FindObjectOfType<PlayerMovement2D>();
@@ -264,11 +322,13 @@ public class MonsterSpawner : MonoBehaviour
         PlayerMovement2D playerMovement = FindFirstObjectByType<PlayerMovement2D>();
 
 
+
         if (playerMovement != null)
         {
             player = playerMovement.transform;
         }
     }
+
 
 
 
@@ -293,6 +353,10 @@ public class MonsterSpawner : MonoBehaviour
         return loadedPrefab;
     }
 
+    private sealed class SpawnRuntimeState
+    {
+        public StageMonsterSpawnRule Rule { get; private set; }
+        public GameObject Prefab { get; private set; }
 
 
 
@@ -333,6 +397,7 @@ public class MonsterSpawner : MonoBehaviour
     {
         public StageMonsterSpawnRule Rule { get; }
         public GameObject Prefab { get; }
+
         public int WaveIndex { get; set; }
         public int SpawnedTotal { get; set; }
         public int AliveCount { get; set; }
