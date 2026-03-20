@@ -5,33 +5,23 @@ using UnityEngine;
 public class ProjectileController : MonoBehaviour
 {
     [Header("Projectile Stats")]
-    [SerializeField] private float damage = 10f;
+    [SerializeField] private float projectileDamage = 10f;
     [SerializeField] private float speed = 8f;
     [SerializeField] private float lifeTime = 2f;
-
     [SerializeField] private float scale = 0.75f;
-
-
-
-    [Header("Hit Settings")]
-    [SerializeField] private string enemyLayerName = "Enemy";
-
 
     [Header("Visual Settings")]
     [SerializeField] private float rotationOffset = 180f;
 
-
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
     private Vector2 moveDirection = Vector2.down;
-    private int enemyLayer = -1;
     private bool isInitialized;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        enemyLayer = LayerMask.NameToLayer(enemyLayerName);
 
         transform.localScale = Vector3.one * scale;
 
@@ -63,7 +53,7 @@ public class ProjectileController : MonoBehaviour
 
     public void Initialize(Vector2 direction, float configuredDamage, float configuredSpeed, float configuredLifeTime, float configuredScale)
     {
-        damage = configuredDamage;
+        projectileDamage = configuredDamage;
         speed = configuredSpeed;
         lifeTime = configuredLifeTime;
         scale = configuredScale;
@@ -88,13 +78,9 @@ public class ProjectileController : MonoBehaviour
             return;
         }
 
-        float angle = Mathf.Atan2(direction.y, Mathf.Abs(direction.x)) * Mathf.Rad2Deg;
-
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0f, 0f, angle + rotationOffset);
-
-        transform.rotation = Quaternion.Euler(0f, 0f, angle);
-
-        spriteRenderer.flipX = direction.x < 0f;
+        spriteRenderer.flipX = false;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -109,13 +95,25 @@ public class ProjectileController : MonoBehaviour
 
     private void HandleHit(GameObject target)
     {
-        if (enemyLayer < 0 || target.layer != enemyLayer)
+        if (target.GetComponent<ProjectileController>() != null ||
+            target.GetComponentInParent<ProjectileController>() != null)
         {
             return;
         }
 
-        target.SendMessage("TakeDamage", damage, SendMessageOptions.DontRequireReceiver);
+        if (target.GetComponent<PlayerHealth>() != null ||
+            target.GetComponentInParent<PlayerHealth>() != null)
+        {
+            return;
+        }
+
+        MonsterController monster = target.GetComponent<MonsterController>() ?? target.GetComponentInParent<MonsterController>();
+        if (monster == null)
+        {
+            return;
+        }
+
+        monster.TakeDamage(projectileDamage);
         Destroy(gameObject);
     }
-
 }
