@@ -6,6 +6,7 @@ public class ExpOrbController : MonoBehaviour
     [SerializeField] private int expValue = 1;
 
 
+
     [Header("Absorb")]
     [SerializeField] private float moveSpeed = 8f;
     [SerializeField] private float collectDistance = 0.1f;
@@ -18,6 +19,7 @@ public class ExpOrbController : MonoBehaviour
     private void OnValidate()
     {
         expValue = Mathf.Max(1, expValue);
+
 
         moveSpeed = Mathf.Max(0f, moveSpeed);
         collectDistance = Mathf.Max(0.01f, collectDistance);
@@ -57,9 +59,14 @@ public class ExpOrbController : MonoBehaviour
 
         if (distance <= manager.AbsorbDistance)
 
+            manager.MagnetSpeed * Time.deltaTime);
+
+        if (distance <= manager.AbsorbDistance)
+
             moveSpeed * Time.deltaTime);
 
         if (distance <= collectDistance)
+
 
         {
             Collect(manager);
