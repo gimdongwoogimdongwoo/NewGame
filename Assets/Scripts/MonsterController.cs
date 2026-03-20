@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MonsterController : MonoBehaviour
@@ -5,6 +7,9 @@ public class MonsterController : MonoBehaviour
     [Header("Monster Stats")]
     [SerializeField] private float maxHP = 30f;
     [SerializeField] private float attackDamage = 10f;
+
+    [Header("Exp Orb Drops")]
+    [SerializeField] private List<ExpOrbDropEntry> expOrbDrops = new();
 
     private float currentHP;
 
@@ -55,6 +60,23 @@ public class MonsterController : MonoBehaviour
 
     private void Die()
     {
+        if (ExpDropManager.Instance != null)
+        {
+            ExpDropManager.Instance.DropOrbs(transform.position, expOrbDrops);
+        }
+
         Destroy(gameObject);
+    }
+
+    [Serializable]
+    public struct ExpOrbDropEntry
+    {
+        [SerializeField] private GameObject orbPrefab;
+        [SerializeField, Range(0f, 1f)] private float dropChance;
+        [SerializeField] private int dropCount;
+
+        public GameObject OrbPrefab => orbPrefab;
+        public float DropChance => Mathf.Clamp01(dropChance);
+        public int DropCount => Mathf.Max(1, dropCount);
     }
 }
