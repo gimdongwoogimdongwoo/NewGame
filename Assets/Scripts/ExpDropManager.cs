@@ -1,6 +1,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using UnityEngine.Events;
+
+public class ExpDropManager : MonoBehaviour
+{
+    [System.Serializable]
+    public class ExperienceChangedEvent : UnityEvent<float> { }
+
+    public static ExpDropManager Instance { get; private set; }
+
+    [Header("Player")]
+    [SerializeField] private Transform player;
+
+    [Header("Magnet")]
+    [SerializeField] private float magnetRanage = 3f;
+    [SerializeField] private float absorbDistance = 0.1f;
+    [SerializeField] private float magnetSpeed = 8f;
+
+    [Header("On Experience Changed")]
+    [SerializeField] private ExperienceChangedEvent onExperienceChanged = new();
+
+
 public class ExpDropManager : MonoBehaviour
 {
     public static ExpDropManager Instance { get; private set; }
@@ -9,10 +30,15 @@ public class ExpDropManager : MonoBehaviour
     [SerializeField] private float magnetRanage = 3f;
     [SerializeField] private Transform player;
 
+
     [Header("Debug")]
     [SerializeField] private int totalExp;
 
     public float MagnetRanage => magnetRanage;
+
+    public float AbsorbDistance => absorbDistance;
+    public float MagnetSpeed => magnetSpeed;
+
     public Transform Player => player;
     public int TotalExp => totalExp;
 
@@ -31,6 +57,11 @@ public class ExpDropManager : MonoBehaviour
     private void OnValidate()
     {
         magnetRanage = Mathf.Max(0f, magnetRanage);
+
+        absorbDistance = Mathf.Max(0.01f, absorbDistance);
+        magnetSpeed = Mathf.Max(0f, magnetSpeed);
+
+
     }
 
     public void DropOrbs(Vector2 position, IReadOnlyList<MonsterController.ExpOrbDropEntry> dropEntries)
@@ -70,6 +101,10 @@ public class ExpDropManager : MonoBehaviour
         }
 
         totalExp += amount;
+
+        onExperienceChanged?.Invoke(totalExp);
+
+
         Debug.Log($"EXP +{amount} (Total: {totalExp})");
     }
 
