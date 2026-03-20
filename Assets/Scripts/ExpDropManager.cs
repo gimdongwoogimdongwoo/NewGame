@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+
 using UnityEngine.Events;
 
 public class ExpDropManager : MonoBehaviour
@@ -20,12 +21,24 @@ public class ExpDropManager : MonoBehaviour
     [Header("On Experience Changed")]
     [SerializeField] private ExperienceChangedEvent onExperienceChanged = new();
 
+
+public class ExpDropManager : MonoBehaviour
+{
+    public static ExpDropManager Instance { get; private set; }
+
+    [Header("Magnet")]
+    [SerializeField] private float magnetRanage = 3f;
+    [SerializeField] private Transform player;
+
+
     [Header("Debug")]
     [SerializeField] private int totalExp;
 
     public float MagnetRanage => magnetRanage;
+
     public float AbsorbDistance => absorbDistance;
     public float MagnetSpeed => magnetSpeed;
+
     public Transform Player => player;
     public int TotalExp => totalExp;
 
@@ -44,8 +57,11 @@ public class ExpDropManager : MonoBehaviour
     private void OnValidate()
     {
         magnetRanage = Mathf.Max(0f, magnetRanage);
+
         absorbDistance = Mathf.Max(0.01f, absorbDistance);
         magnetSpeed = Mathf.Max(0f, magnetSpeed);
+
+
     }
 
     public void DropOrbs(Vector2 position, IReadOnlyList<MonsterController.ExpOrbDropEntry> dropEntries)
@@ -85,7 +101,10 @@ public class ExpDropManager : MonoBehaviour
         }
 
         totalExp += amount;
+
         onExperienceChanged?.Invoke(totalExp);
+
+
         Debug.Log($"EXP +{amount} (Total: {totalExp})");
     }
 
