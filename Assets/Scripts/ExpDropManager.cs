@@ -75,7 +75,7 @@ public class ExpDropManager : MonoBehaviour
         magnetSpeed = Mathf.Max(0f, magnetSpeed);
     }
 
-    public void DropOrbs(Vector2 position, IReadOnlyList<MonsterController.ExpOrbDropEntry> dropEntries)
+    public void DropOrbs(Vector2 position, List<MonsterController.ExpOrbDropEntry> dropEntries)
     {
         if (dropEntries == null || dropEntries.Count == 0)
         {
@@ -85,10 +85,13 @@ public class ExpDropManager : MonoBehaviour
         for (int i = 0; i < dropEntries.Count; i++)
         {
             MonsterController.ExpOrbDropEntry entry = dropEntries[i];
+            GameObject resolvedPrefab = ResolveOrbPrefab(entry);
+
 
             GameObject resolvedPrefab = ResolveOrbPrefab(entry);
 
             ExpOrbController resolvedPrefab = ResolveOrbPrefab(entry);
+
 
 
             if (resolvedPrefab == null)
@@ -136,7 +139,7 @@ public class ExpDropManager : MonoBehaviour
             return;
         }
 
-        PlayerMovement2D playerMovement = FindFirstObjectByType<PlayerMovement2D>();
+        PlayerMovement2D playerMovement = FindObjectOfType<PlayerMovement2D>();
         if (playerMovement != null)
         {
             player = playerMovement.transform;
@@ -146,7 +149,11 @@ public class ExpDropManager : MonoBehaviour
 
     private GameObject ResolveOrbPrefab(MonsterController.ExpOrbDropEntry entry)
 
+
+    private GameObject ResolveOrbPrefab(MonsterController.ExpOrbDropEntry entry)
+
     private ExpOrbController ResolveOrbPrefab(MonsterController.ExpOrbDropEntry entry)
+
 
     {
         if (entry.OrbPrefab != null)
@@ -174,6 +181,23 @@ public class ExpDropManager : MonoBehaviour
         }
 
         return null;
+    }
+
+    private bool IsValidOrbPrefab(GameObject orbPrefab)
+    {
+        if (orbPrefab == null)
+        {
+            return false;
+        }
+
+        if (!orbPrefab.TryGetComponent(out ExpOrbController _))
+        {
+            Debug.LogWarning($"ExpDropManager: '{orbPrefab.name}' prefab does not include ExpOrbController.");
+            return false;
+        }
+
+
+        return true;
     }
 
 
@@ -229,5 +253,7 @@ public class ExpDropManager : MonoBehaviour
         EditorUtility.SetDirty(this);
         Debug.Log($"ExpDropManager: registered {orbPrefabBindings.Count} orb prefabs from {folderPath}");
     }
+
+
 
 }
