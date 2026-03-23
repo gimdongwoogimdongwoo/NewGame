@@ -1,42 +1,31 @@
 using System.Collections.Generic;
 using UnityEngine;
-
 using UnityEngine.Events;
 
-
-using UnityEngine.Events;
 #if UNITY_EDITOR
 using UnityEditor;
-
-
-using UnityEngine.Events;
-
-
+#endif
 
 public class ExpDropManager : MonoBehaviour
 {
     [System.Serializable]
     public class ExperienceChangedEvent : UnityEvent<float> { }
 
-
-
     [System.Serializable]
     public struct OrbPrefabBinding
     {
         [SerializeField] private string orbId;
-        [SerializeField] private ExpOrbController orbPrefab;
+        [SerializeField] private GameObject orbPrefab;
 
         public string OrbId => orbId;
-        public ExpOrbController OrbPrefab => orbPrefab;
+        public GameObject OrbPrefab => orbPrefab;
 
-        public OrbPrefabBinding(string orbId, ExpOrbController orbPrefab)
+        public OrbPrefabBinding(string orbId, GameObject orbPrefab)
         {
             this.orbId = orbId;
             this.orbPrefab = orbPrefab;
         }
     }
-
-
 
     public static ExpDropManager Instance { get; private set; }
 
@@ -48,54 +37,22 @@ public class ExpDropManager : MonoBehaviour
     [SerializeField] private float absorbDistance = 0.1f;
     [SerializeField] private float magnetSpeed = 8f;
 
-
-    [Header("On Experience Changed")]
+    [Header("Experience")]
     [SerializeField] private ExperienceChangedEvent onExperienceChanged = new();
-
-
 
     [Header("Orb Prefab Library")]
     [SerializeField] private List<OrbPrefabBinding> orbPrefabBindings = new();
 
+#if UNITY_EDITOR
     [SerializeField] private DefaultAsset orbPrefabFolder;
-
-    [Header("On Experience Changed")]
-    [SerializeField] private ExperienceChangedEvent onExperienceChanged = new();
-
-
-    [Header("On Experience Changed")]
-    [SerializeField] private ExperienceChangedEvent onExperienceChanged = new();
-
-
-public class ExpDropManager : MonoBehaviour
-{
-    public static ExpDropManager Instance { get; private set; }
-
-    [Header("Magnet")]
-    [SerializeField] private float magnetRanage = 3f;
-    [SerializeField] private Transform player;
-
-
-
+#endif
 
     [Header("Debug")]
     [SerializeField] private int totalExp;
 
     public float MagnetRanage => magnetRanage;
-
     public float AbsorbDistance => absorbDistance;
     public float MagnetSpeed => magnetSpeed;
-
-
-    public float AbsorbDistance => absorbDistance;
-    public float MagnetSpeed => magnetSpeed;
-
-
-    public float AbsorbDistance => absorbDistance;
-    public float MagnetSpeed => magnetSpeed;
-
-
-
     public Transform Player => player;
     public int TotalExp => totalExp;
 
@@ -114,24 +71,11 @@ public class ExpDropManager : MonoBehaviour
     private void OnValidate()
     {
         magnetRanage = Mathf.Max(0f, magnetRanage);
-
         absorbDistance = Mathf.Max(0.01f, absorbDistance);
         magnetSpeed = Mathf.Max(0f, magnetSpeed);
-
-
-        absorbDistance = Mathf.Max(0.01f, absorbDistance);
-        magnetSpeed = Mathf.Max(0f, magnetSpeed);
-
-
-        absorbDistance = Mathf.Max(0.01f, absorbDistance);
-        magnetSpeed = Mathf.Max(0f, magnetSpeed);
-
-
-
-
     }
 
-    public void DropOrbs(Vector2 position, IReadOnlyList<MonsterController.ExpOrbDropEntry> dropEntries)
+    public void DropOrbs(Vector2 position, List<MonsterController.ExpOrbDropEntry> dropEntries)
     {
         if (dropEntries == null || dropEntries.Count == 0)
         {
@@ -141,16 +85,9 @@ public class ExpDropManager : MonoBehaviour
         for (int i = 0; i < dropEntries.Count; i++)
         {
             MonsterController.ExpOrbDropEntry entry = dropEntries[i];
+            GameObject resolvedPrefab = ResolveOrbPrefab(entry);
 
-            if (entry.OrbPrefab == null)
-
-
-            ExpOrbController resolvedPrefab = ResolveOrbPrefab(entry);
             if (resolvedPrefab == null)
-
-            if (entry.OrbPrefab == null)
-
-
             {
                 continue;
             }
@@ -164,21 +101,7 @@ public class ExpDropManager : MonoBehaviour
             for (int spawnIndex = 0; spawnIndex < spawnCount; spawnIndex++)
             {
                 Vector2 offset = Random.insideUnitCircle * 0.35f;
-
-                GameObject orbInstance = Instantiate(entry.OrbPrefab, position + offset, Quaternion.identity);
-
-                if (!orbInstance.TryGetComponent(out ExpOrbController orbController))
-                {
-                    Debug.LogWarning($"ExpDropManager: '{entry.OrbPrefab.name}' prefab has no ExpOrbController component.");
-                    Destroy(orbInstance);
-                }
-
-
                 Instantiate(resolvedPrefab, position + offset, Quaternion.identity);
-
-                Instantiate(entry.OrbPrefab, position + offset, Quaternion.identity);
-
-
             }
         }
     }
@@ -191,17 +114,7 @@ public class ExpDropManager : MonoBehaviour
         }
 
         totalExp += amount;
-
         onExperienceChanged?.Invoke(totalExp);
-
-        onExperienceChanged?.Invoke(totalExp);
-
-
-        onExperienceChanged?.Invoke(totalExp);
-
-
-
-
         Debug.Log($"EXP +{amount} (Total: {totalExp})");
     }
 
@@ -219,20 +132,18 @@ public class ExpDropManager : MonoBehaviour
             return;
         }
 
-        PlayerMovement2D playerMovement = FindFirstObjectByType<PlayerMovement2D>();
+        PlayerMovement2D playerMovement = FindObjectOfType<PlayerMovement2D>();
         if (playerMovement != null)
         {
             player = playerMovement.transform;
         }
     }
 
-
-
-    private ExpOrbController ResolveOrbPrefab(MonsterController.ExpOrbDropEntry entry)
+    private GameObject ResolveOrbPrefab(MonsterController.ExpOrbDropEntry entry)
     {
         if (entry.OrbPrefab != null)
         {
-            return entry.OrbPrefab;
+            return IsValidOrbPrefab(entry.OrbPrefab) ? entry.OrbPrefab : null;
         }
 
         if (string.IsNullOrWhiteSpace(entry.OrbId))
@@ -250,14 +161,30 @@ public class ExpDropManager : MonoBehaviour
 
             if (binding.OrbId == entry.OrbId)
             {
-                return binding.OrbPrefab;
+                return IsValidOrbPrefab(binding.OrbPrefab) ? binding.OrbPrefab : null;
             }
         }
 
         return null;
     }
 
+    private bool IsValidOrbPrefab(GameObject orbPrefab)
+    {
+        if (orbPrefab == null)
+        {
+            return false;
+        }
 
+        if (!orbPrefab.TryGetComponent(out ExpOrbController _))
+        {
+            Debug.LogWarning($"ExpDropManager: '{orbPrefab.name}' prefab does not include ExpOrbController.");
+            return false;
+        }
+
+        return true;
+    }
+
+#if UNITY_EDITOR
     [ContextMenu("Auto Populate Orb Prefab Library From Folder")]
     private void AutoPopulateOrbPrefabLibraryFromFolder()
     {
@@ -281,18 +208,16 @@ public class ExpDropManager : MonoBehaviour
                 continue;
             }
 
-            ExpOrbController controller = prefab.GetComponent<ExpOrbController>();
-            if (controller == null)
+            if (!prefab.TryGetComponent(out ExpOrbController _))
             {
                 continue;
             }
 
-            orbPrefabBindings.Add(new OrbPrefabBinding(prefab.name, controller));
+            orbPrefabBindings.Add(new OrbPrefabBinding(prefab.name, prefab));
         }
 
         EditorUtility.SetDirty(this);
         Debug.Log($"ExpDropManager: registered {orbPrefabBindings.Count} orb prefabs from {folderPath}");
     }
-
-
+#endif
 }
