@@ -1,24 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
-
 using UnityEngine.Events;
 
-
-using UnityEngine.Events;
 #if UNITY_EDITOR
 using UnityEditor;
-
-
-using UnityEngine.Events;
-
-
+#endif
 
 public class ExpDropManager : MonoBehaviour
 {
     [System.Serializable]
     public class ExperienceChangedEvent : UnityEvent<float> { }
-
-
 
     [System.Serializable]
     public struct OrbPrefabBinding
@@ -36,8 +27,6 @@ public class ExpDropManager : MonoBehaviour
         }
     }
 
-
-
     public static ExpDropManager Instance { get; private set; }
 
     [Header("Player")]
@@ -48,54 +37,22 @@ public class ExpDropManager : MonoBehaviour
     [SerializeField] private float absorbDistance = 0.1f;
     [SerializeField] private float magnetSpeed = 8f;
 
-
-    [Header("On Experience Changed")]
+    [Header("Experience")]
     [SerializeField] private ExperienceChangedEvent onExperienceChanged = new();
-
-
 
     [Header("Orb Prefab Library")]
     [SerializeField] private List<OrbPrefabBinding> orbPrefabBindings = new();
 
+#if UNITY_EDITOR
     [SerializeField] private DefaultAsset orbPrefabFolder;
-
-    [Header("On Experience Changed")]
-    [SerializeField] private ExperienceChangedEvent onExperienceChanged = new();
-
-
-    [Header("On Experience Changed")]
-    [SerializeField] private ExperienceChangedEvent onExperienceChanged = new();
-
-
-public class ExpDropManager : MonoBehaviour
-{
-    public static ExpDropManager Instance { get; private set; }
-
-    [Header("Magnet")]
-    [SerializeField] private float magnetRanage = 3f;
-    [SerializeField] private Transform player;
-
-
-
+#endif
 
     [Header("Debug")]
     [SerializeField] private int totalExp;
 
     public float MagnetRanage => magnetRanage;
-
     public float AbsorbDistance => absorbDistance;
     public float MagnetSpeed => magnetSpeed;
-
-
-    public float AbsorbDistance => absorbDistance;
-    public float MagnetSpeed => magnetSpeed;
-
-
-    public float AbsorbDistance => absorbDistance;
-    public float MagnetSpeed => magnetSpeed;
-
-
-
     public Transform Player => player;
     public int TotalExp => totalExp;
 
@@ -114,21 +71,8 @@ public class ExpDropManager : MonoBehaviour
     private void OnValidate()
     {
         magnetRanage = Mathf.Max(0f, magnetRanage);
-
         absorbDistance = Mathf.Max(0.01f, absorbDistance);
         magnetSpeed = Mathf.Max(0f, magnetSpeed);
-
-
-        absorbDistance = Mathf.Max(0.01f, absorbDistance);
-        magnetSpeed = Mathf.Max(0f, magnetSpeed);
-
-
-        absorbDistance = Mathf.Max(0.01f, absorbDistance);
-        magnetSpeed = Mathf.Max(0f, magnetSpeed);
-
-
-
-
     }
 
     public void DropOrbs(Vector2 position, IReadOnlyList<MonsterController.ExpOrbDropEntry> dropEntries)
@@ -141,16 +85,9 @@ public class ExpDropManager : MonoBehaviour
         for (int i = 0; i < dropEntries.Count; i++)
         {
             MonsterController.ExpOrbDropEntry entry = dropEntries[i];
-
-            if (entry.OrbPrefab == null)
-
-
             ExpOrbController resolvedPrefab = ResolveOrbPrefab(entry);
+
             if (resolvedPrefab == null)
-
-            if (entry.OrbPrefab == null)
-
-
             {
                 continue;
             }
@@ -164,21 +101,7 @@ public class ExpDropManager : MonoBehaviour
             for (int spawnIndex = 0; spawnIndex < spawnCount; spawnIndex++)
             {
                 Vector2 offset = Random.insideUnitCircle * 0.35f;
-
-                GameObject orbInstance = Instantiate(entry.OrbPrefab, position + offset, Quaternion.identity);
-
-                if (!orbInstance.TryGetComponent(out ExpOrbController orbController))
-                {
-                    Debug.LogWarning($"ExpDropManager: '{entry.OrbPrefab.name}' prefab has no ExpOrbController component.");
-                    Destroy(orbInstance);
-                }
-
-
                 Instantiate(resolvedPrefab, position + offset, Quaternion.identity);
-
-                Instantiate(entry.OrbPrefab, position + offset, Quaternion.identity);
-
-
             }
         }
     }
@@ -191,17 +114,7 @@ public class ExpDropManager : MonoBehaviour
         }
 
         totalExp += amount;
-
         onExperienceChanged?.Invoke(totalExp);
-
-        onExperienceChanged?.Invoke(totalExp);
-
-
-        onExperienceChanged?.Invoke(totalExp);
-
-
-
-
         Debug.Log($"EXP +{amount} (Total: {totalExp})");
     }
 
@@ -225,8 +138,6 @@ public class ExpDropManager : MonoBehaviour
             player = playerMovement.transform;
         }
     }
-
-
 
     private ExpOrbController ResolveOrbPrefab(MonsterController.ExpOrbDropEntry entry)
     {
@@ -257,7 +168,7 @@ public class ExpDropManager : MonoBehaviour
         return null;
     }
 
-
+#if UNITY_EDITOR
     [ContextMenu("Auto Populate Orb Prefab Library From Folder")]
     private void AutoPopulateOrbPrefabLibraryFromFolder()
     {
@@ -293,6 +204,5 @@ public class ExpDropManager : MonoBehaviour
         EditorUtility.SetDirty(this);
         Debug.Log($"ExpDropManager: registered {orbPrefabBindings.Count} orb prefabs from {folderPath}");
     }
-
-
+#endif
 }
