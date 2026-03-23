@@ -85,7 +85,11 @@ public class ExpDropManager : MonoBehaviour
         for (int i = 0; i < dropEntries.Count; i++)
         {
             MonsterController.ExpOrbDropEntry entry = dropEntries[i];
+
             GameObject resolvedPrefab = ResolveOrbPrefab(entry);
+
+            ExpOrbController resolvedPrefab = ResolveOrbPrefab(entry);
+
 
             if (resolvedPrefab == null)
             {
@@ -139,7 +143,11 @@ public class ExpDropManager : MonoBehaviour
         }
     }
 
+
     private GameObject ResolveOrbPrefab(MonsterController.ExpOrbDropEntry entry)
+
+    private ExpOrbController ResolveOrbPrefab(MonsterController.ExpOrbDropEntry entry)
+
     {
         if (entry.OrbPrefab != null)
         {
@@ -168,6 +176,7 @@ public class ExpDropManager : MonoBehaviour
         return null;
     }
 
+
     private bool IsValidOrbPrefab(GameObject orbPrefab)
     {
         if (orbPrefab == null)
@@ -184,7 +193,8 @@ public class ExpDropManager : MonoBehaviour
         return true;
     }
 
-#if UNITY_EDITOR
+
+
     [ContextMenu("Auto Populate Orb Prefab Library From Folder")]
     private void AutoPopulateOrbPrefabLibraryFromFolder()
     {
@@ -219,5 +229,5 @@ public class ExpDropManager : MonoBehaviour
         EditorUtility.SetDirty(this);
         Debug.Log($"ExpDropManager: registered {orbPrefabBindings.Count} orb prefabs from {folderPath}");
     }
-#endif
+
 }
