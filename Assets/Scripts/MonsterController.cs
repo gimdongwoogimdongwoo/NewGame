@@ -72,12 +72,26 @@ public class MonsterController : MonoBehaviour
     public struct ExpOrbDropEntry
     {
         [SerializeField] private string orbId;
+
         [SerializeField] private GameObject orbPrefab;
+
+        [SerializeField] private GameObject orbPrefab;
+
+        [SerializeField] private ExpOrbController orbPrefab;
+
         [SerializeField, Range(0f, 1f)] private float dropChance;
         [SerializeField] private int dropCount;
 
         public string OrbId => orbId;
+
         public GameObject OrbPrefab => orbPrefab;
+
+
+        public GameObject OrbPrefab => orbPrefab;
+
+        public ExpOrbController OrbPrefab => orbPrefab;
+
+
         public float DropChance => Mathf.Clamp01(dropChance);
         public int DropCount => Mathf.Max(1, dropCount);
     }
