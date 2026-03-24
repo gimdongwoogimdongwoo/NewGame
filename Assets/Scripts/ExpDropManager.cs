@@ -2,30 +2,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
 public class ExpDropManager : MonoBehaviour
 {
     [System.Serializable]
     public class ExperienceChangedEvent : UnityEvent<float> { }
-
-    [System.Serializable]
-    public struct OrbPrefabBinding
-    {
-        [SerializeField] private string orbId;
-        [SerializeField] private GameObject orbPrefab;
-
-        public string OrbId => orbId;
-        public GameObject OrbPrefab => orbPrefab;
-
-        public OrbPrefabBinding(string orbId, GameObject orbPrefab)
-        {
-            this.orbId = orbId;
-            this.orbPrefab = orbPrefab;
-        }
-    }
 
     public static ExpDropManager Instance { get; private set; }
 
@@ -33,6 +13,7 @@ public class ExpDropManager : MonoBehaviour
     [SerializeField] private Transform player;
 
     [Header("Magnet")]
+    [Tooltip("구슬이 플레이어를 향해 이동하기 시작하는 거리")]
     [SerializeField] private float magnetRanage = 3f;
     [SerializeField] private float absorbDistance = 0.1f;
     [SerializeField] private float magnetSpeed = 8f;
@@ -40,12 +21,10 @@ public class ExpDropManager : MonoBehaviour
     [Header("Experience")]
     [SerializeField] private ExperienceChangedEvent onExperienceChanged = new();
 
-    [Header("Orb Prefab Library")]
-    [SerializeField] private List<OrbPrefabBinding> orbPrefabBindings = new();
-
-#if UNITY_EDITOR
-    [SerializeField] private DefaultAsset orbPrefabFolder;
-#endif
+    [Header("Orb Prefabs")]
+    [SerializeField] private GameObject xpOrbBronze;
+    [SerializeField] private GameObject xpOrbSilver;
+    [SerializeField] private GameObject xpOrbGold;
 
     [Header("Debug")]
     [SerializeField] private int totalExp;
@@ -85,21 +64,13 @@ public class ExpDropManager : MonoBehaviour
         for (int i = 0; i < dropEntries.Count; i++)
         {
             MonsterController.ExpOrbDropEntry entry = dropEntries[i];
-            GameObject resolvedPrefab = ResolveOrbPrefab(entry);
-
-
-            GameObject resolvedPrefab = ResolveOrbPrefab(entry);
-
-            ExpOrbController resolvedPrefab = ResolveOrbPrefab(entry);
-
-
-
-            if (resolvedPrefab == null)
+            if (Random.value > entry.DropChance)
             {
                 continue;
             }
 
-            if (Random.value > entry.DropChance)
+            GameObject resolvedPrefab = ResolveOrbPrefab(entry);
+            if (resolvedPrefab == null)
             {
                 continue;
             }
@@ -146,60 +117,23 @@ public class ExpDropManager : MonoBehaviour
         }
     }
 
-
     private GameObject ResolveOrbPrefab(MonsterController.ExpOrbDropEntry entry)
-
-
-    private GameObject ResolveOrbPrefab(MonsterController.ExpOrbDropEntry entry)
-
-    private ExpOrbController ResolveOrbPrefab(MonsterController.ExpOrbDropEntry entry)
-
-
     {
-        if (entry.OrbPrefab != null)
+        if (entry.OverrideOrbPrefab != null)
         {
-            return IsValidOrbPrefab(entry.OrbPrefab) ? entry.OrbPrefab : null;
+            return IsValidOrbPrefab(entry.OverrideOrbPrefab) ? entry.OverrideOrbPrefab : null;
         }
 
-        if (string.IsNullOrWhiteSpace(entry.OrbId))
+        GameObject selectedPrefab = entry.OrbType switch
         {
-            return null;
-        }
+            MonsterController.ExpOrbType.Bronze => xpOrbBronze,
+            MonsterController.ExpOrbType.Silver => xpOrbSilver,
+            MonsterController.ExpOrbType.Gold => xpOrbGold,
+            _ => null
+        };
 
-        for (int i = 0; i < orbPrefabBindings.Count; i++)
-        {
-            OrbPrefabBinding binding = orbPrefabBindings[i];
-            if (binding.OrbPrefab == null)
-            {
-                continue;
-            }
-
-            if (binding.OrbId == entry.OrbId)
-            {
-                return IsValidOrbPrefab(binding.OrbPrefab) ? binding.OrbPrefab : null;
-            }
-        }
-
-        return null;
+        return IsValidOrbPrefab(selectedPrefab) ? selectedPrefab : null;
     }
-
-    private bool IsValidOrbPrefab(GameObject orbPrefab)
-    {
-        if (orbPrefab == null)
-        {
-            return false;
-        }
-
-        if (!orbPrefab.TryGetComponent(out ExpOrbController _))
-        {
-            Debug.LogWarning($"ExpDropManager: '{orbPrefab.name}' prefab does not include ExpOrbController.");
-            return false;
-        }
-
-
-        return true;
-    }
-
 
     private bool IsValidOrbPrefab(GameObject orbPrefab)
     {
@@ -216,44 +150,4 @@ public class ExpDropManager : MonoBehaviour
 
         return true;
     }
-
-
-
-    [ContextMenu("Auto Populate Orb Prefab Library From Folder")]
-    private void AutoPopulateOrbPrefabLibraryFromFolder()
-    {
-        orbPrefabBindings.Clear();
-
-        if (orbPrefabFolder == null)
-        {
-            Debug.LogWarning("ExpDropManager: orbPrefabFolder is not assigned.");
-            return;
-        }
-
-        string folderPath = AssetDatabase.GetAssetPath(orbPrefabFolder);
-        string[] guids = AssetDatabase.FindAssets("t:prefab", new[] { folderPath });
-
-        foreach (string guid in guids)
-        {
-            string assetPath = AssetDatabase.GUIDToAssetPath(guid);
-            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);
-            if (prefab == null)
-            {
-                continue;
-            }
-
-            if (!prefab.TryGetComponent(out ExpOrbController _))
-            {
-                continue;
-            }
-
-            orbPrefabBindings.Add(new OrbPrefabBinding(prefab.name, prefab));
-        }
-
-        EditorUtility.SetDirty(this);
-        Debug.Log($"ExpDropManager: registered {orbPrefabBindings.Count} orb prefabs from {folderPath}");
-    }
-
-
-
 }
