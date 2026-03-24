@@ -9,6 +9,7 @@ public class MonsterController : MonoBehaviour
     [SerializeField] private float attackDamage = 10f;
 
     [Header("Exp Orb Drops")]
+    [Tooltip("몬스터 사망 시 드롭할 구슬 종류/확률/수량")]
     [SerializeField] private List<ExpOrbDropEntry> expOrbDrops = new();
 
     private float currentHP;
@@ -26,7 +27,6 @@ public class MonsterController : MonoBehaviour
         }
 
         currentHP = Mathf.Max(0f, currentHP - damage);
-
         if (currentHP <= 0f)
         {
             Die();
@@ -68,30 +68,23 @@ public class MonsterController : MonoBehaviour
         Destroy(gameObject);
     }
 
+    public enum ExpOrbType
+    {
+        Bronze,
+        Silver,
+        Gold
+    }
+
     [Serializable]
     public struct ExpOrbDropEntry
     {
-        [SerializeField] private string orbId;
-
-        [SerializeField] private GameObject orbPrefab;
-
-        [SerializeField] private GameObject orbPrefab;
-
-        [SerializeField] private ExpOrbController orbPrefab;
-
+        [SerializeField] private ExpOrbType orbType;
+        [SerializeField] private GameObject overrideOrbPrefab;
         [SerializeField, Range(0f, 1f)] private float dropChance;
         [SerializeField] private int dropCount;
 
-        public string OrbId => orbId;
-
-        public GameObject OrbPrefab => orbPrefab;
-
-
-        public GameObject OrbPrefab => orbPrefab;
-
-        public ExpOrbController OrbPrefab => orbPrefab;
-
-
+        public ExpOrbType OrbType => orbType;
+        public GameObject OverrideOrbPrefab => overrideOrbPrefab;
         public float DropChance => Mathf.Clamp01(dropChance);
         public int DropCount => Mathf.Max(1, dropCount);
     }

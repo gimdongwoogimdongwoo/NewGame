@@ -3,6 +3,7 @@ using UnityEngine;
 public class ExpOrbController : MonoBehaviour
 {
     [Header("Exp")]
+    [Tooltip("이 구슬이 플레이어에게 지급할 경험치")]
     [SerializeField] private int expValue = 1;
 
     [Header("Absorb")]
@@ -46,12 +47,10 @@ public class ExpOrbController : MonoBehaviour
         }
 
         float speed = Mathf.Max(moveSpeed, manager.MagnetSpeed);
-        transform.position = Vector2.MoveTowards(
-            transform.position,
-            player.position,
-            speed * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, player.position, speed * Time.deltaTime);
 
-        if (distance <= Mathf.Max(collectDistance, manager.AbsorbDistance))
+        float collectThreshold = Mathf.Max(collectDistance, manager.AbsorbDistance);
+        if (Vector2.Distance(transform.position, player.position) <= collectThreshold)
         {
             Collect(manager);
         }
