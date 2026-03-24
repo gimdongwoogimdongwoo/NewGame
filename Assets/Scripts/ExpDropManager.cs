@@ -83,7 +83,7 @@ public class ExpDropManager : MonoBehaviour
         for (int i = 0; i < dropEntries.Count; i++)
         {
             MonsterController.ExpOrbDropEntry entry = dropEntries[i];
-            if (Random.value > entry.DropChance)
+            if (UnityEngine.Random.value > entry.DropChance)
             {
                 continue;
             }
@@ -97,7 +97,7 @@ public class ExpDropManager : MonoBehaviour
             int spawnCount = Mathf.Max(1, entry.DropCount);
             for (int spawnIndex = 0; spawnIndex < spawnCount; spawnIndex++)
             {
-                Vector2 offset = Random.insideUnitCircle * 0.35f;
+                Vector2 offset = UnityEngine.Random.insideUnitCircle * 0.35f;
                 Instantiate(resolvedPrefab, position + offset, Quaternion.identity);
             }
         }
