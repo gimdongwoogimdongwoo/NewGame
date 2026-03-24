@@ -110,6 +110,32 @@ public class ExpDropManager : MonoBehaviour
             return;
         }
 
+        PlayerExperience playerExperience = null;
+        if (player != null)
+        {
+            playerExperience = player.GetComponent<PlayerExperience>();
+        }
+
+        if (playerExperience == null)
+        {
+            ResolvePlayerReference();
+            if (player != null)
+            {
+                playerExperience = player.GetComponent<PlayerExperience>();
+            }
+        }
+
+        if (playerExperience == null && player != null)
+        {
+            playerExperience = player.gameObject.AddComponent<PlayerExperience>();
+        }
+
+        if (playerExperience != null)
+        {
+            playerExperience.AddExperience(amount);
+            return;
+        }
+
         totalExp += amount;
         RecalculateLevelState();
         onExperienceChanged?.Invoke(totalExp);
