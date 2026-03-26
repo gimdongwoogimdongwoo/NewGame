@@ -9,15 +9,13 @@ public class ExpDropManager : MonoBehaviour
     public class ExperienceChangedEvent : UnityEvent<float> { }
 
 
+
     [System.Serializable]
     public class LevelChangedEvent : UnityEvent<int, int, int> { }
 
     [System.Serializable]
 
-    [Serializable]
-    public class LevelChangedEvent : UnityEvent<int, int, int> { }
 
-    [Serializable]
 
     public class LevelXpEntry
     {
@@ -37,14 +35,18 @@ public class ExpDropManager : MonoBehaviour
     [SerializeField] private float magnetSpeed = 8f;
 
     [Header("Experience")]
-    [SerializeField] private ExperienceChangedEvent onExperienceChanged = new();
-    [SerializeField] private LevelChangedEvent onLevelChanged = new();
+
+    [SerializeField] private ExperienceChangedEvent onExperienceChanged = new ExperienceChangedEvent();
+    [SerializeField] private LevelChangedEvent onLevelChanged = new LevelChangedEvent();
+
 
     [Header("Debug")]
     [SerializeField] private int totalExp;
     [SerializeField] private int currentLevel = 1;
     [SerializeField] private int currentLevelExp;
-    [SerializeField] private List<LevelXpEntry> levelXpTable = new();
+
+    [SerializeField] private List<LevelXpEntry> levelXpTable = new List<LevelXpEntry>();
+
 
     [Header("Orb Prefabs")]
     [SerializeField] private GameObject xpOrbBronze;
@@ -241,8 +243,6 @@ public class ExpDropManager : MonoBehaviour
 
         string[] lines = csvAsset.text.Split(new[] { '\r', '\n' }, System.StringSplitOptions.RemoveEmptyEntries);
 
-        string[] lines = csvAsset.text.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-
         for (int i = 1; i < lines.Length; i++)
         {
             string[] columns = lines[i].Split(',');
@@ -286,11 +286,13 @@ public class ExpDropManager : MonoBehaviour
     {
         return new List<LevelXpEntry>
         {
-            new() { Level = 1, NeedXP = 10 },
-            new() { Level = 2, NeedXP = 20 },
-            new() { Level = 3, NeedXP = 35 },
-            new() { Level = 4, NeedXP = 55 },
-            new() { Level = 5, NeedXP = 80 }
+
+            new LevelXpEntry { Level = 1, NeedXP = 10 },
+            new LevelXpEntry { Level = 2, NeedXP = 20 },
+            new LevelXpEntry { Level = 3, NeedXP = 35 },
+            new LevelXpEntry { Level = 4, NeedXP = 55 },
+            new LevelXpEntry { Level = 5, NeedXP = 80 }
+
         };
     }
 
@@ -301,13 +303,19 @@ public class ExpDropManager : MonoBehaviour
             return IsValidOrbPrefab(entry.OverrideOrbPrefab) ? entry.OverrideOrbPrefab : null;
         }
 
-        GameObject selectedPrefab = entry.OrbType switch
+        GameObject selectedPrefab = null;
+        switch (entry.OrbType)
         {
-            MonsterController.ExpOrbType.Bronze => xpOrbBronze,
-            MonsterController.ExpOrbType.Silver => xpOrbSilver,
-            MonsterController.ExpOrbType.Gold => xpOrbGold,
-            _ => null
-        };
+            case MonsterController.ExpOrbType.Bronze:
+                selectedPrefab = xpOrbBronze;
+                break;
+            case MonsterController.ExpOrbType.Silver:
+                selectedPrefab = xpOrbSilver;
+                break;
+            case MonsterController.ExpOrbType.Gold:
+                selectedPrefab = xpOrbGold;
+                break;
+        }
 
         return IsValidOrbPrefab(selectedPrefab) ? selectedPrefab : null;
     }
