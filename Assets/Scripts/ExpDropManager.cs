@@ -8,10 +8,17 @@ public class ExpDropManager : MonoBehaviour
     [Serializable]
     public class ExperienceChangedEvent : UnityEvent<float> { }
 
+
+    [System.Serializable]
+    public class LevelChangedEvent : UnityEvent<int, int, int> { }
+
+    [System.Serializable]
+
     [Serializable]
     public class LevelChangedEvent : UnityEvent<int, int, int> { }
 
     [Serializable]
+
     public class LevelXpEntry
     {
         public int Level;
@@ -231,7 +238,11 @@ public class ExpDropManager : MonoBehaviour
             return;
         }
 
+
+        string[] lines = csvAsset.text.Split(new[] { '\r', '\n' }, System.StringSplitOptions.RemoveEmptyEntries);
+
         string[] lines = csvAsset.text.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+
         for (int i = 1; i < lines.Length; i++)
         {
             string[] columns = lines[i].Split(',');
