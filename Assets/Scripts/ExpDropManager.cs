@@ -1,16 +1,23 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class ExpDropManager : MonoBehaviour
 {
-    [System.Serializable]
+    [Serializable]
     public class ExperienceChangedEvent : UnityEvent<float> { }
+
 
     [System.Serializable]
     public class LevelChangedEvent : UnityEvent<int, int, int> { }
 
     [System.Serializable]
+
+
+
+
+
     public class LevelXpEntry
     {
         public int Level;
@@ -30,14 +37,26 @@ public class ExpDropManager : MonoBehaviour
     [SerializeField] private float magnetSpeed = 8f;
 
     [Header("Experience")]
+
     [SerializeField] private ExperienceChangedEvent onExperienceChanged = new ExperienceChangedEvent();
     [SerializeField] private LevelChangedEvent onLevelChanged = new LevelChangedEvent();
+
+
+
+    [SerializeField] private ExperienceChangedEvent onExperienceChanged = new ExperienceChangedEvent();
+    [SerializeField] private LevelChangedEvent onLevelChanged = new LevelChangedEvent();
+
+
 
     [Header("Debug")]
     [SerializeField] private int totalExp;
     [SerializeField] private int currentLevel = 1;
     [SerializeField] private int currentLevelExp;
+
     [SerializeField] private List<LevelXpEntry> levelXpTable = new List<LevelXpEntry>();
+
+    [SerializeField] private List<LevelXpEntry> levelXpTable = new List<LevelXpEntry>();
+
 
     [Header("Orb Prefabs")]
     [SerializeField] private GameObject xpOrbBronze;
@@ -65,7 +84,9 @@ public class ExpDropManager : MonoBehaviour
         ResolvePlayerReference();
         LoadLevelXpTable();
         RecalculateLevelState();
+
         SyncPlayerExperience();
+
     }
 
     private void OnValidate()
@@ -112,10 +133,38 @@ public class ExpDropManager : MonoBehaviour
             return;
         }
 
+        PlayerExperience playerExperience = null;
+        if (player != null)
+        {
+            playerExperience = player.GetComponent<PlayerExperience>();
+        }
+
+        if (playerExperience == null)
+        {
+            ResolvePlayerReference();
+            if (player != null)
+            {
+                playerExperience = player.GetComponent<PlayerExperience>();
+            }
+        }
+
+        if (playerExperience == null && player != null)
+        {
+            playerExperience = player.gameObject.AddComponent<PlayerExperience>();
+        }
+
+        if (playerExperience != null)
+        {
+            playerExperience.AddExperience(amount);
+            return;
+        }
+
         totalExp += amount;
         RecalculateLevelState();
         onExperienceChanged?.Invoke(totalExp);
+
         SyncPlayerExperience();
+
         Debug.Log($"EXP +{amount} (Total: {totalExp}, Lv: {currentLevel}, LvEXP: {currentLevelExp}/{GetNeedXpForLevel(currentLevel)})");
     }
 
@@ -275,6 +324,119 @@ public class ExpDropManager : MonoBehaviour
             new LevelXpEntry { Level = 3, NeedXP = 35 },
             new LevelXpEntry { Level = 4, NeedXP = 55 },
             new LevelXpEntry { Level = 5, NeedXP = 80 }
+        };
+    }
+
+    private void RecalculateLevelState()
+    {
+        if (levelXpTable.Count == 0)
+        {
+            currentLevel = 1;
+            currentLevelExp = totalExp;
+            return;
+        }
+
+        int previousLevel = currentLevel;
+        int remaining = totalExp;
+        int resolvedLevel = 1;
+
+        for (int i = 0; i < levelXpTable.Count; i++)
+        {
+            LevelXpEntry entry = levelXpTable[i];
+            if (entry.NeedXP <= 0)
+            {
+                continue;
+            }
+
+            resolvedLevel = entry.Level;
+            if (remaining < entry.NeedXP)
+            {
+                currentLevel = resolvedLevel;
+                currentLevelExp = remaining;
+                if (currentLevel != previousLevel)
+                {
+                    onLevelChanged?.Invoke(currentLevel, currentLevelExp, entry.NeedXP);
+                }
+
+                return;
+            }
+
+            remaining -= entry.NeedXP;
+            currentLevel = resolvedLevel + 1;
+            currentLevelExp = remaining;
+        }
+
+        if (currentLevel != previousLevel)
+        {
+            onLevelChanged?.Invoke(currentLevel, currentLevelExp, 0);
+        }
+    }
+
+    private void LoadLevelXpTable()
+    {
+        levelXpTable.Clear();
+
+        TextAsset csvAsset = Resources.Load<TextAsset>("LevelXP");
+        if (csvAsset == null)
+        {
+            Debug.LogWarning("ExpDropManager: Resources/LevelXP.csv 파일을 찾을 수 없어 기본 레벨 경험치 표를 사용합니다.");
+            levelXpTable.AddRange(GetDefaultLevelXpTable());
+            return;
+        }
+
+
+        string[] lines = csvAsset.text.Split(new[] { '\r', '\n' }, System.StringSplitOptions.RemoveEmptyEntries);
+
+        for (int i = 1; i < lines.Length; i++)
+        {
+            string[] columns = lines[i].Split(',');
+            if (columns.Length < 2)
+            {
+                continue;
+            }
+
+            if (!int.TryParse(columns[0].Trim(), out int level))
+            {
+                continue;
+            }
+
+            if (!int.TryParse(columns[1].Trim(), out int needXp))
+            {
+                continue;
+            }
+
+            if (level <= 0 || needXp <= 0)
+            {
+                continue;
+            }
+
+            levelXpTable.Add(new LevelXpEntry
+            {
+                Level = level,
+                NeedXP = needXp
+            });
+        }
+
+        levelXpTable.Sort((a, b) => a.Level.CompareTo(b.Level));
+
+        if (levelXpTable.Count == 0)
+        {
+            Debug.LogWarning("ExpDropManager: LevelXP.csv 파싱 결과가 비어 있어 기본 레벨 경험치 표를 사용합니다.");
+            levelXpTable.AddRange(GetDefaultLevelXpTable());
+        }
+    }
+
+    private static List<LevelXpEntry> GetDefaultLevelXpTable()
+    {
+        return new List<LevelXpEntry>
+        {
+
+            new LevelXpEntry { Level = 1, NeedXP = 10 },
+            new LevelXpEntry { Level = 2, NeedXP = 20 },
+            new LevelXpEntry { Level = 3, NeedXP = 35 },
+            new LevelXpEntry { Level = 4, NeedXP = 55 },
+            new LevelXpEntry { Level = 5, NeedXP = 80 }
+
         };
     }
 
