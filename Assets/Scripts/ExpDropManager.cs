@@ -20,6 +20,7 @@ public class ExpDropManager : MonoBehaviour
 
 
 
+
     public class LevelXpEntry
     {
         public int Level;
@@ -30,6 +31,8 @@ public class ExpDropManager : MonoBehaviour
 
     [Header("Player")]
     [SerializeField] private Transform player;
+    [SerializeField] private Object playerExperienceReference;
+    [SerializeField] private PlayerExperience playerExperience;
 
     [SerializeField] private GameObject playerExperienceObject;
 
@@ -48,6 +51,11 @@ public class ExpDropManager : MonoBehaviour
 
 
 
+    [SerializeField] private ExperienceChangedEvent onExperienceChanged = new ExperienceChangedEvent();
+    [SerializeField] private LevelChangedEvent onLevelChanged = new LevelChangedEvent();
+
+
+
 
 
 
@@ -57,6 +65,9 @@ public class ExpDropManager : MonoBehaviour
     [SerializeField] private int currentLevelExp;
 
     [SerializeField] private List<LevelXpEntry> levelXpTable = new List<LevelXpEntry>();
+
+    [SerializeField] private List<LevelXpEntry> levelXpTable = new List<LevelXpEntry>();
+
 
 
 
@@ -71,7 +82,11 @@ public class ExpDropManager : MonoBehaviour
     public float MagnetSpeed => magnetSpeed;
     public Transform Player => player;
 
+    public Object PlayerExperienceReference => playerExperienceReference;
+
+
     public GameObject PlayerExperienceObject => playerExperienceObject;
+
 
     public PlayerExperience PlayerExperience => playerExperience;
     public int TotalExp => totalExp;
@@ -92,6 +107,9 @@ public class ExpDropManager : MonoBehaviour
         RecalculateLevelState();
 
         SyncPlayerExperience();
+
+
+   
 
 
 
@@ -176,10 +194,6 @@ public class ExpDropManager : MonoBehaviour
 
         SyncPlayerExperience();
 
-
-
-
-
         Debug.Log($"EXP +{amount} (Total: {totalExp}, Lv: {currentLevel}, LvEXP: {currentLevelExp}/{GetNeedXpForLevel(currentLevel)})");
     }
 
@@ -221,17 +235,52 @@ public class ExpDropManager : MonoBehaviour
     public void ResolvePlayerExperienceReference()
     {
 
+        if (playerExperienceReference != null)
+        {
+            PlayerExperience resolvedByComponent = playerExperienceReference as PlayerExperience;
+            if (resolvedByComponent != null)
+            {
+                playerExperience = resolvedByComponent;
+                playerExperienceReference = resolvedByComponent;
+                return;
+            }
+
+            GameObject resolvedGameObject = playerExperienceReference as GameObject;
+            if (resolvedGameObject == null)
+            {
+                Component resolvedComponent = playerExperienceReference as Component;
+                if (resolvedComponent != null)
+                {
+                    resolvedGameObject = resolvedComponent.gameObject;
+                }
+            }
+
+            if (resolvedGameObject != null)
+            {
+                playerExperience = resolvedGameObject.GetComponent<PlayerExperience>();
+                if (playerExperience != null)
+                {
+                    playerExperienceReference = playerExperience;
+                    return;
+                }
+            }
+
         if (playerExperienceObject != null)
         {
             playerExperience = playerExperienceObject.GetComponent<PlayerExperience>();
+
         }
 
         if (playerExperience != null)
         {
+
+            playerExperienceReference = playerExperience;
+
             playerExperienceObject = playerExperience.gameObject;
 
         if (playerExperience != null)
         {
+
 
             return;
         }
@@ -242,6 +291,14 @@ public class ExpDropManager : MonoBehaviour
         }
 
         playerExperience = player.GetComponent<PlayerExperience>();
+
+        if (playerExperience != null)
+        {
+            playerExperienceReference = playerExperience;
+        }
+    }
+
+
 
         if (playerExperience != null)
         {
@@ -301,6 +358,9 @@ public class ExpDropManager : MonoBehaviour
     {
         levelXpTable.Clear();
 
+        HashSet<int> loadedLevels = new HashSet<int>();
+
+
         TextAsset csvAsset = Resources.Load<TextAsset>("LevelXP");
         if (csvAsset == null)
         {
@@ -332,6 +392,11 @@ public class ExpDropManager : MonoBehaviour
             {
                 continue;
             }
+
+
+            if (!loadedLevels.Add(level))
+            {
+                Debug.LogWarning($"ExpDropManager: LevelXP.csv에 중복된 Level 식별자({level})가 있어 첫 번째 값만 사용합니다.");
 
             levelXpTable.Add(new LevelXpEntry
             {
@@ -442,6 +507,7 @@ public class ExpDropManager : MonoBehaviour
 
             if (level <= 0 || needXp <= 0)
             {
+
                 continue;
             }
 
@@ -461,7 +527,18 @@ public class ExpDropManager : MonoBehaviour
         }
     }
 
-   
+
+    private static List<LevelXpEntry> GetDefaultLevelXpTable()
+    {
+        return new List<LevelXpEntry>
+        {
+            new LevelXpEntry { Level = 1, NeedXP = 10 },
+            new LevelXpEntry { Level = 2, NeedXP = 20 },
+            new LevelXpEntry { Level = 3, NeedXP = 35 },
+            new LevelXpEntry { Level = 4, NeedXP = 55 },
+            new LevelXpEntry { Level = 5, NeedXP = 80 }
+        };
+    }
 
 
     private GameObject ResolveOrbPrefab(MonsterController.ExpOrbDropEntry entry)
