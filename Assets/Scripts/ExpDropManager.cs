@@ -18,6 +18,8 @@ public class ExpDropManager : MonoBehaviour
 
 
 
+
+
     public class LevelXpEntry
     {
         public int Level;
@@ -28,6 +30,9 @@ public class ExpDropManager : MonoBehaviour
 
     [Header("Player")]
     [SerializeField] private Transform player;
+
+    [SerializeField] private GameObject playerExperienceObject;
+
     [SerializeField] private PlayerExperience playerExperience;
 
     [Header("Magnet")]
@@ -43,8 +48,6 @@ public class ExpDropManager : MonoBehaviour
 
 
 
-    [SerializeField] private ExperienceChangedEvent onExperienceChanged = new ExperienceChangedEvent();
-    [SerializeField] private LevelChangedEvent onLevelChanged = new LevelChangedEvent();
 
 
 
@@ -55,7 +58,7 @@ public class ExpDropManager : MonoBehaviour
 
     [SerializeField] private List<LevelXpEntry> levelXpTable = new List<LevelXpEntry>();
 
-    [SerializeField] private List<LevelXpEntry> levelXpTable = new List<LevelXpEntry>();
+
 
 
     [Header("Orb Prefabs")]
@@ -67,6 +70,9 @@ public class ExpDropManager : MonoBehaviour
     public float AbsorbDistance => absorbDistance;
     public float MagnetSpeed => magnetSpeed;
     public Transform Player => player;
+
+    public GameObject PlayerExperienceObject => playerExperienceObject;
+
     public PlayerExperience PlayerExperience => playerExperience;
     public int TotalExp => totalExp;
     public int CurrentLevel => currentLevel;
@@ -87,6 +93,10 @@ public class ExpDropManager : MonoBehaviour
 
         SyncPlayerExperience();
 
+
+
+
+
     }
 
     private void OnValidate()
@@ -94,6 +104,7 @@ public class ExpDropManager : MonoBehaviour
         magnetRanage = Mathf.Max(0f, magnetRanage);
         absorbDistance = Mathf.Max(0.01f, absorbDistance);
         magnetSpeed = Mathf.Max(0f, magnetSpeed);
+        ResolvePlayerExperienceReference();
     }
 
     public void DropOrbs(Vector2 position, List<MonsterController.ExpOrbDropEntry> dropEntries)
@@ -165,6 +176,10 @@ public class ExpDropManager : MonoBehaviour
 
         SyncPlayerExperience();
 
+
+
+
+
         Debug.Log($"EXP +{amount} (Total: {totalExp}, Lv: {currentLevel}, LvEXP: {currentLevelExp}/{GetNeedXpForLevel(currentLevel)})");
     }
 
@@ -205,8 +220,19 @@ public class ExpDropManager : MonoBehaviour
 
     public void ResolvePlayerExperienceReference()
     {
+
+        if (playerExperienceObject != null)
+        {
+            playerExperience = playerExperienceObject.GetComponent<PlayerExperience>();
+        }
+
         if (playerExperience != null)
         {
+            playerExperienceObject = playerExperience.gameObject;
+
+        if (playerExperience != null)
+        {
+
             return;
         }
 
@@ -216,6 +242,14 @@ public class ExpDropManager : MonoBehaviour
         }
 
         playerExperience = player.GetComponent<PlayerExperience>();
+
+        if (playerExperience != null)
+        {
+            playerExperienceObject = playerExperience.gameObject;
+        }
+    }
+
+
     }
 
     private void RecalculateLevelState()
@@ -327,6 +361,7 @@ public class ExpDropManager : MonoBehaviour
         };
     }
 
+
     private void RecalculateLevelState()
     {
         if (levelXpTable.Count == 0)
@@ -426,19 +461,8 @@ public class ExpDropManager : MonoBehaviour
         }
     }
 
-    private static List<LevelXpEntry> GetDefaultLevelXpTable()
-    {
-        return new List<LevelXpEntry>
-        {
+   
 
-            new LevelXpEntry { Level = 1, NeedXP = 10 },
-            new LevelXpEntry { Level = 2, NeedXP = 20 },
-            new LevelXpEntry { Level = 3, NeedXP = 35 },
-            new LevelXpEntry { Level = 4, NeedXP = 55 },
-            new LevelXpEntry { Level = 5, NeedXP = 80 }
-
-        };
-    }
 
     private GameObject ResolveOrbPrefab(MonsterController.ExpOrbDropEntry entry)
     {
