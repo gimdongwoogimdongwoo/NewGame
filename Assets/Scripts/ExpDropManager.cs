@@ -1,16 +1,22 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class ExpDropManager : MonoBehaviour
 {
-    [System.Serializable]
+    [Serializable]
     public class ExperienceChangedEvent : UnityEvent<float> { }
+
+
 
     [System.Serializable]
     public class LevelChangedEvent : UnityEvent<int, int, int> { }
 
     [System.Serializable]
+
+
+
     public class LevelXpEntry
     {
         public int Level;
@@ -29,14 +35,18 @@ public class ExpDropManager : MonoBehaviour
     [SerializeField] private float magnetSpeed = 8f;
 
     [Header("Experience")]
+
     [SerializeField] private ExperienceChangedEvent onExperienceChanged = new ExperienceChangedEvent();
     [SerializeField] private LevelChangedEvent onLevelChanged = new LevelChangedEvent();
+
 
     [Header("Debug")]
     [SerializeField] private int totalExp;
     [SerializeField] private int currentLevel = 1;
     [SerializeField] private int currentLevelExp;
+
     [SerializeField] private List<LevelXpEntry> levelXpTable = new List<LevelXpEntry>();
+
 
     [Header("Orb Prefabs")]
     [SerializeField] private GameObject xpOrbBronze;
@@ -106,6 +116,32 @@ public class ExpDropManager : MonoBehaviour
     {
         if (amount <= 0)
         {
+            return;
+        }
+
+        PlayerExperience playerExperience = null;
+        if (player != null)
+        {
+            playerExperience = player.GetComponent<PlayerExperience>();
+        }
+
+        if (playerExperience == null)
+        {
+            ResolvePlayerReference();
+            if (player != null)
+            {
+                playerExperience = player.GetComponent<PlayerExperience>();
+            }
+        }
+
+        if (playerExperience == null && player != null)
+        {
+            playerExperience = player.gameObject.AddComponent<PlayerExperience>();
+        }
+
+        if (playerExperience != null)
+        {
+            playerExperience.AddExperience(amount);
             return;
         }
 
@@ -204,7 +240,9 @@ public class ExpDropManager : MonoBehaviour
             return;
         }
 
+
         string[] lines = csvAsset.text.Split(new[] { '\r', '\n' }, System.StringSplitOptions.RemoveEmptyEntries);
+
         for (int i = 1; i < lines.Length; i++)
         {
             string[] columns = lines[i].Split(',');
@@ -248,11 +286,13 @@ public class ExpDropManager : MonoBehaviour
     {
         return new List<LevelXpEntry>
         {
+
             new LevelXpEntry { Level = 1, NeedXP = 10 },
             new LevelXpEntry { Level = 2, NeedXP = 20 },
             new LevelXpEntry { Level = 3, NeedXP = 35 },
             new LevelXpEntry { Level = 4, NeedXP = 55 },
             new LevelXpEntry { Level = 5, NeedXP = 80 }
+
         };
     }
 
