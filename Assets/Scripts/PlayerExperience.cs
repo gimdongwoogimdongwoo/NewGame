@@ -1,4 +1,8 @@
-
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.UI;
+using TMPro;
 using UnityEngine;
 
 public class PlayerExperience : MonoBehaviour
@@ -21,15 +25,9 @@ public class PlayerExperience : MonoBehaviour
         currentLevelExp = Mathf.Max(0, newCurrentLevelExp);
         needXpToNextLevel = Mathf.Max(0, newNeedXpToNextLevel);
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 
-public class PlayerExperience : MonoBehaviour
-{
+
+
     [Serializable]
     private struct LevelXpEntry
     {
@@ -254,6 +252,7 @@ public class PlayerExperience : MonoBehaviour
         {
             levelXpTable.Add(new LevelXpEntry { Level = 1, NeedXp = 10 });
         }
+
 
     }
 }
