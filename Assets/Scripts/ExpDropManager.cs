@@ -1,16 +1,24 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class ExpDropManager : MonoBehaviour
 {
-    [System.Serializable]
+    [Serializable]
     public class ExperienceChangedEvent : UnityEvent<float> { }
+
 
     [System.Serializable]
     public class LevelChangedEvent : UnityEvent<int, int, int> { }
 
     [System.Serializable]
+
+    [Serializable]
+    public class LevelChangedEvent : UnityEvent<int, int, int> { }
+
+    [Serializable]
+
     public class LevelXpEntry
     {
         public int Level;
@@ -109,6 +117,32 @@ public class ExpDropManager : MonoBehaviour
             return;
         }
 
+        PlayerExperience playerExperience = null;
+        if (player != null)
+        {
+            playerExperience = player.GetComponent<PlayerExperience>();
+        }
+
+        if (playerExperience == null)
+        {
+            ResolvePlayerReference();
+            if (player != null)
+            {
+                playerExperience = player.GetComponent<PlayerExperience>();
+            }
+        }
+
+        if (playerExperience == null && player != null)
+        {
+            playerExperience = player.gameObject.AddComponent<PlayerExperience>();
+        }
+
+        if (playerExperience != null)
+        {
+            playerExperience.AddExperience(amount);
+            return;
+        }
+
         totalExp += amount;
         RecalculateLevelState();
         onExperienceChanged?.Invoke(totalExp);
@@ -204,7 +238,11 @@ public class ExpDropManager : MonoBehaviour
             return;
         }
 
+
         string[] lines = csvAsset.text.Split(new[] { '\r', '\n' }, System.StringSplitOptions.RemoveEmptyEntries);
+
+        string[] lines = csvAsset.text.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+
         for (int i = 1; i < lines.Length; i++)
         {
             string[] columns = lines[i].Split(',');
