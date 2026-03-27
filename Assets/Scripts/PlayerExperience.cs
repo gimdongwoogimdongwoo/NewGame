@@ -60,9 +60,11 @@ public class PlayerExperience : MonoBehaviour
     [SerializeField] private ExpBarController expBarController;
     [SerializeField] private TMP_Text hudLevelTMP;
     [SerializeField] private Text hudLevelText;
+    [SerializeField] private LevelUpPanelController levelUpPanelController;
 
     private readonly List<LevelXpEntry> levelXpTable = new();
     private Coroutine gainRoutine;
+    private int pendingExperienceGain;
 
 
     public int CurrentExp => currentExp;
@@ -79,6 +81,7 @@ public class PlayerExperience : MonoBehaviour
 
         RefreshLevelText();
         UpdateExpBarImmediate();
+        ResolveLevelUpPanelReference();
     }
 
     public void AddExperience(int amount)
@@ -88,63 +91,77 @@ public class PlayerExperience : MonoBehaviour
             return;
         }
 
-        if (gainRoutine != null)
+        pendingExperienceGain += amount;
+        if (gainRoutine == null)
         {
-            StopCoroutine(gainRoutine);
+            gainRoutine = StartCoroutine(AddExperienceRoutine());
         }
-
-        gainRoutine = StartCoroutine(AddExperienceRoutine(amount));
     }
 
-    private IEnumerator AddExperienceRoutine(int amount)
+    private IEnumerator AddExperienceRoutine()
     {
-        currentExp += amount;
-
-        while (needExp > 0 && currentExp >= needExp)
+        while (true)
         {
-            yield return expBarController != null
-                ? expBarController.AnimateToRatio(1f)
-                : null;
-
-            if (levelUpFullHoldSeconds > 0f)
+            if (pendingExperienceGain > 0)
             {
-                yield return new WaitForSeconds(levelUpFullHoldSeconds);
+                currentExp += pendingExperienceGain;
+                pendingExperienceGain = 0;
             }
 
-            currentExp -= needExp;
-            currentLevel += 1;
-            needExp = ResolveNeedExp(currentLevel);
-
-            RefreshLevelText();
-
-            if (expBarController != null)
+            while (needExp > 0 && currentExp >= needExp)
             {
-                expBarController.SetRatioImmediate(0f);
-            }
+                yield return expBarController != null
+                    ? expBarController.AnimateToRatio(1f)
+                    : null;
 
-            if (needExp <= 0)
-            {
-                currentExp = 0;
-                if (expBarController != null)
+                if (levelUpFullHoldSeconds > 0f)
                 {
-                    expBarController.SetRatioImmediate(1f);
+                    yield return new WaitForSeconds(levelUpFullHoldSeconds);
                 }
 
-                gainRoutine = null;
-                yield break;
+                currentExp -= needExp;
+                currentLevel += 1;
+                needExp = ResolveNeedExp(currentLevel);
+
+                RefreshLevelText();
+                RequestLevelUpSelection(currentLevel);
+                yield return WaitForLevelUpSelectionToClose();
+
+                if (expBarController != null)
+                {
+                    expBarController.SetRatioImmediate(0f);
+                }
+
+                if (needExp <= 0)
+                {
+                    currentExp = 0;
+                    if (expBarController != null)
+                    {
+                        expBarController.SetRatioImmediate(1f);
+                    }
+
+                    pendingExperienceGain = 0;
+                    gainRoutine = null;
+                    yield break;
+                }
+
+                if (currentExp > 0 && expBarController != null)
+                {
+                    float carryRatio = Mathf.Clamp01((float)currentExp / needExp);
+                    expBarController.SetRatioImmediate(carryRatio);
+                }
             }
 
-            if (currentExp > 0 && expBarController != null)
+            if (needExp > 0 && expBarController != null)
             {
-                float carryRatio = Mathf.Clamp01((float)currentExp / needExp);
-                expBarController.SetRatioImmediate(carryRatio);
+                float xpRatio = Mathf.Clamp01((float)currentExp / needExp);
+                yield return expBarController.AnimateToRatio(xpRatio);
             }
-        }
 
-        if (needExp > 0 && expBarController != null)
-        {
-            float xpRatio = Mathf.Clamp01((float)currentExp / needExp);
-            yield return expBarController.AnimateToRatio(xpRatio);
+            if (pendingExperienceGain <= 0)
+            {
+                break;
+            }
         }
 
         gainRoutine = null;
@@ -203,6 +220,37 @@ public class PlayerExperience : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void ResolveLevelUpPanelReference()
+    {
+        if (levelUpPanelController == null)
+        {
+            levelUpPanelController = FindFirstObjectByType<LevelUpPanelController>();
+        }
+    }
+
+    private void RequestLevelUpSelection(int reachedLevel)
+    {
+        ResolveLevelUpPanelReference();
+        if (levelUpPanelController == null)
+        {
+            Debug.LogWarning("PlayerExperience: LevelUpPanelController를 찾지 못해 레벨업 선택 패널을 표시할 수 없습니다.");
+            return;
+        }
+
+        levelUpPanelController.EnqueueLevelUpSelection(reachedLevel);
+    }
+
+    private IEnumerator WaitForLevelUpSelectionToClose()
+    {
+        ResolveLevelUpPanelReference();
+        if (levelUpPanelController == null)
+        {
+            yield break;
+        }
+
+        yield return new WaitUntil(() => !levelUpPanelController.IsSelectionOpen);
     }
 
     private int ResolveNeedExp(int level)
