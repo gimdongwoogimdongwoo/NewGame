@@ -27,6 +27,14 @@ public class PlayerMovement2D : MonoBehaviour
 
     private void Update()
     {
+        if (GameplayPauseController.IsGameplayPaused)
+        {
+            moveInput = Vector2.zero;
+            UpdateAnimationParameters();
+            UpdateAnimationState();
+            return;
+        }
+
         ReadInput();
         UpdateAnimationParameters();
         UpdateAnimationState();
@@ -34,6 +42,12 @@ public class PlayerMovement2D : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (GameplayPauseController.IsGameplayPaused)
+        {
+            rb.linearVelocity = Vector2.zero;
+            return;
+        }
+
         Vector2 desiredPosition = rb.position + (moveInput * moveSpeed * Time.fixedDeltaTime);
 
         if (MapBoundaryController.Instance != null)
