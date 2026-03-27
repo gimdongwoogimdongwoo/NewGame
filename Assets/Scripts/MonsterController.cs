@@ -21,7 +21,7 @@ public class MonsterController : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        if (damage <= 0f || currentHP <= 0f)
+        if (GameplayPauseController.IsGameplayPaused || damage <= 0f || currentHP <= 0f)
         {
             return;
         }
@@ -45,6 +45,11 @@ public class MonsterController : MonoBehaviour
 
     private void TryDamagePlayer(GameObject other)
     {
+        if (GameplayPauseController.IsGameplayPaused)
+        {
+            return;
+        }
+
         if (!other.TryGetComponent(out PlayerHealth playerHealth))
         {
             playerHealth = other.GetComponentInParent<PlayerHealth>();
