@@ -24,7 +24,7 @@ public class PlayerExperience : MonoBehaviour
     public int CurrentLevel => currentLevel;
     public int Level => currentLevel;
 
-    public int Level => level;
+   
 
     public int CurrentLevelExp => currentLevelExp;
     public int NeedXpToNextLevel => needXpToNextLevel;
@@ -38,21 +38,20 @@ public class PlayerExperience : MonoBehaviour
         needXpToNextLevel = Mathf.Max(0, newNeedXpToNextLevel);
 
         level = Mathf.Max(1, newLevel);
-        currentLevelExp = Mathf.Max(0, newCurrentLevelExp);
-        needXpToNextLevel = Mathf.Max(0, newNeedXpToNextLevel);
+    }
+   
 
 
 
-
-    [Serializable]
-    private struct LevelXpEntry
+    
+    struct LevelXpEntry
     {
         public int Level;
         public int NeedXp;
     }
 
     [Header("Experience")]
-    [SerializeField] private int currentLevel = 1;
+   
     [SerializeField] private int currentExp;
     [SerializeField] private int needExp = 10;
     [SerializeField] private float levelUpFullHoldSeconds = 0.12f;
@@ -65,7 +64,7 @@ public class PlayerExperience : MonoBehaviour
     private readonly List<LevelXpEntry> levelXpTable = new();
     private Coroutine gainRoutine;
 
-    public int CurrentLevel => currentLevel;
+
     public int CurrentExp => currentExp;
     public int NeedExp => needExp;
 
