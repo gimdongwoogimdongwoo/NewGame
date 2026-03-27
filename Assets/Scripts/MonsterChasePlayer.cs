@@ -20,6 +20,12 @@ public class MonsterChasePlayer : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (GameplayPauseController.IsGameplayPaused)
+        {
+            rb.linearVelocity = Vector2.zero;
+            return;
+        }
+
         if (target == null)
         {
             rb.linearVelocity = Vector2.zero;

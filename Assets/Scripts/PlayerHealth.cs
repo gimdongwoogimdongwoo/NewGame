@@ -45,7 +45,7 @@ public class PlayerHealth : MonoBehaviour
 
     public bool TakeDamage(float damage)
     {
-        if (damage <= 0f || isInvincible || currentHP <= 0f)
+        if (GameplayPauseController.IsGameplayPaused || damage <= 0f || isInvincible || currentHP <= 0f)
         {
             return false;
         }
