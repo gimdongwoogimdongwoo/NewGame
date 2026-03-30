@@ -31,14 +31,24 @@ public class AutoShooter : MonoBehaviour
     private float nextTurnAllowedTime;
 
 
+
     public void MultiplyDamageMultiplier(float multiplier)
     {
         if (multiplier <= 0f)
+
+    public void AddDamage(float amount)
+    {
+        if (amount <= 0f)
+
         {
             return;
         }
 
+
         damageMultiplier *= multiplier;
+
+        damage += amount;
+
     }
 
     public void ImproveFireRateByPercent(float percent)
