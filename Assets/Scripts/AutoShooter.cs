@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(PlayerStatus))]
 public class AutoShooter : MonoBehaviour
 {
     [Header("References")]
@@ -12,26 +13,50 @@ public class AutoShooter : MonoBehaviour
     [SerializeField] private float minTurnCooldown = 0.1f;
 
     [Header("Projectile Runtime Stats")]
-    [SerializeField] private float damage = 10f;
+    [SerializeField] private float damageMultiplier = 1f;
     [SerializeField] private float speed = 8f;
     [SerializeField] private float lifeTime = 2f;
-
     [SerializeField] private float scale = 0.75f;
-
-
 
     private Vector2 lastInputDirection = Vector2.down;
     private Vector2 previousAimDirection = Vector2.down;
-
-
-    
-
     private float nextFireTime;
     private float nextTurnAllowedTime;
+
+    public void MultiplyDamageMultiplier(float multiplier)
+    {
+        if (multiplier <= 0f)
+        {
+            return;
+        }
+
+        damageMultiplier *= multiplier;
+    }
+
+    public void ImproveFireRateByPercent(float percent)
+    {
+        if (percent <= 0f)
+        {
+            return;
+        }
+
+        float multiplier = Mathf.Clamp(1f - (percent / 100f), 0.05f, 1f);
+        fireInterval = Mathf.Max(0.02f, fireInterval * multiplier);
+    }
 
     private void Reset()
     {
         spawnPoint = transform;
+    }
+
+    private void OnValidate()
+    {
+        fireInterval = Mathf.Max(0.02f, fireInterval);
+        minTurnCooldown = Mathf.Max(0f, minTurnCooldown);
+        damageMultiplier = Mathf.Max(0f, damageMultiplier);
+        speed = Mathf.Max(0f, speed);
+        lifeTime = Mathf.Max(0.05f, lifeTime);
+        scale = Mathf.Max(0.01f, scale);
     }
 
     private void Update()
@@ -91,19 +116,10 @@ public class AutoShooter : MonoBehaviour
 
     private void Fire(Vector2 direction)
     {
-        // 입력 방향 반대
-        Vector2 flippedDirection = direction;
-
-        // 기준 회전 (없으면 identity)
         Quaternion baseRotation = baseRotationReference != null ? baseRotationReference.rotation : Quaternion.identity;
+        Quaternion projectileRotation = baseRotation * Quaternion.Euler(0f, 0f, 180f);
 
-        // 2D에서는 Z축 기준으로 180도 회전
-        Quaternion flippedRotation = baseRotation * Quaternion.Euler(0f, 0f, 180f);
-
-        // 발사체 생성
-        ProjectileController projectile = Instantiate(projectilePrefab, spawnPoint.position, flippedRotation);
-
-        // 이동 방향도 반대로 초기화
-        projectile.Initialize(flippedDirection, damage, speed, lifeTime, scale);
+        ProjectileController projectile = Instantiate(projectilePrefab, spawnPoint.position, projectileRotation);
+        projectile.Initialize(direction, damageMultiplier, speed, lifeTime, scale);
     }
 }
