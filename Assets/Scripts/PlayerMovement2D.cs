@@ -19,6 +19,17 @@ public class PlayerMovement2D : MonoBehaviour
     private Vector2 lastFacing = Vector2.down;
     private string currentAnimState;
 
+
+    public void AddMoveSpeed(float amount)
+    {
+        if (amount <= 0f)
+        {
+            return;
+        }
+
+        moveSpeed += amount;
+    }
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
