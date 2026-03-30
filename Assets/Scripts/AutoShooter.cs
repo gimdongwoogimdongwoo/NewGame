@@ -44,6 +44,38 @@ public class AutoShooter : MonoBehaviour
         fireInterval = Mathf.Max(0.02f, fireInterval * multiplier);
     }
 
+
+
+    public void MultiplyDamageMultiplier(float multiplier)
+    {
+        if (multiplier <= 0f)
+
+    public void AddDamage(float amount)
+    {
+        if (amount <= 0f)
+
+        {
+            return;
+        }
+
+
+        damageMultiplier *= multiplier;
+
+        damage += amount;
+
+    }
+
+    public void ImproveFireRateByPercent(float percent)
+    {
+        if (percent <= 0f)
+        {
+            return;
+        }
+
+        float multiplier = Mathf.Clamp01(1f - (percent / 100f));
+        fireInterval = Mathf.Max(0.02f, fireInterval * multiplier);
+    }
+
     private void Reset()
     {
         spawnPoint = transform;
@@ -119,7 +151,18 @@ public class AutoShooter : MonoBehaviour
         Quaternion baseRotation = baseRotationReference != null ? baseRotationReference.rotation : Quaternion.identity;
         Quaternion projectileRotation = baseRotation * Quaternion.Euler(0f, 0f, 180f);
 
+
         ProjectileController projectile = Instantiate(projectilePrefab, spawnPoint.position, projectileRotation);
         projectile.Initialize(direction, damageMultiplier, speed, lifeTime, scale);
+
+        // 2D에서는 Z축 기준으로 180도 회전
+        Quaternion flippedRotation = baseRotation * Quaternion.Euler(0f, 0f, 180f);
+
+        // 발사체 생성
+        ProjectileController projectile = Instantiate(projectilePrefab, spawnPoint.position, flippedRotation);
+
+        // 이동 방향도 반대로 초기화
+        projectile.Initialize(flippedDirection, damageMultiplier, speed, lifeTime, scale);
+
     }
 }
