@@ -11,6 +11,9 @@ public static class LevelUpEffectService
         AutoShooter autoShooter = UnityEngine.Object.FindFirstObjectByType<AutoShooter>();
         PlayerMovement2D movement = UnityEngine.Object.FindFirstObjectByType<PlayerMovement2D>();
 
+        PlayerStatus playerStatus = UnityEngine.Object.FindFirstObjectByType<PlayerStatus>();
+
+
         int amount = value ?? 0;
 
         switch (effectKey)
@@ -36,10 +39,24 @@ public static class LevelUpEffectService
                 }
                 break;
 
+
+            case "ATKUP":
+                if (playerStatus != null)
+                {
+                    playerStatus.ApplyAttackUpPercent(amount);
+                }
+                break;
+
+            case "DAMAGE_MULT_UP":
+                if (autoShooter != null)
+                {
+                    autoShooter.MultiplyDamageMultiplier(amount / 100f);
+
             case "DAMAGE_UP":
                 if (autoShooter != null)
                 {
                     autoShooter.AddDamage(amount);
+
                 }
                 break;
 
