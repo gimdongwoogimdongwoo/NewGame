@@ -1,5 +1,15 @@
 ID,Ratio,Require,Icon,Desc,Effect,Value
+
 1,30,,skill_ATKup.png,공격력이 25% 강화됩니다,ATKUP,125
+
+
+1,30,,skill_ATKup.png,공격력이 25% 강화됩니다,ATKUP,125
+
+1,30,,skill_ATKup.png,공격력이 5 증가합니다,DAMAGE_UP,5
+
+
+
+
 2,25,,skill_HEAL.png,체력을 20 회복합니다,HEAL,20
 3,20,,skill_MOVE.png,이동 속도가 1 증가합니다,MOVE_SPEED_UP,1
 4,15,1,skill_ATKspeed.png,공격 속도가 15% 빨라집니다,FIRE_RATE_UP,15
