@@ -29,6 +29,28 @@ public class AutoShooter : MonoBehaviour
     private float nextFireTime;
     private float nextTurnAllowedTime;
 
+
+    public void AddDamage(float amount)
+    {
+        if (amount <= 0f)
+        {
+            return;
+        }
+
+        damage += amount;
+    }
+
+    public void ImproveFireRateByPercent(float percent)
+    {
+        if (percent <= 0f)
+        {
+            return;
+        }
+
+        float multiplier = Mathf.Clamp01(1f - (percent / 100f));
+        fireInterval = Mathf.Max(0.02f, fireInterval * multiplier);
+    }
+
     private void Reset()
     {
         spawnPoint = transform;
