@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(PlayerStatus))]
 public class AutoShooter : MonoBehaviour
 {
     [Header("References")]
@@ -12,7 +13,7 @@ public class AutoShooter : MonoBehaviour
     [SerializeField] private float minTurnCooldown = 0.1f;
 
     [Header("Projectile Runtime Stats")]
-    [SerializeField] private float damage = 10f;
+    [SerializeField] private float damageMultiplier = 1f;
     [SerializeField] private float speed = 8f;
     [SerializeField] private float lifeTime = 2f;
 
@@ -28,6 +29,28 @@ public class AutoShooter : MonoBehaviour
 
     private float nextFireTime;
     private float nextTurnAllowedTime;
+
+
+    public void MultiplyDamageMultiplier(float multiplier)
+    {
+        if (multiplier <= 0f)
+        {
+            return;
+        }
+
+        damageMultiplier *= multiplier;
+    }
+
+    public void ImproveFireRateByPercent(float percent)
+    {
+        if (percent <= 0f)
+        {
+            return;
+        }
+
+        float multiplier = Mathf.Clamp01(1f - (percent / 100f));
+        fireInterval = Mathf.Max(0.02f, fireInterval * multiplier);
+    }
 
     private void Reset()
     {
@@ -104,6 +127,6 @@ public class AutoShooter : MonoBehaviour
         ProjectileController projectile = Instantiate(projectilePrefab, spawnPoint.position, flippedRotation);
 
         // 이동 방향도 반대로 초기화
-        projectile.Initialize(flippedDirection, damage, speed, lifeTime, scale);
+        projectile.Initialize(flippedDirection, damageMultiplier, speed, lifeTime, scale);
     }
 }
