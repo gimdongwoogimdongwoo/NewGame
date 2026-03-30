@@ -5,7 +5,7 @@ using UnityEngine;
 public class ProjectileController : MonoBehaviour
 {
     [Header("Projectile Stats")]
-    [SerializeField] private float projectileDamage = 10f;
+    [SerializeField] private float damageMultiplier = 1f;
     [SerializeField] private float speed = 8f;
     [SerializeField] private float lifeTime = 2f;
     [SerializeField] private float scale = 0.75f;
@@ -51,9 +51,9 @@ public class ProjectileController : MonoBehaviour
         rb.linearVelocity = moveDirection * speed;
     }
 
-    public void Initialize(Vector2 direction, float configuredDamage, float configuredSpeed, float configuredLifeTime, float configuredScale)
+    public void Initialize(Vector2 direction, float configuredDamageMultiplier, float configuredSpeed, float configuredLifeTime, float configuredScale)
     {
-        projectileDamage = configuredDamage;
+        damageMultiplier = Mathf.Max(0f, configuredDamageMultiplier);
         speed = configuredSpeed;
         lifeTime = configuredLifeTime;
         scale = configuredScale;
@@ -81,6 +81,12 @@ public class ProjectileController : MonoBehaviour
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0f, 0f, angle + rotationOffset);
         spriteRenderer.flipX = false;
+    }
+
+    private static float ResolvePlayerAttack()
+    {
+        PlayerStatus status = UnityEngine.Object.FindFirstObjectByType<PlayerStatus>();
+        return status != null ? status.CurrentAttack : 1f;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -113,7 +119,9 @@ public class ProjectileController : MonoBehaviour
             return;
         }
 
-        monster.TakeDamage(projectileDamage);
+        float currentAttack = ResolvePlayerAttack();
+        float finalDamage = currentAttack * Mathf.Max(0f, damageMultiplier);
+        monster.TakeDamage(finalDamage);
         Destroy(gameObject);
     }
 }
