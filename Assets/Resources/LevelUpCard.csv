@@ -2,7 +2,11 @@ ID,Ratio,Require,Icon,Desc,Effect,Value
 
 1,30,,skill_ATKup.png,공격력이 25% 강화됩니다,ATKUP,125
 
+
+1,30,,skill_ATKup.png,공격력이 25% 강화됩니다,ATKUP,125
+
 1,30,,skill_ATKup.png,공격력이 5 증가합니다,DAMAGE_UP,5
+
 
 
 

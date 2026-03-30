@@ -13,6 +13,9 @@ public static class LevelUpEffectService
 
         PlayerStatus playerStatus = UnityEngine.Object.FindFirstObjectByType<PlayerStatus>();
 
+        PlayerStatus playerStatus = UnityEngine.Object.FindFirstObjectByType<PlayerStatus>();
+
+
 
         int amount = value ?? 0;
 
@@ -52,10 +55,12 @@ public static class LevelUpEffectService
                 {
                     autoShooter.MultiplyDamageMultiplier(amount / 100f);
 
+
             case "DAMAGE_UP":
                 if (autoShooter != null)
                 {
                     autoShooter.AddDamage(amount);
+
 
                 }
                 break;
