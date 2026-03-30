@@ -3,12 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\ggoom\\NewGame\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ggoom\\NewGame\\Assets\\Scripts\\ExpOrbController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\ExpOrbController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\ggoom\\newgame\\assets\\scripts\\gameplaypausecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gameplaypausecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\ggoom\\newgame\\assets\\scripts\\projectilecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\projectilecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\ggoom\\newgame\\assets\\scripts\\expdropmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\expdropmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\ggoom\\newgame\\assets\\scripts\\exporbcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\exporbcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\ggoom\\newgame\\assets\\scripts\\playerexperience.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\playerexperience.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\ggoom\\newgame\\assets\\scripts\\monsterspawner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -26,44 +38,19 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "AutoShooter.cs",
-              "DocumentMoniker": "C:\\Users\\ggoom\\NewGame\\Assets\\Scripts\\AutoShooter.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\AutoShooter.cs",
-              "ToolTip": "C:\\Users\\ggoom\\NewGame\\Assets\\Scripts\\AutoShooter.cs",
-              "RelativeToolTip": "Assets\\Scripts\\AutoShooter.cs",
-              "ViewState": "AgIAAAUAAAAAAAAAAADwvz4AAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-16T11:54:13.301Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
               "Title": "ExpOrbController.cs",
               "DocumentMoniker": "C:\\Users\\ggoom\\NewGame\\Assets\\Scripts\\ExpOrbController.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\ExpOrbController.cs",
               "ToolTip": "C:\\Users\\ggoom\\NewGame\\Assets\\Scripts\\ExpOrbController.cs",
               "RelativeToolTip": "Assets\\Scripts\\ExpOrbController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-23T04:38:07.924Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "MonsterSpawner.cs",
-              "DocumentMoniker": "C:\\Users\\ggoom\\NewGame\\Assets\\Scripts\\MonsterSpawner.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\MonsterSpawner.cs",
-              "ToolTip": "C:\\Users\\ggoom\\NewGame\\Assets\\Scripts\\MonsterSpawner.cs",
-              "RelativeToolTip": "Assets\\Scripts\\MonsterSpawner.cs",
-              "ViewState": "AgIAAHIAAAAAAAAAAAAYwFIAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-19T05:24:50.86Z",
-              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -77,6 +64,68 @@
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-16T11:49:06.747Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ExpDropManager.cs",
+              "DocumentMoniker": "C:\\Users\\ggoom\\NewGame\\Assets\\Scripts\\ExpDropManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\ExpDropManager.cs",
+              "ToolTip": "C:\\Users\\ggoom\\NewGame\\Assets\\Scripts\\ExpDropManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\ExpDropManager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-26T04:39:24.821Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "GameplayPauseController.cs",
+              "DocumentMoniker": "C:\\Users\\ggoom\\NewGame\\Assets\\Scripts\\GameplayPauseController.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GameplayPauseController.cs",
+              "ToolTip": "C:\\Users\\ggoom\\NewGame\\Assets\\Scripts\\GameplayPauseController.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GameplayPauseController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-27T05:38:21.809Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "PlayerExperience.cs",
+              "DocumentMoniker": "C:\\Users\\ggoom\\NewGame\\Assets\\Scripts\\PlayerExperience.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\PlayerExperience.cs",
+              "ToolTip": "C:\\Users\\ggoom\\NewGame\\Assets\\Scripts\\PlayerExperience.cs",
+              "RelativeToolTip": "Assets\\Scripts\\PlayerExperience.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAswBoAAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-26T05:42:10.467Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "MonsterSpawner.cs",
+              "DocumentMoniker": "C:\\Users\\ggoom\\NewGame\\Assets\\Scripts\\MonsterSpawner.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\MonsterSpawner.cs",
+              "ToolTip": "C:\\Users\\ggoom\\NewGame\\Assets\\Scripts\\MonsterSpawner.cs",
+              "RelativeToolTip": "Assets\\Scripts\\MonsterSpawner.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-19T05:24:50.86Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "AutoShooter.cs",
+              "DocumentMoniker": "C:\\Users\\ggoom\\NewGame\\Assets\\Scripts\\AutoShooter.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\AutoShooter.cs",
+              "ToolTip": "C:\\Users\\ggoom\\NewGame\\Assets\\Scripts\\AutoShooter.cs",
+              "RelativeToolTip": "Assets\\Scripts\\AutoShooter.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAADwvz4AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-16T11:54:13.301Z"
             }
           ]
         }

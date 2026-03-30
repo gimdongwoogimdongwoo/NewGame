@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public static class GameplayPauseController
+public class GameplayPauseController : MonoBehaviour
 {
     private static bool isPausedByLevelUp;
 
