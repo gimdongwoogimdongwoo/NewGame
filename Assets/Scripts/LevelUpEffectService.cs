@@ -33,6 +33,17 @@ public static class LevelUpEffectService
                 }
                 break;
 
+            case "HPUP":
+                if (playerStatus != null)
+                {
+                    playerStatus.ApplyHpUpPercent(amount);
+                    if (playerHealth != null)
+                    {
+                        playerHealth.SyncFromStatus();
+                    }
+                }
+                break;
+
             case "MOVE_SPEED_UP":
                 if (movement != null)
                 {
