@@ -3,17 +3,12 @@ ID,Ratio,Require,Icon,Desc,Effect,Value
 1,30,,skill_ATKup.png,공격력이 25% 강화됩니다,ATKUP,125
 ,,,,,,
 ,,,,,,
-1,30,,skill_ATKup.png,공격력이 25% 강화됩니다,ATKUP,125
 ,,,,,,
-1,30,,skill_ATKup.png,공격력이 5 증가합니다,DAMAGE_UP,5
-,,,,,,
+2,30,,skill_ATKup.png,공격력이 30% 증가합니다,DAMAGE_UP,130
 ,,,,,,
 ,,,,,,
 ,,,,,,
-2,25,,skill_HEAL.png,체력을 20 회복합니다,HEAL,20
-3,20,,skill_MOVE.png,이동 속도가 1 증가합니다,MOVE_SPEED_UP,1
-4,15,1,skill_ATKspeed.png,공격 속도가 15% 빨라집니다,FIRE_RATE_UP,15
-5,10,2,skill_HPup.png,최대 체력이 150%로 증가합니다,HPUP,150
+,,,,,,
 ,,,,,,
 6,12,,skill_MAGNET.png,아이템 획득 범위가 2배 증가합니다.,MAGNET,200
 7,10,7,skill_MAGNET.png,아이템 획득 범위가 2배 추가로 증가합니다.,MAGNET,200
