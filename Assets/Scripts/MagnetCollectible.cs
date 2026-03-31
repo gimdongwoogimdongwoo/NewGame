@@ -1,4 +1,9 @@
+using System;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
+
 
 public interface IMagnetCollectible
 {
@@ -69,33 +74,35 @@ public abstract class MagnetCollectible : MonoBehaviour, IMagnetCollectible
             {
                 player = foundPlayer;
 
-            GameObject taggedPlayer = GameObject.FindGameObjectWithTag("player");
-            if (taggedPlayer != null)
-            {
-                player = taggedPlayer.transform;
+                GameObject taggedPlayer = GameObject.FindGameObjectWithTag("Player");
+                if (taggedPlayer != null)
+                {
+                    player = taggedPlayer.transform;
 
-                cachedPlayer = player;
+                    cachedPlayer = player;
+                }
             }
-        }
 
-        if (player == null)
-        {
-            status = null;
-            return false;
-        }
+            if (player == null)
+            {
+                status = null;
+                return false;
+            }
 
-        if (status == null)
-        {
-            status = player.GetComponent<PlayerStatus>();
             if (status == null)
             {
-                status = player.GetComponentInParent<PlayerStatus>();
+                status = player.GetComponent<PlayerStatus>();
+                if (status == null)
+                {
+                    status = player.GetComponentInParent<PlayerStatus>();
+                }
+
+                cachedPlayerStatus = status;
             }
 
-            cachedPlayerStatus = status;
+            return true;
         }
-
-        return true;
+        return player;
     }
 
     public void Collect(Transform player)

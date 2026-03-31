@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4619127813022900455}
   m_Layer: 0
   m_Name: XPOrb_Bronze
-  m_TagString: Untagged
+  m_TagString: MagnetCollectible
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -169,6 +169,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f803bb15b5bd25429bbef8b512bfcc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ExpOrbController
-  expValue: 1
   moveSpeed: 8
   collectDistance: 0.1
+  expValue: 1

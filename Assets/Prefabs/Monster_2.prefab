@@ -206,7 +206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb9e6b58f565430b930b8cda4eba6229, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MonsterController
-  maxHP: 30
+  maxHP: 15
   attackDamage: 1
   expOrbDrops:
   - orbType: 1
