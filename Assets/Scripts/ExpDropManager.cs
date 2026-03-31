@@ -44,7 +44,7 @@ public class ExpDropManager : MonoBehaviour
     [SerializeField] private GameObject xpOrbBronze;
     [SerializeField] private GameObject xpOrbSilver;
     [SerializeField] private GameObject xpOrbGold;
-
+    PlayerMovement2D playerMovement;
     public float MagnetRanage => playerStatus != null ? playerStatus.CurrentPickupRadius : magnetRanage;
     public float AbsorbDistance => absorbDistance;
     public float MagnetSpeed => magnetSpeed;
