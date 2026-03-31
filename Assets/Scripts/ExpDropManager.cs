@@ -163,13 +163,27 @@ public class ExpDropManager : MonoBehaviour
                 playerStatus = player.GetComponent<PlayerStatus>() ?? player.GetComponentInParent<PlayerStatus>();
             }
 
+
+            return;
+        }
+
+        GameObject tagged = GameObject.FindGameObjectWithTag("player");
+        if (tagged != null)
+        {
+            player = tagged.transform;
+            playerStatus = player.GetComponent<PlayerStatus>() ?? player.GetComponentInParent<PlayerStatus>();
+
             return;
         }
 
         Transform foundPlayer = PlayerLocator.FindPlayerTransform();
         if (foundPlayer != null)
         {
+
             player = foundPlayer;
+
+            player = playerMovement.transform;
+
             playerStatus = player.GetComponent<PlayerStatus>() ?? player.GetComponentInParent<PlayerStatus>();
         }
     }
