@@ -63,10 +63,17 @@ public abstract class MagnetCollectible : MonoBehaviour, IMagnetCollectible
 
         if (player == null)
         {
+
+            Transform foundPlayer = PlayerLocator.FindPlayerTransform();
+            if (foundPlayer != null)
+            {
+                player = foundPlayer;
+
             GameObject taggedPlayer = GameObject.FindGameObjectWithTag("player");
             if (taggedPlayer != null)
             {
                 player = taggedPlayer.transform;
+
                 cachedPlayer = player;
             }
         }
