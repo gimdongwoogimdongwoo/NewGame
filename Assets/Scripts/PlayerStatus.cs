@@ -12,6 +12,7 @@ public class PlayerStatus : MonoBehaviour
     [SerializeField] private float currentHP;
     [SerializeField] private float hpUpMultiplier = 1f;
 
+
     [Header("Pickup")]
     [SerializeField] private float basePickupRadius = 3f;
     [SerializeField] private float currentPickupRadius;
@@ -25,6 +26,7 @@ public class PlayerStatus : MonoBehaviour
     public float CurrentMaxHP => Mathf.Max(0f, currentMaxHP);
     public float CurrentHP => Mathf.Clamp(currentHP, 0f, CurrentMaxHP);
     public float HpUpMultiplier => Mathf.Max(0f, hpUpMultiplier);
+
 
     public float BasePickupRadius => Mathf.Max(0f, basePickupRadius);
     public float CurrentPickupRadius => Mathf.Max(0f, currentPickupRadius);
@@ -54,6 +56,7 @@ public class PlayerStatus : MonoBehaviour
         currentPickupRadius = Mathf.Max(0f, basePickupRadius * pickupRadiusMultiplier);
     }
 
+
     private void Awake()
     {
         InitializeBattleHealth();
@@ -70,11 +73,13 @@ public class PlayerStatus : MonoBehaviour
         InitializeBattleHealth();
     }
 
+
     public void SetBasePickupRadius(float value)
     {
         basePickupRadius = Mathf.Max(0f, value);
         currentPickupRadius = BasePickupRadius * PickupRadiusMultiplier;
     }
+
 
     public void InitializeBattleHealth()
     {
@@ -84,6 +89,12 @@ public class PlayerStatus : MonoBehaviour
 
         pickupRadiusMultiplier = 1f;
         currentPickupRadius = BasePickupRadius;
+
+
+        pickupRadiusMultiplier = 1f;
+        currentPickupRadius = BasePickupRadius;
+
+
     }
 
     public void ApplyAttackUpPercent(int percent)
@@ -111,6 +122,7 @@ public class PlayerStatus : MonoBehaviour
         currentHP = Mathf.Min(currentMaxHP, currentHP * ratio);
     }
 
+
     public void ApplyMagnetPercent(int percent)
     {
         if (percent <= 0)
@@ -122,6 +134,7 @@ public class PlayerStatus : MonoBehaviour
         pickupRadiusMultiplier *= ratio;
         currentPickupRadius = BasePickupRadius * pickupRadiusMultiplier;
     }
+
 
     public void AddMaxHPFlat(float amount, bool fillAddedHealth)
     {
