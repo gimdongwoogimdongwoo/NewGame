@@ -87,9 +87,13 @@ public class PlayerStatus : MonoBehaviour
         currentMaxHP = BaseMaxHP;
         currentHP = currentMaxHP;
 
+        pickupRadiusMultiplier = 1f;
+        currentPickupRadius = BasePickupRadius;
+
 
         pickupRadiusMultiplier = 1f;
         currentPickupRadius = BasePickupRadius;
+
 
     }
 

@@ -18,14 +18,14 @@ public class FollowCamera : MonoBehaviour
 
     private void Start()
     {
-        FindTargetByTag();
+        FindTarget();
     }
 
     private void LateUpdate()
     {
         if (target == null)
         {
-            FindTargetByTag();
+            FindTarget();
             if (target == null)
             {
                 return;
@@ -42,13 +42,20 @@ public class FollowCamera : MonoBehaviour
         transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref currentVelocity, smoothTime);
     }
 
-    private void FindTargetByTag()
+    private void FindTarget()
     {
-        GameObject playerObject = GameObject.FindGameObjectWithTag(targetTag);
-
-        if (playerObject != null)
+        Transform resolved = PlayerLocator.FindPlayerTransform();
+        if (resolved != null)
         {
-            target = playerObject.transform;
+            target = resolved;
+            return;
         }
+
+        if (string.IsNullOrWhiteSpace(targetTag))
+        {
+            return;
+        }
+
+        target = null;
     }
 }
