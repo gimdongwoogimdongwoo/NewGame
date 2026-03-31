@@ -8,6 +8,8 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private float maxHP = 100f;
     [SerializeField] private float invincibleTime = 1f;
 
+    private PlayerStatus playerStatus;
+
     [Header("UI")]
     [SerializeField] private Image hpImage;
 
@@ -19,8 +21,8 @@ public class PlayerHealth : MonoBehaviour
     private bool isInvincible;
     private Coroutine invincibleRoutine;
 
-    public float CurrentHP => currentHP;
-    public float MaxHP => maxHP;
+    public float CurrentHP => playerStatus != null ? playerStatus.CurrentHP : currentHP;
+    public float MaxHP => playerStatus != null ? playerStatus.CurrentMaxHP : maxHP;
     public bool IsInvincible => isInvincible;
 
     private void Awake()
@@ -39,21 +41,42 @@ public class PlayerHealth : MonoBehaviour
             }
         }
 
-        currentHP = Mathf.Clamp(maxHP, 0f, maxHP);
+        playerStatus = GetComponent<PlayerStatus>();
+        if (playerStatus != null)
+        {
+            playerStatus.InitializeBattleHealth();
+            maxHP = playerStatus.CurrentMaxHP;
+            currentHP = playerStatus.CurrentHP;
+        }
+        else
+        {
+            currentHP = Mathf.Clamp(maxHP, 0f, maxHP);
+        }
+
         UpdateHpUI();
     }
 
     public bool TakeDamage(float damage)
     {
-        if (GameplayPauseController.IsGameplayPaused || damage <= 0f || isInvincible || currentHP <= 0f)
+        if (GameplayPauseController.IsGameplayPaused || damage <= 0f || isInvincible || CurrentHP <= 0f)
         {
             return false;
         }
 
-        currentHP = Mathf.Max(0f, currentHP - damage);
+        if (playerStatus != null)
+        {
+            playerStatus.TakeDamage(damage);
+            currentHP = playerStatus.CurrentHP;
+            maxHP = playerStatus.CurrentMaxHP;
+        }
+        else
+        {
+            currentHP = Mathf.Max(0f, currentHP - damage);
+        }
+
         UpdateHpUI();
 
-        if (currentHP <= 0f)
+        if (CurrentHP <= 0f)
         {
             HandleDeath();
             return true;
@@ -65,12 +88,34 @@ public class PlayerHealth : MonoBehaviour
 
     public void Heal(float amount)
     {
-        if (amount <= 0f || currentHP <= 0f)
+        if (amount <= 0f || CurrentHP <= 0f)
         {
             return;
         }
 
-        currentHP = Mathf.Min(maxHP, currentHP + amount);
+        if (playerStatus != null)
+        {
+            playerStatus.Heal(amount);
+            currentHP = playerStatus.CurrentHP;
+            maxHP = playerStatus.CurrentMaxHP;
+        }
+        else
+        {
+            currentHP = Mathf.Min(maxHP, currentHP + amount);
+        }
+
+        UpdateHpUI();
+    }
+
+    public void SyncFromStatus()
+    {
+        if (playerStatus == null)
+        {
+            return;
+        }
+
+        currentHP = playerStatus.CurrentHP;
+        maxHP = playerStatus.CurrentMaxHP;
         UpdateHpUI();
     }
 
@@ -81,15 +126,24 @@ public class PlayerHealth : MonoBehaviour
             return;
         }
 
-        maxHP += amount;
-
-        if (fillAddedHealth)
+        if (playerStatus != null)
         {
-            currentHP = Mathf.Min(maxHP, currentHP + amount);
+            playerStatus.AddMaxHPFlat(amount, fillAddedHealth);
+            currentHP = playerStatus.CurrentHP;
+            maxHP = playerStatus.CurrentMaxHP;
         }
         else
         {
-            currentHP = Mathf.Min(currentHP, maxHP);
+            maxHP += amount;
+
+            if (fillAddedHealth)
+            {
+                currentHP = Mathf.Min(maxHP, currentHP + amount);
+            }
+            else
+            {
+                currentHP = Mathf.Min(currentHP, maxHP);
+            }
         }
 
         UpdateHpUI();
@@ -140,7 +194,9 @@ public class PlayerHealth : MonoBehaviour
             return;
         }
 
-        hpImage.fillAmount = maxHP > 0f ? currentHP / maxHP : 0f;
+        float resolvedMaxHp = MaxHP;
+        float resolvedCurrentHp = CurrentHP;
+        hpImage.fillAmount = resolvedMaxHp > 0f ? resolvedCurrentHp / resolvedMaxHp : 0f;
     }
 
     private void HandleDeath()

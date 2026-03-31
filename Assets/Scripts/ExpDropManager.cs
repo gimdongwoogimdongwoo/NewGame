@@ -22,6 +22,7 @@ public class ExpDropManager : MonoBehaviour
 
     [Header("Player")]
     [SerializeField] private Transform player;
+    private PlayerStatus playerStatus;
 
     [Header("Magnet")]
     [Tooltip("구슬이 플레이어를 향해 이동하기 시작하는 거리")]
@@ -44,7 +45,7 @@ public class ExpDropManager : MonoBehaviour
     [SerializeField] private GameObject xpOrbSilver;
     [SerializeField] private GameObject xpOrbGold;
 
-    public float MagnetRanage => magnetRanage;
+    public float MagnetRanage => playerStatus != null ? playerStatus.CurrentPickupRadius : magnetRanage;
     public float AbsorbDistance => absorbDistance;
     public float MagnetSpeed => magnetSpeed;
     public Transform Player => player;
@@ -157,20 +158,19 @@ public class ExpDropManager : MonoBehaviour
     {
         if (player != null)
         {
+            if (playerStatus == null)
+            {
+                playerStatus = player.GetComponent<PlayerStatus>() ?? player.GetComponentInParent<PlayerStatus>();
+            }
+
             return;
         }
 
-        GameObject tagged = GameObject.FindGameObjectWithTag("player");
-        if (tagged != null)
+        Transform foundPlayer = PlayerLocator.FindPlayerTransform();
+        if (foundPlayer != null)
         {
-            player = tagged.transform;
-            return;
-        }
-
-        PlayerMovement2D playerMovement = FindObjectOfType<PlayerMovement2D>();
-        if (playerMovement != null)
-        {
-            player = playerMovement.transform;
+            player = foundPlayer;
+            playerStatus = player.GetComponent<PlayerStatus>() ?? player.GetComponentInParent<PlayerStatus>();
         }
     }
 
