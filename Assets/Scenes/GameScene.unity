@@ -2041,6 +2041,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStatus
   baseAttack: 10
   attackMultiplier: 1
+  baseMaxHP: 100
+  currentMaxHP: 100
+  currentHP: 100
+  hpUpMultiplier: 1
+  basePickupRadius: 2.5
+  currentPickupRadius: 2.5
+  pickupRadiusMultiplier: 1
 --- !u!1 &856205870
 GameObject:
   m_ObjectHideFlags: 0
