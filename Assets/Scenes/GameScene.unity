@@ -1615,10 +1615,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: "\uC548\uB155\n"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f092680593038924fa094976f2e2c9de, type: 2}
+  m_sharedMaterial: {fileID: -9079915137583404904, guid: f092680593038924fa094976f2e2c9de, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1755,7 +1755,6 @@ GameObject:
   - component: {fileID: 848293927}
   - component: {fileID: 848293929}
   - component: {fileID: 848293928}
-  - component: {fileID: 848293930}
   - component: {fileID: 848293931}
   - component: {fileID: 848293932}
   m_Layer: 6
@@ -1979,30 +1978,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0.05502844, y: 0.027514338}
   m_Size: {x: 0.70788515, y: 0.85937166}
   m_Direction: 0
---- !u!114 &848293930
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 848293921}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2e661dcb0f64710b53fd7243a9e0ce9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerExperience
-  totalExp: 0
-  currentLevel: 1
-  level: 1
-  currentLevelExp: 0
-  needXpToNextLevel: 0
-  currentExp: 0
-  needExp: 10
-  levelUpFullHoldSeconds: 0.12
-  expBarController: {fileID: 0}
-  hudLevelTMP: {fileID: 0}
-  hudLevelText: {fileID: 0}
-  levelUpPanelController: {fileID: 0}
 --- !u!114 &848293931
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2522,8 +2497,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: New Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f092680593038924fa094976f2e2c9de, type: 2}
+  m_sharedMaterial: {fileID: -9079915137583404904, guid: f092680593038924fa094976f2e2c9de, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2796,8 +2771,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: New Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f092680593038924fa094976f2e2c9de, type: 2}
+  m_sharedMaterial: {fileID: -9079915137583404904, guid: f092680593038924fa094976f2e2c9de, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
