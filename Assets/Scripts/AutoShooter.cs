@@ -18,6 +18,9 @@ public class AutoShooter : MonoBehaviour
     [SerializeField] private float lifeTime = 2f;
     [SerializeField] private float scale = 0.75f;
 
+    [Header("Projectile Extras")]
+    [SerializeField] private int additionalOppositeProjectileCount;
+
     private Vector2 lastInputDirection = Vector2.down;
     private Vector2 previousAimDirection = Vector2.down;
     private float nextFireTime;
@@ -55,6 +58,16 @@ public class AutoShooter : MonoBehaviour
         fireInterval = Mathf.Max(0.02f, fireInterval * multiplier);
     }
 
+    public void AddOppositeProjectileCount(int count)
+    {
+        if (count <= 0)
+        {
+            return;
+        }
+
+        additionalOppositeProjectileCount += count;
+    }
+
     private void Reset()
     {
         spawnPoint = transform;
@@ -68,6 +81,7 @@ public class AutoShooter : MonoBehaviour
         speed = Mathf.Max(0f, speed);
         lifeTime = Mathf.Max(0.05f, lifeTime);
         scale = Mathf.Max(0.01f, scale);
+        additionalOppositeProjectileCount = Mathf.Max(0, additionalOppositeProjectileCount);
     }
 
     private void Update()
@@ -127,10 +141,24 @@ public class AutoShooter : MonoBehaviour
 
     private void Fire(Vector2 direction)
     {
-        Quaternion baseRotation = baseRotationReference != null ? baseRotationReference.rotation : Quaternion.identity;
-        Quaternion projectileRotation = baseRotation;
+        SpawnProjectile(direction);
 
-        ProjectileController projectile = Instantiate(projectilePrefab, spawnPoint.position, projectileRotation);
+        if (additionalOppositeProjectileCount <= 0)
+        {
+            return;
+        }
+
+        Vector2 oppositeDirection = -direction;
+        for (int i = 0; i < additionalOppositeProjectileCount; i++)
+        {
+            SpawnProjectile(oppositeDirection);
+        }
+    }
+
+    private void SpawnProjectile(Vector2 direction)
+    {
+        Quaternion baseRotation = baseRotationReference != null ? baseRotationReference.rotation : Quaternion.identity;
+        ProjectileController projectile = Instantiate(projectilePrefab, spawnPoint.position, baseRotation);
         projectile.Initialize(direction, damageMultiplier, speed, lifeTime, scale);
     }
 }

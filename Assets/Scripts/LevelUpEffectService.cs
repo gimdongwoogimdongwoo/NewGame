@@ -91,6 +91,14 @@ public static class LevelUpEffectService
                 }
                 break;
 
+            case "PLUS1":
+                if (autoShooter != null)
+                {
+                    int projectileCount = amount > 0 ? amount : 1;
+                    autoShooter.AddOppositeProjectileCount(projectileCount);
+                }
+                break;
+
             default:
                 Debug.LogWarning($"LevelUpEffectService: 알 수 없는 Effect '{effect}'. 적용을 건너뜁니다.");
                 break;
