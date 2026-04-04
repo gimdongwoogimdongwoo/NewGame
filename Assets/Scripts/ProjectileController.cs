@@ -133,7 +133,17 @@ public class ProjectileController : MonoBehaviour
         }
 
         hitTargetIds.Add(targetId);
-        monster.TakeDamage(finalDamage);
+
+        Vector3 hitPosition = monster.transform.position;
+        bool killed = monster.TakeDamage(finalDamage, false);
+        if (killed)
+        {
+            ExplosionController explosionController = ExplosionController.FindForPlayer();
+            if (explosionController != null)
+            {
+                explosionController.TryTriggerFromProjectileKill(hitPosition, monster.LastHitFromExplosion);
+            }
+        }
 
         if (!canPierce)
         {

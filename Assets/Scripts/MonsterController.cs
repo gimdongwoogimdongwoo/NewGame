@@ -13,6 +13,10 @@ public class MonsterController : MonoBehaviour
     [SerializeField] private List<ExpOrbDropEntry> expOrbDrops = new();
 
     private float currentHP;
+    private bool lastHitFromExplosion;
+
+    public bool IsDead => currentHP <= 0f;
+    public bool LastHitFromExplosion => lastHitFromExplosion;
 
     private void Awake()
     {
@@ -21,16 +25,25 @@ public class MonsterController : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        TakeDamage(damage, false);
+    }
+
+    public bool TakeDamage(float damage, bool fromExplosion)
+    {
         if (GameplayPauseController.IsGameplayPaused || damage <= 0f || currentHP <= 0f)
         {
-            return;
+            return false;
         }
 
+        lastHitFromExplosion = fromExplosion;
         currentHP = Mathf.Max(0f, currentHP - damage);
         if (currentHP <= 0f)
         {
             Die();
+            return true;
         }
+
+        return false;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -46,6 +59,15 @@ public class MonsterController : MonoBehaviour
     private void TryDamagePlayer(GameObject other)
     {
         if (GameplayPauseController.IsGameplayPaused)
+        {
+            return;
+        }
+
+        // FireRing 오브젝트(자식 포함)와의 충돌은 플레이어 피격으로 취급하지 않는다.
+        if (other.GetComponent<FireOrbDamageDealer>() != null ||
+            other.GetComponentInParent<FireOrbDamageDealer>() != null ||
+            other.GetComponent<FireRingController>() != null ||
+            other.GetComponentInParent<FireRingController>() != null)
         {
             return;
         }
