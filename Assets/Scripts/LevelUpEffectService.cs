@@ -99,6 +99,13 @@ public static class LevelUpEffectService
                 }
                 break;
 
+            case "PIERCE":
+                if (autoShooter != null)
+                {
+                    autoShooter.EnablePierce();
+                }
+                break;
+
             default:
                 Debug.LogWarning($"LevelUpEffectService: 알 수 없는 Effect '{effect}'. 적용을 건너뜁니다.");
                 break;
