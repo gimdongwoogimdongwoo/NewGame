@@ -12,8 +12,7 @@ public static class LevelUpEffectService
         PlayerMovement2D movement = UnityEngine.Object.FindFirstObjectByType<PlayerMovement2D>();
 
         PlayerStatus playerStatus = UnityEngine.Object.FindFirstObjectByType<PlayerStatus>();
-
-
+        FireRingController fireRingController = UnityEngine.Object.FindFirstObjectByType<FireRingController>();
 
         int amount = value ?? 0;
 
@@ -99,6 +98,14 @@ public static class LevelUpEffectService
                 }
                 break;
 
+
+            case "FIRERING":
+                if (fireRingController != null)
+                {
+                    int orbCount = amount > 0 ? amount : 1;
+                    fireRingController.Activate(orbCount);
+                }
+                break;
             case "PIERCE":
                 if (autoShooter != null)
                 {
