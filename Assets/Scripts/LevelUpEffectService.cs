@@ -14,6 +14,7 @@ public static class LevelUpEffectService
         PlayerStatus playerStatus = UnityEngine.Object.FindFirstObjectByType<PlayerStatus>();
         FireRingController fireRingController = UnityEngine.Object.FindFirstObjectByType<FireRingController>();
 
+
         int amount = value ?? 0;
 
         switch (effectKey)
@@ -106,6 +107,16 @@ public static class LevelUpEffectService
                     fireRingController.Activate(orbCount);
                 }
                 break;
+
+            case "EXPLOSION":
+                if (explosionController != null)
+                {
+                    int chancePercent = Mathf.Clamp(amount, 0, 100);
+                    explosionController.Activate(chancePercent);
+                }
+                break;
+
+
             case "PIERCE":
                 if (autoShooter != null)
                 {
