@@ -20,6 +20,7 @@ public class AutoShooter : MonoBehaviour
 
     [Header("Projectile Extras")]
     [SerializeField] private int additionalOppositeProjectileCount;
+    [SerializeField] private bool isPierceEnabled;
 
     private Vector2 lastInputDirection = Vector2.down;
     private Vector2 previousAimDirection = Vector2.down;
@@ -66,6 +67,11 @@ public class AutoShooter : MonoBehaviour
         }
 
         additionalOppositeProjectileCount += count;
+    }
+
+    public void EnablePierce()
+    {
+        isPierceEnabled = true;
     }
 
     private void Reset()
@@ -159,6 +165,6 @@ public class AutoShooter : MonoBehaviour
     {
         Quaternion baseRotation = baseRotationReference != null ? baseRotationReference.rotation : Quaternion.identity;
         ProjectileController projectile = Instantiate(projectilePrefab, spawnPoint.position, baseRotation);
-        projectile.Initialize(direction, damageMultiplier, speed, lifeTime, scale);
+        projectile.Initialize(direction, damageMultiplier, speed, lifeTime, scale, isPierceEnabled);
     }
 }
