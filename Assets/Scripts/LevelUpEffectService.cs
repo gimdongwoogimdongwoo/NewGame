@@ -12,8 +12,8 @@ public static class LevelUpEffectService
         PlayerMovement2D movement = UnityEngine.Object.FindFirstObjectByType<PlayerMovement2D>();
 
         PlayerStatus playerStatus = UnityEngine.Object.FindFirstObjectByType<PlayerStatus>();
-
-
+        FireRingController fireRingController = UnityEngine.Object.FindFirstObjectByType<FireRingController>();
+        ExplosionController explosionController = UnityEngine.Object.FindFirstObjectByType<ExplosionController>();
 
         int amount = value ?? 0;
 
@@ -96,6 +96,22 @@ public static class LevelUpEffectService
                 {
                     int projectileCount = amount > 0 ? amount : 1;
                     autoShooter.AddOppositeProjectileCount(projectileCount);
+                }
+                break;
+
+
+            case "FIRERING":
+                if (fireRingController != null)
+                {
+                    int orbCount = amount > 0 ? amount : 1;
+                    fireRingController.Activate(orbCount);
+                }
+                break;
+            case "EXPLOSION":
+                if (explosionController != null)
+                {
+                    int chancePercent = Mathf.Clamp(amount, 0, 100);
+                    explosionController.Activate(chancePercent);
                 }
                 break;
 
