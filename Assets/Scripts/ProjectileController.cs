@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Collider2D))]
@@ -17,6 +18,8 @@ public class ProjectileController : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Vector2 moveDirection = Vector2.down;
     private bool isInitialized;
+    private bool canPierce;
+    private readonly HashSet<int> hitTargetIds = new();
 
     private void Awake()
     {
@@ -51,12 +54,14 @@ public class ProjectileController : MonoBehaviour
         rb.linearVelocity = moveDirection * speed;
     }
 
-    public void Initialize(Vector2 direction, float configuredDamageMultiplier, float configuredSpeed, float configuredLifeTime, float configuredScale)
+    public void Initialize(Vector2 direction, float configuredDamageMultiplier, float configuredSpeed, float configuredLifeTime, float configuredScale, bool pierceEnabled)
     {
         damageMultiplier = Mathf.Max(0f, configuredDamageMultiplier);
         speed = configuredSpeed;
         lifeTime = configuredLifeTime;
         scale = configuredScale;
+        canPierce = pierceEnabled;
+        hitTargetIds.Clear();
 
         transform.localScale = Vector3.one * scale;
         Destroy(gameObject, lifeTime);
@@ -121,7 +126,18 @@ public class ProjectileController : MonoBehaviour
 
         float currentAttack = ResolvePlayerAttack();
         float finalDamage = currentAttack * Mathf.Max(0f, damageMultiplier);
+        int targetId = monster.GetInstanceID();
+        if (hitTargetIds.Contains(targetId))
+        {
+            return;
+        }
+
+        hitTargetIds.Add(targetId);
         monster.TakeDamage(finalDamage);
-        Destroy(gameObject);
+
+        if (!canPierce)
+        {
+            Destroy(gameObject);
+        }
     }
 }
