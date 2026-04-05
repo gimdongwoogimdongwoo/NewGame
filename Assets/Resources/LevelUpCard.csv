@@ -1,14 +1,12 @@
 ﻿ID,Ratio,Require,Icon,Desc,Effect,Value
 ,,,,,,
-1,30,,skill_ATKup.png,공격력이 25% 강화됩니다,ATKUP,125
-,,,,,,
-,,,,,,
-,,,,,,
-2,30,,skill_ATKup.png,공격력이 30% 증가합니다,DAMAGE_UP,130
-,,,,,,
-,,,,,,
-,,,,,,
-,,,,,,
-,,,,,,
-6,12,,skill_MAGNET.png,아이템 획득 범위가 2배 증가합니다.,MAGNET,200
-7,10,7,skill_MAGNET.png,아이템 획득 범위가 2배 추가로 증가합니다.,MAGNET,200
+1,10,1,skill_ATKup.png,공격력이 25% 강화됩니다,ATKUP,125
+2,10,,skill_ATKup.png,공격력이 30% 증가합니다,DAMAGE_UP,130
+3,10,,skill_MAGNET.png,아이템 획득 범위가 2배 증가합니다.,MAGNET,200
+4,10,7,skill_MAGNET.png,아이템 획득 범위가 2배 추가로 증가합니다.,MAGNET,200
+5,10,,skill_Plus1.png,투사체는 1발 더 증가합니다.,PLUS1,
+6,10,,skill_PIERCE.png,투사체에 관통 효과가 적용됩니다.,PIERCE,
+7,10,,skill_Firering.png,주변을 빙글빙글 회전하는 불덩이 1개가 추가됩니다.,FIRERING,1
+8,10,2,skill_Firering.png,불덩이가 1개 더 늘어납니다.,FIRERING,2
+9,10,3,skill_Firering.png,불덩이가 1개 더 늘어납니다.,FIRERING,3
+10,10,4,skill_Firering.png,불덩이가 1개 더 늘어납니다.,FIRERING,4
