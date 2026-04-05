@@ -12,6 +12,12 @@ public static class LevelUpEffectService
         }
 
 
+        string effectKey = effect.Trim().ToUpperInvariant();
+        int amount = value ?? 0;
+
+
+
+
 
         string effectKey = effect.Trim().ToUpperInvariant();
 
@@ -37,6 +43,10 @@ public static class LevelUpEffectService
         FireRingController fireRingController = Object.FindFirstObjectByType<FireRingController>();
 
         ExplosionController explosionController = Object.FindFirstObjectByType<ExplosionController>();
+        ArrowController arrowController = Object.FindFirstObjectByType<ArrowController>();
+
+        ExplosionController explosionController = Object.FindFirstObjectByType<ExplosionController>();
+
 
         switch (effectKey)
         {
@@ -129,6 +139,15 @@ public static class LevelUpEffectService
                 {
                     int chancePercent = Mathf.Clamp(amount, 0, 100);
                     explosionController.Activate(chancePercent);
+                }
+                break;
+
+
+            case "ARROW":
+                if (arrowController != null)
+                {
+                    int arrowCount = amount > 0 ? amount : 1;
+                    arrowController.Activate(arrowCount);
                 }
                 break;
 
