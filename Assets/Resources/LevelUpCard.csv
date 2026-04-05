@@ -10,3 +10,6 @@
 8,10,2,skill_Firering.png,불덩이가 1개 더 늘어납니다.,FIRERING,2
 9,10,3,skill_Firering.png,불덩이가 1개 더 늘어납니다.,FIRERING,3
 10,10,4,skill_Firering.png,불덩이가 1개 더 늘어납니다.,FIRERING,4
+11,10,,skill_EXPLOSION.png,마법 피해로 사망한 적이 10% 확률로 폭발해 주변에 피해를 줍니다.,EXPLOSION,10
+12,10,5,skill_EXPLOSION.png,폭발 확률이 20%로 증가합니다.,EXPLOSION,20
+13,10,6,skill_EXPLOSION.png,폭발 확률이 30%로 증가합니다.,EXPLOSION,30
