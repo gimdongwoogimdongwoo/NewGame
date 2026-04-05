@@ -103,13 +103,15 @@ public class ExplosionEffectController : MonoBehaviour
 
 
 
-        for (int i = 0; i < spriteRenderers.Length; i++)
-        {
-            SpriteRenderer sr = spriteRenderers[i];
+            for (i = 0; i < spriteRenderers.Length; i++)
+            {
+                SpriteRenderer srs = spriteRenderers[i];
 
 
-            Color baseColor = initialColors[i];
-            sr.color = new Color(baseColor.r, baseColor.g, baseColor.b, baseColor.a * alpha);
+                Color baseColor = initialColors[i];
+                srs.color = new Color(baseColor.r, baseColor.g, baseColor.b, baseColor.a * alpha);
+            }
         }
     }
+
 }

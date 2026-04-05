@@ -13,3 +13,6 @@
 11,10,,skill_EXPLOSION.png,마법 피해로 사망한 적이 10% 확률로 폭발해 주변에 피해를 줍니다.,EXPLOSION,10
 12,10,5,skill_EXPLOSION.png,폭발 확률이 20%로 증가합니다.,EXPLOSION,20
 13,10,6,skill_EXPLOSION.png,폭발 확률이 30%로 증가합니다.,EXPLOSION,30
+14,10,7,skill_ARROW.png,유도 화살이 1개 발사됩니다.,ARROW,1
+15,10,8,skill_ARROW.png,유도 화살이 1개 더 추가됩니다.,ARROW,2
+16,10,9,skill_ARROW.png,유도 화살이 1개 더 추가됩니다.,ARROW,3
