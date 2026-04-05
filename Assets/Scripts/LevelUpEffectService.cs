@@ -12,6 +12,11 @@ public static class LevelUpEffectService
         }
 
 
+        string effectKey = effect.Trim().ToUpperInvariant();
+        int amount = value ?? 0;
+
+
+
       
         int amount = value ?? 0;
 
@@ -43,6 +48,16 @@ public static class LevelUpEffectService
 
        
 
+
+
+        PlayerHealth playerHealth = Object.FindFirstObjectByType<PlayerHealth>();
+        AutoShooter autoShooter = Object.FindFirstObjectByType<AutoShooter>();
+        PlayerMovement2D movement = Object.FindFirstObjectByType<PlayerMovement2D>();
+        PlayerStatus playerStatus = Object.FindFirstObjectByType<PlayerStatus>();
+        FireRingController fireRingController = Object.FindFirstObjectByType<FireRingController>();
+        ExplosionController explosionController = Object.FindFirstObjectByType<ExplosionController>();
+        ArrowController arrowController = Object.FindFirstObjectByType<ArrowController>();
+        AirController airController = Object.FindFirstObjectByType<AirController>();
 
         switch (effectKey)
         {
@@ -144,6 +159,15 @@ public static class LevelUpEffectService
                 {
                     int arrowCount = amount > 0 ? amount : 1;
                     arrowController.Activate(arrowCount);
+                }
+                break;
+
+
+            case "AIR":
+                if (airController != null)
+                {
+                    int airCount = amount > 0 ? amount : 1;
+                    airController.Activate(airCount);
                 }
                 break;
 

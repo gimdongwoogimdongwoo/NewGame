@@ -143,7 +143,11 @@ public class ProjectileController : MonoBehaviour
             if (explosionController != null)
             {
 
+                explosionController.TryTriggerFromProjectileKill(hitPosition, monster.LastHitFromExplosion);
+
+
                 explosionController.TryTriggerFromProjectileKill(hitPosition, monster.LastHitFromExplosion, 1);
+
             }
         }
 

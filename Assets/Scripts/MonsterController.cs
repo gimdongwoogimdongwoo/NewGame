@@ -15,6 +15,9 @@ public class MonsterController : MonoBehaviour
     private float currentHP;
     private bool lastHitFromExplosion;
 
+    private Coroutine knockbackRoutine;
+
+
     public bool IsDead => currentHP <= 0f;
     public bool LastHitFromExplosion => lastHitFromExplosion;
 
@@ -41,9 +44,55 @@ public class MonsterController : MonoBehaviour
         {
             Die();
             return true;
+
         }
 
         return false;
+    }
+
+
+    public void ApplyKnockback(Vector2 direction, float distance)
+    {
+        if (distance <= 0f || IsDead)
+        {
+            return;
+        }
+
+        Vector2 knockDirection = direction.sqrMagnitude > 0f ? direction.normalized : Vector2.zero;
+        if (knockDirection == Vector2.zero)
+        {
+            return;
+        }
+
+        if (knockbackRoutine != null)
+        {
+            StopCoroutine(knockbackRoutine);
+        }
+
+        knockbackRoutine = StartCoroutine(KnockbackRoutine(knockDirection, distance));
+    }
+
+    private System.Collections.IEnumerator KnockbackRoutine(Vector2 direction, float distance)
+    {
+        Vector3 start = transform.position;
+        Vector3 end = start + (Vector3)(direction * distance);
+        float duration = 0.12f;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+            transform.position = Vector3.Lerp(start, end, t);
+            yield return null;
+        }
+
+        knockbackRoutine = null;
+
+        }
+
+        return false;
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
