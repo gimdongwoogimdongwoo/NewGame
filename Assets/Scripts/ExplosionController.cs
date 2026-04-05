@@ -63,7 +63,7 @@ public class ExplosionController : MonoBehaviour
         explosionChancePercent = Mathf.Max(explosionChancePercent, normalized);
     }
 
-    public bool TryTriggerFromProjectileKill(Vector3 origin, bool killedByExplosionFlag)
+    public bool TryTriggerFromProjectileKill(Vector3 origin, bool killedByExplosionFlag, float roll)
     {
         if (explosionChancePercent <= 0f)
         {
@@ -85,7 +85,7 @@ public class ExplosionController : MonoBehaviour
 
     
 
-        float roll = Random.Range(0f, 100f);
+        roll = Random.Range(0f, 100f);
         if (roll > explosionChancePercent)
 
 
@@ -105,12 +105,7 @@ public class ExplosionController : MonoBehaviour
         ShowEffect(effectOrigin);
 
 
-        Vector3 effectOrigin = new Vector3(origin.x, origin.y, 0f);
-        ShowEffect(effectOrigin);
-
-
-        Vector3 effectOrigin = new Vector3(origin.x, origin.y, 0f);
-        ShowEffect(effectOrigin);
+   
 
         ShowEffect(origin);
 

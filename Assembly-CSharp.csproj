@@ -55,6 +55,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_A.cs" />
     <Compile Include="Assets\Scripts\ExplosionController.cs" />
     <Compile Include="Assets\Scripts\PlayerLocator.cs" />
+    <Compile Include="Assets\Scripts\ArrowProjectileController.cs" />
     <Compile Include="Assets\Scripts\LevelUpPanelController.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark02.cs" />
     <Compile Include="Assets\Scripts\PlayerHealth.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="Assets\Scripts\MapBoundaryController.cs" />
     <Compile Include="Assets\Scripts\AutoShooter.cs" />
     <Compile Include="Assets\Scripts\PlayerStatus.cs" />
+    <Compile Include="Assets\Scripts\ArrowController.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextMeshProFloatingText.cs" />
     <Compile Include="Assets\Scripts\PlayerExperience.cs" />
   </ItemGroup>
