@@ -29,10 +29,14 @@ public class ExplosionEffectController : MonoBehaviour
     public void Play(Vector3 worldPosition)
     {
         gameObject.SetActive(true);
+
         transform.position = new Vector3(worldPosition.x, worldPosition.y, 0f);
 
         transform.localScale = Vector3.one * 0.1f;
         ApplyAlpha(1f);
+
+        transform.position = worldPosition;
+
 
         StopAllCoroutines();
         StartCoroutine(PlayRoutine());
