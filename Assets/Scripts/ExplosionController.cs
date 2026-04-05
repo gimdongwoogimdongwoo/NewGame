@@ -63,7 +63,11 @@ public class ExplosionController : MonoBehaviour
         explosionChancePercent = Mathf.Max(explosionChancePercent, normalized);
     }
 
+
+    public bool TryTriggerFromProjectileKill(Vector3 origin, bool killedByExplosionFlag)
+
     public bool TryTriggerFromProjectileKill(Vector3 origin, bool killedByExplosionFlag, float roll)
+
     {
         if (explosionChancePercent <= 0f)
         {
@@ -74,6 +78,7 @@ public class ExplosionController : MonoBehaviour
         {
             return false;
         }
+
 
 
         float chance = explosionChancePercent / 100f;
@@ -87,6 +92,7 @@ public class ExplosionController : MonoBehaviour
 
         roll = Random.Range(0f, 100f);
         if (roll > explosionChancePercent)
+
 
 
 
@@ -105,9 +111,11 @@ public class ExplosionController : MonoBehaviour
         ShowEffect(effectOrigin);
 
 
+
    
 
         ShowEffect(origin);
+
 
 
 
@@ -119,7 +127,9 @@ public class ExplosionController : MonoBehaviour
         }
 
 
+
         Collider2D[] hits = Physics2D.OverlapCircleAll(effectOrigin, explosionRadius, affectsLayers);
+
 
 
 
