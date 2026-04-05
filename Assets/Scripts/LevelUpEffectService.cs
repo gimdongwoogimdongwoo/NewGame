@@ -1,10 +1,16 @@
-using System;
 using UnityEngine;
 
 public static class LevelUpEffectService
 {
     public static void Apply(string effect, int? value)
     {
+
+        if (string.IsNullOrWhiteSpace(effect))
+        {
+            Debug.LogWarning("LevelUpEffectService: Effect가 비어 있어 적용을 건너뜁니다.");
+            return;
+        }
+
         string effectKey = effect.Trim().ToUpperInvariant();
 
         PlayerHealth playerHealth = UnityEngine.Object.FindFirstObjectByType<PlayerHealth>();
@@ -15,7 +21,16 @@ public static class LevelUpEffectService
         FireRingController fireRingController = UnityEngine.Object.FindFirstObjectByType<FireRingController>();
 
 
+
+        string effectKey = effect.Trim().ToUpperInvariant();
         int amount = value ?? 0;
+
+        PlayerHealth playerHealth = Object.FindFirstObjectByType<PlayerHealth>();
+        AutoShooter autoShooter = Object.FindFirstObjectByType<AutoShooter>();
+        PlayerMovement2D movement = Object.FindFirstObjectByType<PlayerMovement2D>();
+        PlayerStatus playerStatus = Object.FindFirstObjectByType<PlayerStatus>();
+        FireRingController fireRingController = Object.FindFirstObjectByType<FireRingController>();
+        ExplosionController explosionController = Object.FindFirstObjectByType<ExplosionController>();
 
         switch (effectKey)
         {
@@ -44,7 +59,6 @@ public static class LevelUpEffectService
                 }
                 break;
 
-
             case "MAGNET":
                 if (playerStatus != null)
                 {
@@ -52,14 +66,12 @@ public static class LevelUpEffectService
                 }
                 break;
 
-
             case "MOVE_SPEED_UP":
                 if (movement != null)
                 {
                     movement.AddMoveSpeed(amount);
                 }
                 break;
-
 
             case "ATKUP":
                 if (playerStatus != null)
@@ -79,8 +91,6 @@ public static class LevelUpEffectService
                 if (autoShooter != null)
                 {
                     autoShooter.AddDamage(amount);
-
-
                 }
                 break;
 
