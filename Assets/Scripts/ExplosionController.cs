@@ -63,7 +63,11 @@ public class ExplosionController : MonoBehaviour
         explosionChancePercent = Mathf.Max(explosionChancePercent, normalized);
     }
 
+
     public bool TryTriggerFromProjectileKill(Vector3 origin, bool killedByExplosionFlag)
+
+    public bool TryTriggerFromProjectileKill(Vector3 origin, bool killedByExplosionFlag, float roll)
+
     {
         if (explosionChancePercent <= 0f)
         {
@@ -75,8 +79,23 @@ public class ExplosionController : MonoBehaviour
             return false;
         }
 
+
+
         float chance = explosionChancePercent / 100f;
         if (Random.value > chance)
+
+
+       
+
+
+    
+
+        roll = Random.Range(0f, 100f);
+        if (roll > explosionChancePercent)
+
+
+
+
         {
             return false;
         }
@@ -87,8 +106,19 @@ public class ExplosionController : MonoBehaviour
 
     private void TriggerExplosion(Vector3 origin)
     {
+
         Vector3 effectOrigin = new Vector3(origin.x, origin.y, 0f);
         ShowEffect(effectOrigin);
+
+
+
+   
+
+        ShowEffect(origin);
+
+
+
+
 
         float finalDamage = ResolvePlayerAttack() * (damageMultiplier / 100f);
         if (finalDamage <= 0f)
@@ -96,7 +126,14 @@ public class ExplosionController : MonoBehaviour
             return;
         }
 
+
+
         Collider2D[] hits = Physics2D.OverlapCircleAll(effectOrigin, explosionRadius, affectsLayers);
+
+
+
+
+
         HashSet<int> damagedMonsterIds = new();
 
         for (int i = 0; i < hits.Length; i++)

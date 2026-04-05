@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Collider2D))]
@@ -141,7 +142,12 @@ public class ProjectileController : MonoBehaviour
             ExplosionController explosionController = ExplosionController.FindForPlayer();
             if (explosionController != null)
             {
+
                 explosionController.TryTriggerFromProjectileKill(hitPosition, monster.LastHitFromExplosion);
+
+
+                explosionController.TryTriggerFromProjectileKill(hitPosition, monster.LastHitFromExplosion, 1);
+
             }
         }
 
