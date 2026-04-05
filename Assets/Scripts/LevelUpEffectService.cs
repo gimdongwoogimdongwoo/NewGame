@@ -11,6 +11,7 @@ public static class LevelUpEffectService
             return;
         }
 
+
         string effectKey = effect.Trim().ToUpperInvariant();
 
         PlayerHealth playerHealth = UnityEngine.Object.FindFirstObjectByType<PlayerHealth>();
@@ -23,9 +24,17 @@ public static class LevelUpEffectService
 
 
 
+
+        string effectKey = effect.Trim().ToUpperInvariant();
         int amount = value ?? 0;
 
-      
+
+        PlayerHealth playerHealth = Object.FindFirstObjectByType<PlayerHealth>();
+        AutoShooter autoShooter = Object.FindFirstObjectByType<AutoShooter>();
+        PlayerMovement2D movement = Object.FindFirstObjectByType<PlayerMovement2D>();
+        PlayerStatus playerStatus = Object.FindFirstObjectByType<PlayerStatus>();
+        FireRingController fireRingController = Object.FindFirstObjectByType<FireRingController>();
+
         ExplosionController explosionController = Object.FindFirstObjectByType<ExplosionController>();
 
         switch (effectKey)
