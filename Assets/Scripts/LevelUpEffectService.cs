@@ -12,6 +12,7 @@ public static class LevelUpEffectService
         }
 
 
+
         string effectKey = effect.Trim().ToUpperInvariant();
 
         PlayerHealth playerHealth = UnityEngine.Object.FindFirstObjectByType<PlayerHealth>();

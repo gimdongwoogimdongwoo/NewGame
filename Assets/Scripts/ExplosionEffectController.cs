@@ -32,8 +32,15 @@ public class ExplosionEffectController : MonoBehaviour
 
         transform.position = new Vector3(worldPosition.x, worldPosition.y, 0f);
 
+        CacheSpriteRenderers();
+
+
+        transform.position = new Vector3(worldPosition.x, worldPosition.y, 0f);
+
+
         transform.localScale = Vector3.one * 0.1f;
         ApplyAlpha(1f);
+
 
         transform.position = worldPosition;
 
@@ -75,9 +82,26 @@ public class ExplosionEffectController : MonoBehaviour
 
     private void ApplyAlpha(float alpha)
     {
+
+        if (spriteRenderers == null || initialColors == null)
+        {
+            return;
+        }
+
+        int count = Mathf.Min(spriteRenderers.Length, initialColors.Length);
+        for (int i = 0; i < count; i++)
+        {
+            SpriteRenderer sr = spriteRenderers[i];
+            if (sr == null)
+            {
+                continue;
+            }
+
+
         for (int i = 0; i < spriteRenderers.Length; i++)
         {
             SpriteRenderer sr = spriteRenderers[i];
+
             Color baseColor = initialColors[i];
             sr.color = new Color(baseColor.r, baseColor.g, baseColor.b, baseColor.a * alpha);
         }
