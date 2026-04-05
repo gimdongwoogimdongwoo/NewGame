@@ -1757,6 +1757,8 @@ GameObject:
   - component: {fileID: 848293928}
   - component: {fileID: 848293931}
   - component: {fileID: 848293932}
+  - component: {fileID: 848293934}
+  - component: {fileID: 848293935}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -1924,6 +1926,8 @@ MonoBehaviour:
   speed: 8
   lifeTime: 2
   scale: 0.75
+  additionalOppositeProjectileCount: 0
+  isPierceEnabled: 0
 --- !u!114 &848293928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2023,6 +2027,43 @@ MonoBehaviour:
   basePickupRadius: 2.5
   currentPickupRadius: 2.5
   pickupRadiusMultiplier: 1
+--- !u!114 &848293934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 848293921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b59329367a04e247a0cd7f938dd90d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FireRingController
+  orbitRadius: 3
+  orbitSpeed: 90
+  damageMultiplier: 1
+  fireOrbPrefab: {fileID: 2064060951520632745, guid: efaaa4f564ffee64b9e018fee7a6d738, type: 3}
+  initialOrbCount: 0
+--- !u!114 &848293935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 848293921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ba15b7838599f243971e3873aa8b040, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ExplosionController
+  explosionRadius: 0.8
+  affectsLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  damageMultiplier: 50
+  chainPrevention: 1
+  effectPrefab: {fileID: 0}
+  explosionChancePercent: 0
 --- !u!1 &856205870
 GameObject:
   m_ObjectHideFlags: 0
