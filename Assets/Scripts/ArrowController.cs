@@ -11,6 +11,19 @@ public class ArrowController : MonoBehaviour
     [SerializeField] private float speed = 8f;
     [SerializeField] private int initialArrowCount;
 
+
+    [Header("Air Settings")]
+    [SerializeField] private AirProjectileController airPrefab;
+    [SerializeField] private float knockbackDistance = 1.5f;
+    [SerializeField] private float airCoolTime = 1.5f;
+    [SerializeField] private float airSpeed = 8f;
+    [SerializeField] private int initialAirCount;
+
+    private int arrowsPerShot;
+    private int airProjectilesPerShot;
+    private float nextArrowFireTime;
+    private float nextAirFireTime;
+
     private int arrowsPerShot;
     private float nextFireTime;
 
@@ -44,29 +57,56 @@ public class ArrowController : MonoBehaviour
         {
             Activate(initialArrowCount);
         }
+
+        if (initialAirCount > 0)
+        {
+            ActivateAir(initialAirCount);
+        }
+
     }
 
     private void Update()
     {
+        if (GameplayPauseController.IsGameplayPaused)
+
         if (GameplayPauseController.IsGameplayPaused || arrowsPerShot <= 0 || arrowPrefab == null)
+
         {
             return;
         }
 
-        if (Time.time < nextFireTime)
-        {
-            return;
-        }
-
-        FireArrows();
-        nextFireTime = Time.time + coolTime;
+        TryFireArrows();
+        TryFireAirProjectiles();
     }
 
     public void Activate(int count)
     {
         int validCount = Mathf.Max(1, count);
         arrowsPerShot = Mathf.Max(arrowsPerShot, validCount);
-        nextFireTime = Time.time;
+        nextArrowFireTime = Time.time;
+    }
+
+    public void ActivateAir(int count)
+    {
+        int validCount = Mathf.Clamp(count, 1, 4);
+        airProjectilesPerShot = Mathf.Max(airProjectilesPerShot, validCount);
+        nextAirFireTime = Time.time;
+    }
+
+    private void TryFireArrows()
+    {
+        if (arrowsPerShot <= 0 || arrowPrefab == null)
+        {
+            return;
+        }
+
+        if (Time.time < nextArrowFireTime)
+        {
+            return;
+        }
+
+        FireArrows();
+        nextArrowFireTime = Time.time + coolTime;
     }
 
     private void FireArrows()
@@ -79,6 +119,33 @@ public class ArrowController : MonoBehaviour
             ArrowProjectileController arrow = Instantiate(arrowPrefab, transform.position, Quaternion.identity);
             arrow.Initialize(target, speed, damageMultiplier);
         }
+    }
+
+    private void TryFireAirProjectiles()
+    {
+        if (airProjectilesPerShot <= 0 || airPrefab == null)
+        {
+            return;
+        }
+
+        if (Time.time < nextAirFireTime)
+        {
+            return;
+        }
+
+        for (int i = 0; i < airProjectilesPerShot; i++)
+        {
+            Vector2 direction = Random.insideUnitCircle.normalized;
+            if (direction.sqrMagnitude <= 0.0001f)
+            {
+                direction = Vector2.right;
+            }
+
+            AirProjectileController projectile = Instantiate(airPrefab, transform.position, Quaternion.identity);
+            projectile.Initialize(direction, airSpeed, knockbackDistance);
+        }
+
+        nextAirFireTime = Time.time + airCoolTime;
     }
 
     private static List<MonsterController> FindNearestMonsters(Vector3 origin, int count)

@@ -14,9 +14,7 @@ public class MonsterController : MonoBehaviour
 
     private float currentHP;
     private bool lastHitFromExplosion;
-
     private Coroutine knockbackRoutine;
-
 
     public bool IsDead => currentHP <= 0f;
     public bool LastHitFromExplosion => lastHitFromExplosion;
@@ -44,7 +42,6 @@ public class MonsterController : MonoBehaviour
         {
             Die();
             return true;
-
         }
 
         return false;
@@ -88,11 +85,6 @@ public class MonsterController : MonoBehaviour
         }
 
         knockbackRoutine = null;
-
-        }
-
-        return false;
-
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

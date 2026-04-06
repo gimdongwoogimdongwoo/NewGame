@@ -29,23 +29,12 @@ public class ExplosionEffectController : MonoBehaviour
     public void Play(Vector3 worldPosition)
     {
         gameObject.SetActive(true);
-
         transform.position = new Vector3(worldPosition.x, worldPosition.y, 0f);
 
         CacheSpriteRenderers();
 
-
-        transform.position = new Vector3(worldPosition.x, worldPosition.y, 0f);
-
-
         transform.localScale = Vector3.one * 0.1f;
         ApplyAlpha(1f);
-
-
-        transform.position = worldPosition;
-
-
-
 
         StopAllCoroutines();
         StartCoroutine(PlayRoutine());
@@ -84,7 +73,6 @@ public class ExplosionEffectController : MonoBehaviour
 
     private void ApplyAlpha(float alpha)
     {
-
         if (spriteRenderers == null || initialColors == null)
         {
             return;
@@ -99,25 +87,8 @@ public class ExplosionEffectController : MonoBehaviour
                 continue;
             }
 
-
             Color baseColor = initialColors[i];
             sr.color = new Color(baseColor.r, baseColor.g, baseColor.b, baseColor.a * alpha);
         }
     }
 }
-
-
-
-            for (i = 0; i < spriteRenderers.Length; i++)
-            {
-                SpriteRenderer srs = spriteRenderers[i];
-
-
-                Color baseColor = initialColors[i];
-                srs.color = new Color(baseColor.r, baseColor.g, baseColor.b, baseColor.a * alpha);
-            }
-        }
-    }
-
-}
-
