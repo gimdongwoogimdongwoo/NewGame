@@ -4,51 +4,14 @@ public static class LevelUpEffectService
 {
     public static void Apply(string effect, int? value)
     {
-
         if (string.IsNullOrWhiteSpace(effect))
         {
             Debug.LogWarning("LevelUpEffectService: Effect가 비어 있어 적용을 건너뜁니다.");
             return;
         }
 
-
         string effectKey = effect.Trim().ToUpperInvariant();
         int amount = value ?? 0;
-
-
-
-      
-        int amount = value ?? 0;
-
-
-
-
-
-        string effectKey = effect.Trim().ToUpperInvariant();
-
-        PlayerHealth playerHealth = UnityEngine.Object.FindFirstObjectByType<PlayerHealth>();
-        AutoShooter autoShooter = UnityEngine.Object.FindFirstObjectByType<AutoShooter>();
-        PlayerMovement2D movement = UnityEngine.Object.FindFirstObjectByType<PlayerMovement2D>();
-
-        PlayerStatus playerStatus = UnityEngine.Object.FindFirstObjectByType<PlayerStatus>();
-        FireRingController fireRingController = UnityEngine.Object.FindFirstObjectByType<FireRingController>();
-
-
-
-
-
-        
-
-
-
-       
-
-        ExplosionController explosionController = Object.FindFirstObjectByType<ExplosionController>();
-        ArrowController arrowController = Object.FindFirstObjectByType<ArrowController>();
-
-       
-
-
 
         PlayerHealth playerHealth = Object.FindFirstObjectByType<PlayerHealth>();
         AutoShooter autoShooter = Object.FindFirstObjectByType<AutoShooter>();
@@ -57,7 +20,6 @@ public static class LevelUpEffectService
         FireRingController fireRingController = Object.FindFirstObjectByType<FireRingController>();
         ExplosionController explosionController = Object.FindFirstObjectByType<ExplosionController>();
         ArrowController arrowController = Object.FindFirstObjectByType<ArrowController>();
-        AirController airController = Object.FindFirstObjectByType<AirController>();
 
         switch (effectKey)
         {
@@ -136,7 +98,6 @@ public static class LevelUpEffectService
                 }
                 break;
 
-
             case "FIRERING":
                 if (fireRingController != null)
                 {
@@ -153,7 +114,6 @@ public static class LevelUpEffectService
                 }
                 break;
 
-
             case "ARROW":
                 if (arrowController != null)
                 {
@@ -162,15 +122,13 @@ public static class LevelUpEffectService
                 }
                 break;
 
-
             case "AIR":
-                if (airController != null)
+                if (arrowController != null)
                 {
                     int airCount = amount > 0 ? amount : 1;
-                    airController.Activate(airCount);
+                    arrowController.ActivateAir(airCount);
                 }
                 break;
-
 
             case "PIERCE":
                 if (autoShooter != null)

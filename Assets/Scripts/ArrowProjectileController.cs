@@ -81,9 +81,7 @@ public class ArrowProjectileController : MonoBehaviour
 
         Vector2 desired = toTarget.normalized;
         float maxRadians = turnSpeed * Mathf.Deg2Rad * Time.deltaTime;
-
         moveDirection = Vector2.RotateTowards(moveDirection, desired, maxRadians, 0f).normalized;
-
     }
 
     private void ApplyRotation(Vector2 direction)
