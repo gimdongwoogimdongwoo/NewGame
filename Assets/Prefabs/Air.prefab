@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5805538914412916850}
   - component: {fileID: 6365808172556051057}
   - component: {fileID: 6197404602512819894}
+  - component: {fileID: 287256120961603864}
   m_Layer: 0
   m_Name: Air
   m_TagString: Untagged
@@ -166,3 +167,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.66994643, y: 0.60568804}
   m_EdgeRadius: 0
+--- !u!114 &287256120961603864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4227948076299612985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ff3fd1dc9c7ba24da4648e82498fd3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AirProjectileController
+  speed: 8
+  lifeTime: 2
+  maxTravelDistance: 12
+  knockbackDistance: 1.5
