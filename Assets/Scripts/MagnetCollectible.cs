@@ -40,19 +40,24 @@ public abstract class MagnetCollectible : MonoBehaviour, IMagnetCollectible
             return;
         }
 
+        bool boostActive = MagnetBoostController.IsBoostActive;
         float pickupRadius = status != null ? status.CurrentPickupRadius : 0f;
-        if (pickupRadius <= 0f)
+        float boostAbsorbDistance = MagnetBoostController.CurrentAbsorbDistance;
+        float effectiveRadius = boostActive ? (boostAbsorbDistance > 0f ? boostAbsorbDistance : float.PositiveInfinity) : pickupRadius;
+        float effectiveSpeed = moveSpeed * (boostActive ? MagnetBoostController.CurrentSpeedMultiplier : 1f);
+
+        if (!boostActive && pickupRadius <= 0f)
         {
             return;
         }
 
         float distance = Vector2.Distance(transform.position, player.position);
-        if (distance > pickupRadius)
+        if (distance > effectiveRadius)
         {
             return;
         }
 
-        transform.position = Vector2.MoveTowards(transform.position, player.position, moveSpeed * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, player.position, effectiveSpeed * Time.deltaTime);
 
         if (Vector2.Distance(transform.position, player.position) <= collectDistance)
         {
