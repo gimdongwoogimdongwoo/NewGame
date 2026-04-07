@@ -11,7 +11,6 @@ public class ArrowController : MonoBehaviour
     [SerializeField] private float speed = 8f;
     [SerializeField] private int initialArrowCount;
 
-
     [Header("Air Settings")]
     [SerializeField] private AirProjectileController airPrefab;
     [SerializeField] private float knockbackDistance = 1.5f;
@@ -23,9 +22,6 @@ public class ArrowController : MonoBehaviour
     private int airProjectilesPerShot;
     private float nextArrowFireTime;
     private float nextAirFireTime;
-
-
-    private float nextFireTime;
 
     public ArrowProjectileController ArrowPrefab
     {
@@ -62,15 +58,11 @@ public class ArrowController : MonoBehaviour
         {
             ActivateAir(initialAirCount);
         }
-
     }
 
     private void Update()
     {
         if (GameplayPauseController.IsGameplayPaused)
-
-        if (GameplayPauseController.IsGameplayPaused || arrowsPerShot <= 0 || arrowPrefab == null)
-
         {
             return;
         }
