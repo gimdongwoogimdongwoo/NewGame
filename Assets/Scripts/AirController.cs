@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AirController : MonoBehaviour
@@ -71,7 +73,7 @@ public class AirController : MonoBehaviour
     {
         for (int i = 0; i < projectileCount; i++)
         {
-            Vector2 dir = Random.insideUnitCircle.normalized;
+            Vector2 dir = UnityEngine.Random.insideUnitCircle.normalized;
             if (dir.sqrMagnitude <= 0.0001f)
             {
                 dir = Vector2.right;

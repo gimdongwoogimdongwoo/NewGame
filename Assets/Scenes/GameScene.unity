@@ -1759,6 +1759,7 @@ GameObject:
   - component: {fileID: 848293932}
   - component: {fileID: 848293934}
   - component: {fileID: 848293935}
+  - component: {fileID: 848293936}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -2059,11 +2060,28 @@ MonoBehaviour:
   explosionRadius: 0.8
   affectsLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 128
   damageMultiplier: 50
   chainPrevention: 1
   effectPrefab: {fileID: 0}
   explosionChancePercent: 0
+--- !u!114 &848293936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 848293921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2d55b055745abd47904c9ca2b2c52d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ArrowController
+  arrowPrefab: {fileID: 5278516985650797994, guid: 761fa799f8be4c7448a9e8ea737ff5cc, type: 3}
+  damageMultiplier: 100
+  coolTime: 1.5
+  speed: 8
+  initialArrowCount: 0
 --- !u!1 &856205870
 GameObject:
   m_ObjectHideFlags: 0
