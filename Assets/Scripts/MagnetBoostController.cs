@@ -9,9 +9,12 @@ public class MagnetBoostController : MonoBehaviour
     private static MagnetBoostController activeController;
     private float boostEndTime;
     private bool isBoostActive;
+    private float currentSpeedMultiplier = 1f;
+    private float currentAbsorbDistance;
 
     public static bool IsBoostActive => activeController != null && activeController.isBoostActive;
-    public static float CurrentSpeedMultiplier => IsBoostActive ? activeController.boostSpeedMultiplier : 1f;
+    public static float CurrentSpeedMultiplier => IsBoostActive ? activeController.currentSpeedMultiplier : 1f;
+    public static float CurrentAbsorbDistance => IsBoostActive ? activeController.currentAbsorbDistance : 0f;
 
     public float BoostSpeedMultiplier
     {
@@ -59,18 +62,26 @@ public class MagnetBoostController : MonoBehaviour
         if (Time.time >= boostEndTime)
         {
             isBoostActive = false;
+            currentSpeedMultiplier = 1f;
+            currentAbsorbDistance = 0f;
         }
     }
 
     public void MagnetBoost()
     {
+        MagnetBoost(boostSpeedMultiplier, 0f);
+    }
+
+    public void MagnetBoost(float overrideSpeedMultiplier, float overrideAbsorbDistance)
+    {
         isBoostActive = true;
         boostEndTime = Time.time + boostDuration;
+        currentSpeedMultiplier = Mathf.Max(1f, overrideSpeedMultiplier);
+        currentAbsorbDistance = Mathf.Max(0f, overrideAbsorbDistance);
 
         GameObject[] collectibles = GameObject.FindGameObjectsWithTag("MagnetCollectible");
         for (int i = 0; i < collectibles.Length; i++)
         {
-            // 발동 시점의 대상 탐색 보장을 위한 루프 (실제 이동은 각 오브젝트 Update에서 처리).
             _ = collectibles[i];
         }
     }
