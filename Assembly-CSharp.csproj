@@ -54,6 +54,7 @@
     <Compile Include="Assets\Scripts\MonsterController.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_A.cs" />
     <Compile Include="Assets\Scripts\ExplosionController.cs" />
+    <Compile Include="Assets\Scripts\AirProjectileController.cs" />
     <Compile Include="Assets\Scripts\PlayerLocator.cs" />
     <Compile Include="Assets\Scripts\ArrowProjectileController.cs" />
     <Compile Include="Assets\Scripts\LevelUpPanelController.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="Assets\Scripts\StageCsvLoader.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextMeshSpawner.cs" />
+    <Compile Include="Assets\Scripts\AirController.cs" />
     <Compile Include="Assets\Scripts\GameplayPauseController.cs" />
     <Compile Include="Assets\Scripts\MonsterSpawner.cs" />
     <Compile Include="Assets\Scripts\ExpDropManager.cs" />

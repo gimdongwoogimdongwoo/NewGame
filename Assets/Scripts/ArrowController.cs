@@ -24,7 +24,7 @@ public class ArrowController : MonoBehaviour
     private float nextArrowFireTime;
     private float nextAirFireTime;
 
-    private int arrowsPerShot;
+
     private float nextFireTime;
 
     public ArrowProjectileController ArrowPrefab
