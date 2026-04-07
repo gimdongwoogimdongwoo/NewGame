@@ -42,7 +42,8 @@ public abstract class MagnetCollectible : MonoBehaviour, IMagnetCollectible
 
         bool boostActive = MagnetBoostController.IsBoostActive;
         float pickupRadius = status != null ? status.CurrentPickupRadius : 0f;
-        float effectiveRadius = boostActive ? float.PositiveInfinity : pickupRadius;
+        float boostAbsorbDistance = MagnetBoostController.CurrentAbsorbDistance;
+        float effectiveRadius = boostActive ? (boostAbsorbDistance > 0f ? boostAbsorbDistance : float.PositiveInfinity) : pickupRadius;
         float effectiveSpeed = moveSpeed * (boostActive ? MagnetBoostController.CurrentSpeedMultiplier : 1f);
 
         if (!boostActive && pickupRadius <= 0f)
