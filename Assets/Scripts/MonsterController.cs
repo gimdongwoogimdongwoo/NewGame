@@ -99,7 +99,16 @@ public class MonsterController : MonoBehaviour
 
     private void TryDamagePlayer(GameObject other)
     {
-        if (GameplayPauseController.IsGameplayPaused)
+        if (GameplayPauseController.IsGameplayPaused || TimeStopController.IsTimeStopped)
+        {
+            return;
+        }
+
+        // FireRing 오브젝트(자식 포함)와의 충돌은 플레이어 피격으로 취급하지 않는다.
+        if (other.GetComponent<FireOrbDamageDealer>() != null ||
+            other.GetComponentInParent<FireOrbDamageDealer>() != null ||
+            other.GetComponent<FireRingController>() != null ||
+            other.GetComponentInParent<FireRingController>() != null)
         {
             return;
         }
