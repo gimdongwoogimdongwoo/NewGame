@@ -43,6 +43,45 @@ public static class StageCsvLoader
         return -1;
     }
 
+
+    public static float LoadStageTimeSeconds(int stageId)
+    {
+        TextAsset stageCsv = Resources.Load<TextAsset>(StageCsvResourcePath);
+        if (stageCsv == null)
+        {
+            Debug.LogError($"{StageCsvResourcePath}.csv was not found in Resources.");
+            return 0f;
+        }
+
+        foreach (string line in EnumerateDataLines(stageCsv.text))
+        {
+            string[] cols = line.Split(',');
+            if (cols.Length < 4)
+            {
+                continue;
+            }
+
+            if (!int.TryParse(cols[0], NumberStyles.Integer, CultureInfo.InvariantCulture, out int rowStageId))
+            {
+                continue;
+            }
+
+            if (rowStageId != stageId)
+            {
+                continue;
+            }
+
+            if (!float.TryParse(cols[3], NumberStyles.Float, CultureInfo.InvariantCulture, out float timeSec))
+            {
+                return 0f;
+            }
+
+            return Mathf.Max(0f, timeSec);
+        }
+
+        return 0f;
+    }
+
     public static List<StageMonsterSpawnRule> LoadStageMonsterRules(int stageId)
     {
         var results = new List<StageMonsterSpawnRule>();
