@@ -41,7 +41,7 @@ public class MonsterSpawner : MonoBehaviour
 
     private IEnumerator RunSpawnLoop(MonsterSpawnEntry entry)
     {
-        yield return new WaitForSeconds(entry.spawnStartDelay);
+        yield return WaitForSecondsExcludingTimeStop(entry.spawnStartDelay);
 
         int spawnedTotal = 0;
         int waveIndex = 0;
@@ -78,7 +78,22 @@ public class MonsterSpawner : MonoBehaviour
             }
 
             waveIndex++;
-            yield return new WaitForSeconds(entry.waveIntervalSec);
+            yield return WaitForSecondsExcludingTimeStop(entry.waveIntervalSec);
+        }
+    }
+
+
+    private static IEnumerator WaitForSecondsExcludingTimeStop(float seconds)
+    {
+        float elapsed = 0f;
+        while (elapsed < seconds)
+        {
+            if (!TimeStopController.IsTimeStopped)
+            {
+                elapsed += Time.deltaTime;
+            }
+
+            yield return null;
         }
     }
 
