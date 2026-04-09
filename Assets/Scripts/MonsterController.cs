@@ -13,6 +13,11 @@ public class MonsterController : MonoBehaviour
     [SerializeField] private List<ExpOrbDropEntry> expOrbDrops = new();
 
     private float currentHP;
+    private bool lastHitFromExplosion;
+    private Coroutine knockbackRoutine;
+
+    public bool IsDead => currentHP <= 0f;
+    public bool LastHitFromExplosion => lastHitFromExplosion;
 
     private void Awake()
     {
@@ -21,16 +26,65 @@ public class MonsterController : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        TakeDamage(damage, false);
+    }
+
+    public bool TakeDamage(float damage, bool fromExplosion)
+    {
         if (GameplayPauseController.IsGameplayPaused || damage <= 0f || currentHP <= 0f)
         {
-            return;
+            return false;
         }
 
+        lastHitFromExplosion = fromExplosion;
         currentHP = Mathf.Max(0f, currentHP - damage);
         if (currentHP <= 0f)
         {
             Die();
+            return true;
         }
+
+        return false;
+    }
+
+
+    public void ApplyKnockback(Vector2 direction, float distance)
+    {
+        if (distance <= 0f || IsDead)
+        {
+            return;
+        }
+
+        Vector2 knockDirection = direction.sqrMagnitude > 0f ? direction.normalized : Vector2.zero;
+        if (knockDirection == Vector2.zero)
+        {
+            return;
+        }
+
+        if (knockbackRoutine != null)
+        {
+            StopCoroutine(knockbackRoutine);
+        }
+
+        knockbackRoutine = StartCoroutine(KnockbackRoutine(knockDirection, distance));
+    }
+
+    private System.Collections.IEnumerator KnockbackRoutine(Vector2 direction, float distance)
+    {
+        Vector3 start = transform.position;
+        Vector3 end = start + (Vector3)(direction * distance);
+        float duration = 0.12f;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+            transform.position = Vector3.Lerp(start, end, t);
+            yield return null;
+        }
+
+        knockbackRoutine = null;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -45,7 +99,16 @@ public class MonsterController : MonoBehaviour
 
     private void TryDamagePlayer(GameObject other)
     {
-        if (GameplayPauseController.IsGameplayPaused)
+        if (GameplayPauseController.IsGameplayPaused || TimeStopController.IsTimeStopped)
+        {
+            return;
+        }
+
+        // FireRing 오브젝트(자식 포함)와의 충돌은 플레이어 피격으로 취급하지 않는다.
+        if (other.GetComponent<FireOrbDamageDealer>() != null ||
+            other.GetComponentInParent<FireOrbDamageDealer>() != null ||
+            other.GetComponent<FireRingController>() != null ||
+            other.GetComponentInParent<FireRingController>() != null)
         {
             return;
         }
