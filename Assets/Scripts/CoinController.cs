@@ -35,15 +35,9 @@ public class CoinController : MonoBehaviour
             return;
         }
 
-        CoinWallet wallet = playerHealth.GetComponent<CoinWallet>() ?? playerHealth.GetComponentInParent<CoinWallet>();
-        if (wallet == null)
-        {
-            wallet = playerHealth.gameObject.AddComponent<CoinWallet>();
-        }
-
         if (coinValue > 0)
         {
-            wallet.AddCoins(coinValue);
+            CoinManager.Instance.AddCoins(coinValue);
         }
 
         Destroy(gameObject);
