@@ -29,7 +29,12 @@ public class CoinController : MonoBehaviour
 
     private void TryCollect(GameObject other)
     {
-        PlayerHealth playerHealth = other.GetComponent<PlayerHealth>() ?? other.GetComponentInParent<PlayerHealth>();
+        if (GameplayPauseController.IsGameplayPaused)
+        {
+            return;
+        }
+
+        PlayerHealth playerHealth = ResolvePlayerHealth(other);
         if (playerHealth == null)
         {
             return;
@@ -41,5 +46,28 @@ public class CoinController : MonoBehaviour
         }
 
         Destroy(gameObject);
+    }
+
+    private static PlayerHealth ResolvePlayerHealth(GameObject other)
+    {
+        if (other == null)
+        {
+            return null;
+        }
+
+        PlayerHealth playerHealth = other.GetComponent<PlayerHealth>() ??
+                                    other.GetComponentInParent<PlayerHealth>() ??
+                                    other.GetComponentInChildren<PlayerHealth>();
+        if (playerHealth != null)
+        {
+            return playerHealth;
+        }
+
+        if (other.CompareTag("Player"))
+        {
+            playerHealth = Object.FindFirstObjectByType<PlayerHealth>();
+        }
+
+        return playerHealth;
     }
 }
