@@ -108,19 +108,27 @@ public class ExplosionController : MonoBehaviour
             }
 
             MonsterController monster = hit.GetComponent<MonsterController>() ?? hit.GetComponentInParent<MonsterController>();
-            if (monster == null)
+            TreasureBoxController treasureBox = hit.GetComponent<TreasureBoxController>() ?? hit.GetComponentInParent<TreasureBoxController>();
+            if (monster == null && treasureBox == null)
             {
                 continue;
             }
 
-            int id = monster.GetInstanceID();
+            int id = monster != null ? monster.GetInstanceID() : treasureBox.GetInstanceID();
             if (damagedMonsterIds.Contains(id))
             {
                 continue;
             }
 
             damagedMonsterIds.Add(id);
-            monster.TakeDamage(finalDamage, chainPrevention);
+            if (monster != null)
+            {
+                monster.TakeDamage(finalDamage, chainPrevention);
+            }
+            else
+            {
+                treasureBox.TakeDamage(finalDamage);
+            }
         }
     }
 

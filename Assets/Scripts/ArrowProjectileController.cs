@@ -81,7 +81,7 @@ public class ArrowProjectileController : MonoBehaviour
 
         Vector2 desired = toTarget.normalized;
         float maxRadians = turnSpeed * Mathf.Deg2Rad * Time.deltaTime;
-        moveDirection = Vector3.RotateTowards(moveDirection, desired, maxRadians, 0f).normalized;
+        moveDirection = Vector2.RotateTowards(moveDirection, desired, maxRadians, 0f).normalized;
     }
 
     private void ApplyRotation(Vector2 direction)
@@ -108,13 +108,22 @@ public class ArrowProjectileController : MonoBehaviour
     private void TryHitMonster(GameObject hitObject)
     {
         MonsterController monster = hitObject.GetComponent<MonsterController>() ?? hitObject.GetComponentInParent<MonsterController>();
-        if (monster == null)
+        TreasureBoxController treasureBox = hitObject.GetComponent<TreasureBoxController>() ?? hitObject.GetComponentInParent<TreasureBoxController>();
+        if (monster == null && treasureBox == null)
         {
             return;
         }
 
         float finalDamage = ResolvePlayerAttack() * (damageMultiplier / 100f);
-        monster.TakeDamage(finalDamage, false);
+        if (monster != null)
+        {
+            monster.TakeDamage(finalDamage, false);
+        }
+        else
+        {
+            treasureBox.TakeDamage(finalDamage);
+        }
+
         Destroy(gameObject);
     }
 
