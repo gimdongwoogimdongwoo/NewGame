@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 5321490803939569191}
   - component: {fileID: 1878335069983657191}
   - component: {fileID: 6019326523631570836}
-  - component: {fileID: 5753784670884437572}
   - component: {fileID: 5347954488241995704}
+  - component: {fileID: -1967216412976951935}
   m_Layer: 7
   m_Name: TreasureBox
   m_TagString: Untagged
@@ -121,8 +121,30 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!58 &5753784670884437572
-CircleCollider2D:
+--- !u!114 &5347954488241995704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3780568932708443226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a4acb654b20e4c44937c6968d73b22a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TreasureBoxController
+  maxHP: 10
+  drops:
+  - prefab: {fileID: 6221331902173822143, guid: f483a6b112dc80249a3d3d67bb0054d3, type: 3}
+    chance: 20
+  - prefab: {fileID: 7579319779515377971, guid: 771f68c0aab262b41b329cf184389e12, type: 3}
+    chance: 40
+  - prefab: {fileID: 4359157924973528512, guid: 231e9dc8ab45e4b49ae44bda6ffec1b6, type: 3}
+    chance: 20
+  - prefab: {fileID: 5190861998488135203, guid: 5255cc8c57855e142b30812ad86830b3, type: 3}
+    chance: 20
+--- !u!61 &-1967216412976951935
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -155,27 +177,15 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.0021674633, y: 0.017338753}
-  m_Radius: 0.35912204
---- !u!114 &5347954488241995704
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3780568932708443226}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a4acb654b20e4c44937c6968d73b22a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TreasureBoxController
-  maxHP: 10
-  drops:
-  - prefab: {fileID: 6221331902173822143, guid: f483a6b112dc80249a3d3d67bb0054d3, type: 3}
-    chance: 20
-  - prefab: {fileID: 7579319779515377971, guid: 771f68c0aab262b41b329cf184389e12, type: 3}
-    chance: 40
-  - prefab: {fileID: 4359157924973528512, guid: 231e9dc8ab45e4b49ae44bda6ffec1b6, type: 3}
-    chance: 20
-  - prefab: {fileID: 5190861998488135203, guid: 5255cc8c57855e142b30812ad86830b3, type: 3}
-    chance: 20
+  m_Offset: {x: -0.008626819, y: 0.023005188}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.6721754, y: 0.4996363}
+  m_EdgeRadius: 0
