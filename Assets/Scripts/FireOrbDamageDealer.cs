@@ -51,12 +51,13 @@ public class FireOrbDamageDealer : MonoBehaviour
         }
 
         MonsterController monster = target.GetComponent<MonsterController>() ?? target.GetComponentInParent<MonsterController>();
-        if (monster == null)
+        TreasureBoxController treasureBox = target.GetComponent<TreasureBoxController>() ?? target.GetComponentInParent<TreasureBoxController>();
+        if (monster == null && treasureBox == null)
         {
             return;
         }
 
-        int targetId = monster.GetInstanceID();
+        int targetId = monster != null ? monster.GetInstanceID() : treasureBox.GetInstanceID();
         float now = Time.time;
         if (nextDamageTimeByTarget.TryGetValue(targetId, out float nextTime) && now < nextTime)
         {
@@ -69,7 +70,15 @@ public class FireOrbDamageDealer : MonoBehaviour
             return;
         }
 
-        monster.TakeDamage(finalDamage);
+        if (monster != null)
+        {
+            monster.TakeDamage(finalDamage);
+        }
+        else
+        {
+            treasureBox.TakeDamage(finalDamage);
+        }
+
         nextDamageTimeByTarget[targetId] = now + hitCooldown;
     }
 

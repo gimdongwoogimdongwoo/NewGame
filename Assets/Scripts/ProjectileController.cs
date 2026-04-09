@@ -120,14 +120,16 @@ public class ProjectileController : MonoBehaviour
         }
 
         MonsterController monster = target.GetComponent<MonsterController>() ?? target.GetComponentInParent<MonsterController>();
-        if (monster == null)
+        TreasureBoxController treasureBox = target.GetComponent<TreasureBoxController>() ?? target.GetComponentInParent<TreasureBoxController>();
+        if (monster == null && treasureBox == null)
         {
             return;
         }
 
         float currentAttack = ResolvePlayerAttack();
         float finalDamage = currentAttack * Mathf.Max(0f, damageMultiplier);
-        int targetId = monster.GetInstanceID();
+
+        int targetId = monster != null ? monster.GetInstanceID() : treasureBox.GetInstanceID();
         if (hitTargetIds.Contains(targetId))
         {
             return;
@@ -135,15 +137,22 @@ public class ProjectileController : MonoBehaviour
 
         hitTargetIds.Add(targetId);
 
-        Vector3 hitPosition = monster.transform.position;
-        bool killed = monster.TakeDamage(finalDamage, false);
-        if (killed)
+        if (monster != null)
         {
-            ExplosionController explosionController = ExplosionController.FindForPlayer();
-            if (explosionController != null)
+            Vector3 hitPosition = monster.transform.position;
+            bool killed = monster.TakeDamage(finalDamage, false);
+            if (killed)
             {
-                explosionController.TryTriggerFromProjectileKill(hitPosition, monster.LastHitFromExplosion);
+                ExplosionController explosionController = ExplosionController.FindForPlayer();
+                if (explosionController != null)
+                {
+                    explosionController.TryTriggerFromProjectileKill(hitPosition, monster.LastHitFromExplosion);
+                }
             }
+        }
+        else
+        {
+            treasureBox.TakeDamage(finalDamage);
         }
 
         if (!canPierce)
