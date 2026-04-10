@@ -82,6 +82,7 @@
     <Compile Include="Assets\Scripts\ExpBarController.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextInfoDebugTool.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeA.cs" />
+    <Compile Include="Assets\Scripts\GameResultManager.cs" />
     <Compile Include="Assets\Scripts\TreasureBoxSpawnManager.cs" />
     <Compile Include="Assets\Scripts\ExplosionEffectController.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
