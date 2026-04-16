@@ -89,6 +89,7 @@ public class StageSurvivalTimerController : MonoBehaviour
         }
 
         isFinished = true;
+        GameplayPauseController.PauseForGameResult();
         onStageSuccess?.Invoke();
         Debug.Log("Stage Success");
     }
@@ -101,6 +102,7 @@ public class StageSurvivalTimerController : MonoBehaviour
         }
 
         isFinished = true;
+        GameplayPauseController.PauseForGameResult();
         onStageFail?.Invoke();
         Debug.Log("Stage Fail");
     }
