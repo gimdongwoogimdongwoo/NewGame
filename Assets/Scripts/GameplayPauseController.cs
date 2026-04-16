@@ -6,6 +6,7 @@ public class GameplayPauseController : MonoBehaviour
     private static bool isPausedByGameResult;
 
     public static bool IsGameplayPaused => isPausedByLevelUp || isPausedByGameResult;
+    public static bool IsGameResultPaused => isPausedByGameResult;
 
     public static void PauseForLevelUp()
     {
