@@ -30,6 +30,7 @@ public class ExplosionEffectController : MonoBehaviour
     {
         gameObject.SetActive(true);
         transform.position = new Vector3(worldPosition.x, worldPosition.y, 0f);
+        SkillSfxPlayer.PlayExplosionBoom();
 
         CacheSpriteRenderers();
 
