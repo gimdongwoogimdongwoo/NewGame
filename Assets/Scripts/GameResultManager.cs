@@ -89,6 +89,15 @@ public class GameResultManager : MonoBehaviour
         {
             fail.gameObject.SetActive(!successVisible);
         }
+
+        if (successVisible)
+        {
+            GameResultSfxPlayer.PlayWin();
+        }
+        else
+        {
+            GameResultSfxPlayer.PlayFail();
+        }
     }
 
     private void HandleHomeClicked()
