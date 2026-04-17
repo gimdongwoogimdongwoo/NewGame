@@ -5,6 +5,13 @@ using UnityEngine.SceneManagement;
 public class StageCardSceneLoader : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] private string sceneName;
+    private static bool isSceneLoading;
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+    private static void ResetLoadGuard()
+    {
+        isSceneLoading = false;
+    }
 
     public void SetSceneName(string nextSceneName)
     {
@@ -18,11 +25,12 @@ public class StageCardSceneLoader : MonoBehaviour, IPointerClickHandler
 
     public static void LoadSceneSafe(string targetSceneName)
     {
-        if (string.IsNullOrWhiteSpace(targetSceneName))
+        if (isSceneLoading || string.IsNullOrWhiteSpace(targetSceneName))
         {
             return;
         }
 
+        isSceneLoading = true;
         SceneManager.LoadScene(targetSceneName);
     }
 }
