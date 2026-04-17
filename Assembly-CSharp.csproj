@@ -55,6 +55,7 @@
     <Compile Include="Assets\Scripts\MonsterController.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_A.cs" />
     <Compile Include="Assets\Scripts\ExplosionController.cs" />
+    <Compile Include="Assets\Scripts\SkillSfxPlayer.cs" />
     <Compile Include="Assets\Scripts\AirProjectileController.cs" />
     <Compile Include="Assets\Scripts\PlayerLocator.cs" />
     <Compile Include="Assets\Scripts\ArrowProjectileController.cs" />
@@ -113,6 +114,7 @@
     <Compile Include="Assets\Scripts\PlayerMovement2D.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ObjectSpin.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_PhoneNumberValidator.cs" />
+    <Compile Include="Assets\Scripts\GameResultSfxPlayer.cs" />
     <Compile Include="Assets\Scripts\ExperienceOrbSfxPlayer.cs" />
     <Compile Include="Assets\Scripts\FollowCamera.cs" />
     <Compile Include="Assets\Scripts\FireOrbDamageDealer.cs" />
