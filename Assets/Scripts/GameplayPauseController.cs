@@ -3,28 +3,37 @@ using UnityEngine;
 public class GameplayPauseController : MonoBehaviour
 {
     private static bool isPausedByLevelUp;
+    private static bool isPausedByGameResult;
 
-    public static bool IsGameplayPaused => isPausedByLevelUp;
+    public static bool IsGameplayPaused => isPausedByLevelUp || isPausedByGameResult;
+    public static bool IsGameResultPaused => isPausedByGameResult;
 
     public static void PauseForLevelUp()
     {
-        if (isPausedByLevelUp)
-        {
-            return;
-        }
-
         isPausedByLevelUp = true;
-        Time.timeScale = 0f;
+        RefreshTimeScale();
     }
 
     public static void ResumeFromLevelUp()
     {
-        if (!isPausedByLevelUp)
-        {
-            return;
-        }
-
         isPausedByLevelUp = false;
-        Time.timeScale = 1f;
+        RefreshTimeScale();
+    }
+
+    public static void PauseForGameResult()
+    {
+        isPausedByGameResult = true;
+        RefreshTimeScale();
+    }
+
+    public static void ClearGameResultPause()
+    {
+        isPausedByGameResult = false;
+        RefreshTimeScale();
+    }
+
+    private static void RefreshTimeScale()
+    {
+        Time.timeScale = IsGameplayPaused ? 0f : 1f;
     }
 }
