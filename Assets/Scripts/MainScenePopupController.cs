@@ -52,36 +52,40 @@ public class MainScenePopupController : MonoBehaviour
 
     private void ResolveReferences()
     {
-        popupPanel = popupPanel != null ? popupPanel : FindByName("Popup_Panel");
-        popupStage = popupStage != null ? popupStage : FindByName("Popup_Stage");
-        popupUpgrade = popupUpgrade != null ? popupUpgrade : FindByName("Popup_Upgrade");
-        popupAchievement = popupAchievement != null ? popupAchievement : FindByName("Popup_Achivement");
+        popupPanel = popupPanel != null ? popupPanel : FindByAnyName("Popup_Panel");
+        popupStage = popupStage != null ? popupStage : FindByAnyName("Popup_Stage", "PopupStage");
+        popupUpgrade = popupUpgrade != null ? popupUpgrade : FindByAnyName("Popup_Upgrade", "PopupUpgrade");
+        popupAchievement = popupAchievement != null ? popupAchievement : FindByAnyName("Popup_Achivement", "Popup_Achievement", "PopupAchievement");
 
-        btnGameStart = btnGameStart != null ? btnGameStart : FindButton("BTN_GameStart");
-        btnUpgrade = btnUpgrade != null ? btnUpgrade : FindButton("BTN_Upgrade");
-        btnAchievement = btnAchievement != null ? btnAchievement : FindButton("BTN_Achivement");
-        btnExit = btnExit != null ? btnExit : FindButton("BTN_Exit");
+        btnGameStart = btnGameStart != null ? btnGameStart : FindButtonAny("BTN_GameStart", "Btn_GameStart", "GameStart");
+        btnUpgrade = btnUpgrade != null ? btnUpgrade : FindButtonAny("BTN_Upgrade", "Btn_Upgrade", "Upgrade");
+        btnAchievement = btnAchievement != null ? btnAchievement : FindButtonAny("BTN_Achivement", "BTN_Achievement", "Btn_Achievement", "Achievement");
+        btnExit = btnExit != null ? btnExit : FindButtonAny("BTN_Exit", "Btn_Exit", "Exit");
     }
 
     private void BindMainButtons()
     {
         if (btnGameStart != null)
         {
+            btnGameStart.onClick.RemoveListener(OpenStagePopup);
             btnGameStart.onClick.AddListener(OpenStagePopup);
         }
 
         if (btnUpgrade != null)
         {
+            btnUpgrade.onClick.RemoveListener(OpenUpgradePopup);
             btnUpgrade.onClick.AddListener(OpenUpgradePopup);
         }
 
         if (btnAchievement != null)
         {
+            btnAchievement.onClick.RemoveListener(OpenAchievementPopup);
             btnAchievement.onClick.AddListener(OpenAchievementPopup);
         }
 
         if (btnExit != null)
         {
+            btnExit.onClick.RemoveListener(HandleExitClicked);
             btnExit.onClick.AddListener(HandleExitClicked);
         }
 
@@ -162,12 +166,10 @@ public class MainScenePopupController : MonoBehaviour
 
     private void OpenOnly(GameObject targetPopup)
     {
-        if (popupPanel == null)
+        if (popupPanel != null)
         {
-            return;
+            popupPanel.SetActive(true);
         }
-
-        popupPanel.SetActive(true);
 
         if (popupStage != null) popupStage.SetActive(popupStage == targetPopup);
         if (popupUpgrade != null) popupUpgrade.SetActive(popupUpgrade == targetPopup);
@@ -196,9 +198,57 @@ public class MainScenePopupController : MonoBehaviour
         return string.IsNullOrWhiteSpace(objectName) ? null : GameObject.Find(objectName);
     }
 
+    private static GameObject FindByAnyName(params string[] names)
+    {
+        for (int i = 0; i < names.Length; i++)
+        {
+            GameObject found = FindByName(names[i]);
+            if (found != null)
+            {
+                return found;
+            }
+        }
+
+        return null;
+    }
+
     private static Button FindButton(string objectName)
     {
         GameObject go = FindByName(objectName);
         return go != null ? go.GetComponent<Button>() : null;
+    }
+
+    private static Button FindButtonAny(params string[] names)
+    {
+        for (int i = 0; i < names.Length; i++)
+        {
+            Button found = FindButton(names[i]);
+            if (found != null)
+            {
+                return found;
+            }
+        }
+
+        Button[] allButtons = FindObjectsByType<Button>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        for (int i = 0; i < allButtons.Length; i++)
+        {
+            Button candidate = allButtons[i];
+            if (candidate == null)
+            {
+                continue;
+            }
+
+            string name = candidate.gameObject.name;
+            for (int j = 0; j < names.Length; j++)
+            {
+                if (!string.IsNullOrWhiteSpace(names[j]) &&
+                    name.IndexOf(names[j], System.StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    return candidate;
+                }
+            }
+        }
+
+        return null;
     }
 }
