@@ -64,6 +64,7 @@
     <Compile Include="Assets\Scripts\CoinManager.cs" />
     <Compile Include="Assets\Scripts\PlayerHealth.cs" />
     <Compile Include="Assets\Scripts\LevelUpSfxPlayer.cs" />
+    <Compile Include="Assets\Scripts\MainSceneStageCardListController.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_ExampleScript_01.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMPro_InstructionOverlay.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeB.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="Assets\Scripts\GameResultSfxPlayer.cs" />
     <Compile Include="Assets\Scripts\ExperienceOrbSfxPlayer.cs" />
     <Compile Include="Assets\Scripts\FollowCamera.cs" />
+    <Compile Include="Assets\Scripts\MainScenePopupController.cs" />
     <Compile Include="Assets\Scripts\FireOrbDamageDealer.cs" />
     <Compile Include="Assets\Scripts\ExpOrbController.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextConsoleSimulator.cs" />

@@ -111,38 +111,7 @@ public static class StageCsvLoader
         return string.Empty;
     }
 
-    public static string LoadStageBgmName(int stageId)
-    {
-        TextAsset stageCsv = Resources.Load<TextAsset>(StageCsvResourcePath);
-        if (stageCsv == null)
-        {
-            Debug.LogError($"{StageCsvResourcePath}.csv was not found in Resources.");
-            return string.Empty;
-        }
-
-        foreach (string line in EnumerateDataLines(stageCsv.text))
-        {
-            string[] cols = line.Split(',');
-            if (cols.Length < 5)
-            {
-                continue;
-            }
-
-            if (!int.TryParse(cols[0], NumberStyles.Integer, CultureInfo.InvariantCulture, out int rowStageId))
-            {
-                continue;
-            }
-
-            if (rowStageId != stageId)
-            {
-                continue;
-            }
-
-            return cols[4].Trim();
-        }
-
-        return string.Empty;
-    }
+    
 
     public static List<StageMonsterSpawnRule> LoadStageMonsterRules(int stageId)
     {
