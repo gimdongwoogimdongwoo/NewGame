@@ -144,27 +144,21 @@ public class MainSceneStageCardListController : MonoBehaviour
             }
         }
 
+        StageCardSceneLoader sceneLoader = card.GetComponent<StageCardSceneLoader>();
+        if (sceneLoader == null)
+        {
+            sceneLoader = card.AddComponent<StageCardSceneLoader>();
+        }
+
+        sceneLoader.SetSceneName(stage.SceneName);
+
         Button[] buttons = card.GetComponentsInChildren<Button>(true);
-        if (buttons.Length > 0)
+        for (int i = 0; i < buttons.Length; i++)
         {
+            Button button = buttons[i];
             string sceneName = stage.SceneName;
-            for (int i = 0; i < buttons.Length; i++)
-            {
-                Button button = buttons[i];
-                button.onClick.RemoveAllListeners();
-                button.onClick.AddListener(() => LoadStageScene(sceneName));
-            }
+            button.onClick.AddListener(() => StageCardSceneLoader.LoadSceneSafe(sceneName));
         }
-    }
-
-    private static void LoadStageScene(string sceneName)
-    {
-        if (string.IsNullOrWhiteSpace(sceneName))
-        {
-            return;
-        }
-
-        SceneManager.LoadScene(sceneName);
     }
 
     private static void EnsureScrollableLayout(GameObject panel)
