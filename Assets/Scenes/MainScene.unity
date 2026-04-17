@@ -2026,7 +2026,8 @@ MonoBehaviour:
   stageCardPrefab: {fileID: 47995204}
   stageImageObjectName: StageImage
   stageTitleObjectName: StageTitle
-  clearExistingChildren: 1
+  clearExistingChildren: 0
+  templateCardName: StageCard
 --- !u!114 &1467294419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2956,6 +2957,10 @@ PrefabInstance:
     - target: {fileID: 3447297341461842839, guid: 104b04b63364ff14aad8cf46b5cdd6e0, type: 3}
       propertyPath: m_Name
       value: StageCard
+      objectReference: {fileID: 0}
+    - target: {fileID: 3447297341461842839, guid: 104b04b63364ff14aad8cf46b5cdd6e0, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6244684550148161679, guid: 104b04b63364ff14aad8cf46b5cdd6e0, type: 3}
       propertyPath: m_Pivot.x
