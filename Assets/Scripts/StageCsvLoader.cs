@@ -10,32 +10,71 @@ public static class StageCsvLoader
     private const string StageCsvResourcePath = "Stage";
     private const string StageMonsterCsvResourcePath = "StageMonster";
 
-    public static int ResolveCurrentStageId()
+    public static List<StageRow> LoadAllStages()
     {
+        List<StageRow> stages = new();
+
         TextAsset stageCsv = Resources.Load<TextAsset>(StageCsvResourcePath);
         if (stageCsv == null)
         {
             Debug.LogError($"{StageCsvResourcePath}.csv was not found in Resources.");
-            return -1;
+            return stages;
         }
 
-        string sceneName = SceneManager.GetActiveScene().name;
-        foreach (string line in EnumerateDataLines(stageCsv.text))
+        string[] rawLines = stageCsv.text.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+        if (rawLines.Length <= 1)
         {
+            return stages;
+        }
+
+        Dictionary<string, int> header = BuildHeaderMap(rawLines[0]);
+
+        for (int i = 1; i < rawLines.Length; i++)
+        {
+            string line = rawLines[i].Trim();
+            if (line.Length == 0 || line.StartsWith("#"))
+            {
+                continue;
+            }
+
             string[] cols = line.Split(',');
-            if (cols.Length < 2)
+
+            if (!TryReadInt(cols, header, "StageId", fallbackIndex: 0, out int stageId))
             {
                 continue;
             }
 
-            if (!int.TryParse(cols[0], NumberStyles.Integer, CultureInfo.InvariantCulture, out int stageId))
+            string sceneName = ReadString(cols, header, "SceneName", fallbackIndex: 1);
+            if (string.IsNullOrWhiteSpace(sceneName))
             {
                 continue;
             }
 
-            if (string.Equals(cols[1].Trim(), sceneName, StringComparison.OrdinalIgnoreCase))
+            stages.Add(new StageRow
             {
-                return stageId;
+                StageId = stageId,
+                SceneName = sceneName,
+                StageName = ReadString(cols, header, "StageName", fallbackIndex: 2),
+                Time = TryReadFloat(cols, header, "Time", fallbackIndex: 3, out float timeSec)
+                    ? Mathf.Max(0f, timeSec)
+                    : 0f,
+                Bgm = ReadString(cols, header, "BGM", fallbackIndex: 4),
+                StageImage = ReadString(cols, header, "StageImage", fallbackIndex: 5)
+            });
+        }
+
+        return stages;
+    }
+
+    public static int ResolveCurrentStageId()
+    {
+        string sceneName = SceneManager.GetActiveScene().name;
+        List<StageRow> stages = LoadAllStages();
+        for (int i = 0; i < stages.Count; i++)
+        {
+            if (string.Equals(stages[i].SceneName, sceneName, StringComparison.OrdinalIgnoreCase))
+            {
+                return stages[i].StageId;
             }
         }
 
@@ -46,40 +85,30 @@ public static class StageCsvLoader
 
     public static float LoadStageTimeSeconds(int stageId)
     {
-        TextAsset stageCsv = Resources.Load<TextAsset>(StageCsvResourcePath);
-        if (stageCsv == null)
+        List<StageRow> stages = LoadAllStages();
+        for (int i = 0; i < stages.Count; i++)
         {
-            Debug.LogError($"{StageCsvResourcePath}.csv was not found in Resources.");
-            return 0f;
-        }
-
-        foreach (string line in EnumerateDataLines(stageCsv.text))
-        {
-            string[] cols = line.Split(',');
-            if (cols.Length < 4)
+            if (stages[i].StageId == stageId)
             {
-                continue;
+                return stages[i].Time;
             }
-
-            if (!int.TryParse(cols[0], NumberStyles.Integer, CultureInfo.InvariantCulture, out int rowStageId))
-            {
-                continue;
-            }
-
-            if (rowStageId != stageId)
-            {
-                continue;
-            }
-
-            if (!float.TryParse(cols[3], NumberStyles.Float, CultureInfo.InvariantCulture, out float timeSec))
-            {
-                return 0f;
-            }
-
-            return Mathf.Max(0f, timeSec);
         }
 
         return 0f;
+    }
+
+    public static string LoadStageBgmName(int stageId)
+    {
+        List<StageRow> stages = LoadAllStages();
+        for (int i = 0; i < stages.Count; i++)
+        {
+            if (stages[i].StageId == stageId)
+            {
+                return stages[i].Bgm;
+            }
+        }
+
+        return string.Empty;
     }
 
     public static List<StageMonsterSpawnRule> LoadStageMonsterRules(int stageId)
@@ -151,6 +180,55 @@ public static class StageCsvLoader
         string[] rawLines = csvText.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
         return rawLines.Skip(1).Select(line => line.Trim()).Where(line => line.Length > 0 && !line.StartsWith("#"));
     }
+
+    private static Dictionary<string, int> BuildHeaderMap(string headerLine)
+    {
+        Dictionary<string, int> map = new(StringComparer.OrdinalIgnoreCase);
+        string[] cols = headerLine.Split(',');
+        for (int i = 0; i < cols.Length; i++)
+        {
+            string key = cols[i].Trim();
+            if (!string.IsNullOrWhiteSpace(key) && !map.ContainsKey(key))
+            {
+                map.Add(key, i);
+            }
+        }
+
+        return map;
+    }
+
+    private static string ReadString(string[] cols, Dictionary<string, int> header, string key, int fallbackIndex)
+    {
+        int idx = ResolveColumnIndex(header, key, fallbackIndex);
+        if (idx < 0 || idx >= cols.Length)
+        {
+            return string.Empty;
+        }
+
+        return cols[idx].Trim();
+    }
+
+    private static bool TryReadInt(string[] cols, Dictionary<string, int> header, string key, int fallbackIndex, out int value)
+    {
+        string str = ReadString(cols, header, key, fallbackIndex);
+        return int.TryParse(str, NumberStyles.Integer, CultureInfo.InvariantCulture, out value);
+    }
+
+    private static bool TryReadFloat(string[] cols, Dictionary<string, int> header, string key, int fallbackIndex, out float value)
+    {
+        string str = ReadString(cols, header, key, fallbackIndex);
+        return float.TryParse(str, NumberStyles.Float, CultureInfo.InvariantCulture, out value);
+    }
+
+    private static int ResolveColumnIndex(Dictionary<string, int> header, string key, int fallbackIndex)
+    {
+        if (header != null && header.TryGetValue(key, out int idx))
+        {
+            return idx;
+        }
+
+        return fallbackIndex;
+    }
 }
 
 [Serializable]
@@ -165,4 +243,15 @@ public struct StageMonsterSpawnRule
     public int WaveSizeMax;
     public int TotalBudget;
     public int MaxAliveCap;
+}
+
+[Serializable]
+public struct StageRow
+{
+    public int StageId;
+    public string SceneName;
+    public string StageName;
+    public float Time;
+    public string Bgm;
+    public string StageImage;
 }

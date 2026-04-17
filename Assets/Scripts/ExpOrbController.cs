@@ -24,6 +24,8 @@ public class ExpOrbController : MagnetCollectible
 
     protected override void OnCollected(Transform player)
     {
+        ExperienceOrbSfxPlayer.PlayPop();
+
         ExpDropManager manager = ExpDropManager.Instance;
         if (manager != null)
         {

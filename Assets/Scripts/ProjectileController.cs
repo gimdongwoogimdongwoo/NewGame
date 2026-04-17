@@ -6,6 +6,8 @@ using System.Runtime.CompilerServices;
 [RequireComponent(typeof(Collider2D))]
 public class ProjectileController : MonoBehaviour
 {
+    private static int cachedMonsterLayer = int.MinValue;
+
     [Header("Projectile Stats")]
     [SerializeField] private float damageMultiplier = 1f;
     [SerializeField] private float speed = 8f;
@@ -139,6 +141,11 @@ public class ProjectileController : MonoBehaviour
 
         if (monster != null)
         {
+            if (IsMonsterLayerHit(monster.gameObject))
+            {
+                SkillSfxPlayer.PlayProjectileHit();
+            }
+
             Vector3 hitPosition = monster.transform.position;
             bool killed = monster.TakeDamage(finalDamage, false);
             if (killed)
@@ -159,5 +166,20 @@ public class ProjectileController : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    private static bool IsMonsterLayerHit(GameObject target)
+    {
+        if (target == null)
+        {
+            return false;
+        }
+
+        if (cachedMonsterLayer == int.MinValue)
+        {
+            cachedMonsterLayer = LayerMask.NameToLayer("Monster");
+        }
+
+        return cachedMonsterLayer >= 0 ? target.layer == cachedMonsterLayer : true;
     }
 }
