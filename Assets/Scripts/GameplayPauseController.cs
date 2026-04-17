@@ -8,6 +8,14 @@ public class GameplayPauseController : MonoBehaviour
     public static bool IsGameplayPaused => isPausedByLevelUp || isPausedByGameResult;
     public static bool IsGameResultPaused => isPausedByGameResult;
 
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+    private static void ResetPauseStateAfterSceneLoad()
+    {
+        isPausedByLevelUp = false;
+        isPausedByGameResult = false;
+        Time.timeScale = 1f;
+    }
+
     public static void PauseForLevelUp()
     {
         isPausedByLevelUp = true;

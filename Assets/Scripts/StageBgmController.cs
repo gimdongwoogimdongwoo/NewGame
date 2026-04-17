@@ -44,16 +44,22 @@ public class StageBgmController : MonoBehaviour
         }
 
         string bgmName = StageCsvLoader.LoadStageBgmName(stageId);
-        if (string.IsNullOrWhiteSpace(bgmName))
-        {
-            return;
-        }
-
-        AudioClip clip = Resources.Load<AudioClip>($"{BgmResourceRoot}/{bgmName}");
+        AudioClip clip = string.IsNullOrWhiteSpace(bgmName)
+            ? null
+            : Resources.Load<AudioClip>($"{BgmResourceRoot}/{bgmName}");
         if (clip == null)
         {
-            Debug.LogWarning($"BGM clip not found at Resources/{BgmResourceRoot}/{bgmName}");
-            return;
+            AudioClip[] candidates = Resources.LoadAll<AudioClip>(BgmResourceRoot);
+            if (candidates != null && candidates.Length > 0)
+            {
+                clip = candidates[0];
+                Debug.LogWarning($"BGM '{bgmName}' 을(를) 찾지 못해 '{clip.name}' 을(를) 대체 재생합니다.");
+            }
+            else
+            {
+                Debug.LogWarning($"BGM clip not found at Resources/{BgmResourceRoot}/{bgmName}");
+                return;
+            }
         }
 
         audioSource.clip = clip;
