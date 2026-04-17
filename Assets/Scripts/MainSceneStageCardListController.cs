@@ -11,6 +11,7 @@ public class MainSceneStageCardListController : MonoBehaviour
     [SerializeField] private string stageImageObjectName = "StageImage";
     [SerializeField] private string stageTitleObjectName = "StageTitle";
     [SerializeField] private bool clearExistingChildren = true;
+    [SerializeField] private string templateCardName = "StageCard";
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     private static void Bootstrap()
@@ -45,6 +46,20 @@ public class MainSceneStageCardListController : MonoBehaviour
                 stageCardPanel = found.transform;
             }
         }
+
+        if (stageCardPrefab == null && stageCardPanel != null)
+        {
+            Transform template = stageCardPanel.Find(templateCardName);
+            if (template == null && stageCardPanel.childCount > 0)
+            {
+                template = stageCardPanel.GetChild(0);
+            }
+
+            if (template != null)
+            {
+                stageCardPrefab = template.gameObject;
+            }
+        }
     }
 
     private void BuildStageCards()
@@ -56,11 +71,20 @@ public class MainSceneStageCardListController : MonoBehaviour
 
         EnsureScrollableLayout(stageCardPanel.gameObject);
 
+        Transform templateCard = stageCardPrefab != null ? stageCardPrefab.transform : null;
+        bool templateFromPanel = templateCard != null && templateCard.parent == stageCardPanel;
+
         if (clearExistingChildren)
         {
             for (int i = stageCardPanel.childCount - 1; i >= 0; i--)
             {
-                Destroy(stageCardPanel.GetChild(i).gameObject);
+                Transform child = stageCardPanel.GetChild(i);
+                if (templateFromPanel && child == templateCard)
+                {
+                    continue;
+                }
+
+                Destroy(child.gameObject);
             }
         }
 
@@ -69,7 +93,13 @@ public class MainSceneStageCardListController : MonoBehaviour
         {
             StageRow stage = stages[i];
             GameObject card = Instantiate(stageCardPrefab, stageCardPanel);
+            card.SetActive(true);
             BindStageCard(card, stage);
+        }
+
+        if (templateFromPanel)
+        {
+            templateCard.gameObject.SetActive(false);
         }
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(stageCardPanel as RectTransform);
@@ -114,11 +144,16 @@ public class MainSceneStageCardListController : MonoBehaviour
             }
         }
 
-        Button button = card.GetComponent<Button>() ?? card.GetComponentInChildren<Button>(true);
-        if (button != null)
+        Button[] buttons = card.GetComponentsInChildren<Button>(true);
+        if (buttons.Length > 0)
         {
             string sceneName = stage.SceneName;
-            button.onClick.AddListener(() => LoadStageScene(sceneName));
+            for (int i = 0; i < buttons.Length; i++)
+            {
+                Button button = buttons[i];
+                button.onClick.RemoveAllListeners();
+                button.onClick.AddListener(() => LoadStageScene(sceneName));
+            }
         }
     }
 
