@@ -113,6 +113,7 @@ public class LevelUpPanelController : MonoBehaviour
 
         DrawCardsForCurrentPanel();
         SetPanelVisible(true);
+        LevelUpSfxPlayer.PlayPopup();
         GameplayPauseController.PauseForLevelUp();
     }
 
