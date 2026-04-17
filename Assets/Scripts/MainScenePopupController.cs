@@ -42,6 +42,8 @@ public class MainScenePopupController : MonoBehaviour
 
     private void Start()
     {
+        GameplayPauseController.ClearGameResultPause();
+        GameplayPauseController.ResumeFromLevelUp();
         CloseAllPopups();
     }
 

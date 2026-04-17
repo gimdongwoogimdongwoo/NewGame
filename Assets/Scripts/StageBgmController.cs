@@ -30,6 +30,9 @@ public class StageBgmController : MonoBehaviour
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.loop = true;
         audioSource.playOnAwake = false;
+        audioSource.spatialBlend = 0f;
+        audioSource.ignoreListenerPause = true;
+        audioSource.priority = 20;
     }
 
     private void Start()
@@ -54,6 +57,7 @@ public class StageBgmController : MonoBehaviour
         }
 
         audioSource.clip = clip;
+        wasStoppedByResult = false;
         audioSource.Play();
     }
 
