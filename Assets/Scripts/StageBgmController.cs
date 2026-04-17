@@ -15,8 +15,8 @@ public class StageBgmController : MonoBehaviour
             return;
         }
 
-        int stageId = StageCsvLoader.ResolveCurrentStageId();
-        if (stageId <= 0)
+        string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+        if (!StageCsvLoader.TryGetStageBySceneName(sceneName, out _, logWhenMissing: false))
         {
             return;
         }
@@ -37,13 +37,13 @@ public class StageBgmController : MonoBehaviour
 
     private void Start()
     {
-        int stageId = StageCsvLoader.ResolveCurrentStageId();
-        if (stageId <= 0)
+        string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+        if (!StageCsvLoader.TryGetStageBySceneName(sceneName, out StageRow stage, logWhenMissing: false))
         {
             return;
         }
 
-        string bgmName = StageCsvLoader.LoadStageBgmName(stageId);
+        string bgmName = stage.Bgm;
         AudioClip clip = string.IsNullOrWhiteSpace(bgmName)
             ? null
             : Resources.Load<AudioClip>($"{BgmResourceRoot}/{bgmName}");

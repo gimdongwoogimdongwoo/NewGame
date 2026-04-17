@@ -69,17 +69,9 @@ public static class StageCsvLoader
     public static int ResolveCurrentStageId()
     {
         string sceneName = SceneManager.GetActiveScene().name;
-        List<StageRow> stages = LoadAllStages();
-        for (int i = 0; i < stages.Count; i++)
-        {
-            if (string.Equals(stages[i].SceneName, sceneName, StringComparison.OrdinalIgnoreCase))
-            {
-                return stages[i].StageId;
-            }
-        }
-
-        Debug.LogWarning($"No StageId mapping found for scene '{sceneName}' in {StageCsvResourcePath}.csv");
-        return -1;
+        return TryGetStageBySceneName(sceneName, out StageRow stage)
+            ? stage.StageId
+            : -1;
     }
 
 
@@ -109,6 +101,32 @@ public static class StageCsvLoader
         }
 
         return string.Empty;
+    }
+
+    public static bool TryGetStageBySceneName(string sceneName, out StageRow stage, bool logWhenMissing = true)
+    {
+        stage = default;
+        if (string.IsNullOrWhiteSpace(sceneName))
+        {
+            return false;
+        }
+
+        List<StageRow> stages = LoadAllStages();
+        for (int i = 0; i < stages.Count; i++)
+        {
+            if (string.Equals(stages[i].SceneName, sceneName, StringComparison.OrdinalIgnoreCase))
+            {
+                stage = stages[i];
+                return true;
+            }
+        }
+
+        if (logWhenMissing)
+        {
+            Debug.LogWarning($"No StageId mapping found for scene '{sceneName}' in {StageCsvResourcePath}.csv");
+        }
+
+        return false;
     }
 
     
