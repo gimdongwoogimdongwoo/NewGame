@@ -69,6 +69,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMPro_InstructionOverlay.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeB.cs" />
     <Compile Include="Assets\Scripts\SpawnedMonsterLifetime.cs" />
+    <Compile Include="Assets\Scripts\StageCardSceneLoader.cs" />
     <Compile Include="Assets\Scripts\TimeStopPickupController.cs" />
     <Compile Include="Assets\Scripts\TimeStopController.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexJitter.cs" />
