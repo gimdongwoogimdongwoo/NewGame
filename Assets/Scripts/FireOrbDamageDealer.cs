@@ -4,6 +4,8 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class FireOrbDamageDealer : MonoBehaviour
 {
+    private static int cachedMonsterLayer = int.MinValue;
+
     [Header("Damage Settings")]
     [SerializeField] private float damageMultiplier = 1f;
     [Tooltip("동일 적에게 다시 피해를 줄 수 있는 최소 간격(초)")]
@@ -73,6 +75,11 @@ public class FireOrbDamageDealer : MonoBehaviour
         if (monster != null)
         {
             monster.TakeDamage(finalDamage);
+
+            if (IsMonsterLayerHit(monster.gameObject))
+            {
+                SkillSfxPlayer.PlayFireRingHit();
+            }
         }
         else
         {
@@ -86,5 +93,20 @@ public class FireOrbDamageDealer : MonoBehaviour
     {
         PlayerStatus status = Object.FindFirstObjectByType<PlayerStatus>();
         return status != null ? status.CurrentAttack : 1f;
+    }
+
+    private static bool IsMonsterLayerHit(GameObject target)
+    {
+        if (target == null)
+        {
+            return false;
+        }
+
+        if (cachedMonsterLayer == int.MinValue)
+        {
+            cachedMonsterLayer = LayerMask.NameToLayer("Monster");
+        }
+
+        return cachedMonsterLayer >= 0 ? target.layer == cachedMonsterLayer : true;
     }
 }

@@ -1,2 +1,2 @@
-StageId,SceneName,StageName,Time
-1,GameScene,Stage 1,60
+StageId,SceneName,StageName,Time,BGM,StageImage
+1,GameScene,Stage 1,60,Stage1_BGM,Stage_1
