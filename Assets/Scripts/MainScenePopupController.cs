@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -44,6 +45,9 @@ public class MainScenePopupController : MonoBehaviour
     {
         GameplayPauseController.ClearGameResultPause();
         GameplayPauseController.ResumeFromLevelUp();
+        _ = TotalCoinPersistence.Instance;
+        EnsureUpgradeCoinViewBinding();
+        EnsureUpgradePopupBinding();
         CloseAllPopups();
     }
 
@@ -122,6 +126,74 @@ public class MainScenePopupController : MonoBehaviour
         if (backdropButton != null)
         {
             backdropButton.onClick.RemoveListener(CloseAllPopups);
+        }
+    }
+
+
+    private void EnsureUpgradeCoinViewBinding()
+    {
+        if (popupUpgrade == null)
+        {
+            return;
+        }
+
+        PopupUpgradeTotalCoinView existing = popupUpgrade.GetComponentInChildren<PopupUpgradeTotalCoinView>(true);
+        if (existing != null)
+        {
+            return;
+        }
+
+        TextMeshProUGUI[] texts = popupUpgrade.GetComponentsInChildren<TextMeshProUGUI>(true);
+        for (int i = 0; i < texts.Length; i++)
+        {
+            TextMeshProUGUI text = texts[i];
+            if (text == null)
+            {
+                continue;
+            }
+
+            string name = text.gameObject.name;
+            if (name.IndexOf("coin", System.StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                text.gameObject.AddComponent<PopupUpgradeTotalCoinView>();
+                return;
+            }
+        }
+
+        // Popup 구조에 코인 텍스트가 없는 경우도 허용 (경고 로그 과다 방지).
+    }
+
+
+    private void EnsureUpgradePopupBinding()
+    {
+        if (popupUpgrade == null)
+        {
+            return;
+        }
+
+        UpgradePopupUI popupUi = popupUpgrade.GetComponent<UpgradePopupUI>();
+        if (popupUi == null)
+        {
+            popupUi = popupUpgrade.AddComponent<UpgradePopupUI>();
+        }
+
+        Transform[] children = popupUpgrade.GetComponentsInChildren<Transform>(true);
+        for (int i = 0; i < children.Length; i++)
+        {
+            Transform child = children[i];
+            if (child == null || child == popupUpgrade.transform)
+            {
+                continue;
+            }
+
+            if (child.name.IndexOf("stat", System.StringComparison.OrdinalIgnoreCase) >= 0 &&
+                child.name.IndexOf("row", System.StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                if (child.GetComponent<UpgradeStatRowUI>() == null)
+                {
+                    child.gameObject.AddComponent<UpgradeStatRowUI>();
+                }
+            }
         }
     }
 

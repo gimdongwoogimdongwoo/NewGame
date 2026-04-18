@@ -78,6 +78,13 @@ public class PlayerHealth : MonoBehaviour
 
         if (CurrentHP <= 0f)
         {
+            if (TryHandleRevival())
+            {
+                StartInvincible();
+                UpdateHpUI();
+                return true;
+            }
+
             HandleDeath();
             return true;
         }
@@ -147,6 +154,21 @@ public class PlayerHealth : MonoBehaviour
         }
 
         UpdateHpUI();
+    }
+
+
+    private bool TryHandleRevival()
+    {
+        if (playerStatus == null || !playerStatus.TryConsumeRevival())
+        {
+            return false;
+        }
+
+        playerStatus.RestoreFullHealth();
+        currentHP = playerStatus.CurrentHP;
+        maxHP = playerStatus.CurrentMaxHP;
+        Debug.Log($"Player revived. Remaining revivals: {playerStatus.RemainingRevivalCount}");
+        return true;
     }
 
     private void StartInvincible()
