@@ -46,6 +46,7 @@ public class GameResultManager : MonoBehaviour
         }
 
         isResultConfirmed = true;
+        FinalizeRunAndPersist();
         GameplayPauseController.PauseForGameResult();
         SetResultHudVisible(true);
         SetResultImage(successVisible: true);
@@ -59,6 +60,7 @@ public class GameResultManager : MonoBehaviour
         }
 
         isResultConfirmed = true;
+        FinalizeRunAndPersist();
         GameplayPauseController.PauseForGameResult();
         SetResultHudVisible(true);
         SetResultImage(successVisible: false);
@@ -100,6 +102,12 @@ public class GameResultManager : MonoBehaviour
         }
     }
 
+
+    private void FinalizeRunAndPersist()
+    {
+        int sessionCoins = CoinManager.Instance != null ? CoinManager.Instance.CurrentCoins : 0;
+        TotalCoinPersistence.Instance.CommitSessionCoins(sessionCoins);
+    }
     private void HandleHomeClicked()
     {
         SetResultHudVisible(false);
