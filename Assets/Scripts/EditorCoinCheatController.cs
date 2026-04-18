@@ -1,0 +1,33 @@
+#if UNITY_EDITOR
+using UnityEngine;
+
+public class EditorCoinCheatController : MonoBehaviour
+{
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+    private static void Bootstrap()
+    {
+        if (FindFirstObjectByType<EditorCoinCheatController>() != null)
+        {
+            return;
+        }
+
+        GameObject go = new GameObject(nameof(EditorCoinCheatController));
+        DontDestroyOnLoad(go);
+        go.AddComponent<EditorCoinCheatController>();
+    }
+
+    [ContextMenu("Cheat/Reset Total Coin To 0")]
+    private void ResetTotalCoins()
+    {
+        TotalCoinPersistence.Instance.ResetToDefault();
+        Debug.Log("[EditorCoinCheat] Total coin reset to 0.");
+    }
+
+    [ContextMenu("Cheat/Add +100 Total Coin")]
+    private void AddHundredCoins()
+    {
+        TotalCoinPersistence.Instance.AddCheatCoins(100);
+        Debug.Log($"[EditorCoinCheat] Added 100. Total={TotalCoinPersistence.Instance.TotalCoins}");
+    }
+}
+#endif
