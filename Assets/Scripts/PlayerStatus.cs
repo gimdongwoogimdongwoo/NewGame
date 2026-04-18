@@ -19,6 +19,7 @@ public class PlayerStatus : MonoBehaviour
     [SerializeField] private float baseAttackInterval = 0.25f;
 
     [Header("Critical")]
+    [SerializeField] private float criticalChancePercent = 20f;
     [SerializeField] private float criticalDamagePercent = 100f;
 
     [Header("Revival")]
@@ -45,6 +46,7 @@ public class PlayerStatus : MonoBehaviour
     public float BaseAttackInterval => Mathf.Max(0.02f, baseAttackInterval);
     public float CurrentAttackInterval => BaseAttackInterval;
 
+    public float CriticalChancePercent => Mathf.Clamp(criticalChancePercent, 0f, 100f);
     public float CriticalDamagePercent => Mathf.Max(100f, criticalDamagePercent);
     public float CriticalDamageMultiplier => CriticalDamagePercent / 100f;
 
@@ -65,6 +67,7 @@ public class PlayerStatus : MonoBehaviour
 
         baseMoveSpeed = Mathf.Max(0f, baseMoveSpeed);
         baseAttackInterval = Mathf.Max(0.02f, baseAttackInterval);
+        criticalChancePercent = Mathf.Clamp(criticalChancePercent, 0f, 100f);
         criticalDamagePercent = Mathf.Max(100f, criticalDamagePercent);
         baseRevivalCount = Mathf.Max(0, baseRevivalCount);
 
@@ -101,12 +104,26 @@ public class PlayerStatus : MonoBehaviour
 
     public void SetBaseMoveSpeed(float value) => baseMoveSpeed = Mathf.Max(0f, value);
     public void SetBaseAttackInterval(float value) => baseAttackInterval = Mathf.Max(0.02f, value);
+    public void SetCriticalChancePercent(float value) => criticalChancePercent = Mathf.Clamp(value, 0f, 100f);
     public void SetCriticalDamagePercent(float value) => criticalDamagePercent = Mathf.Max(100f, value);
 
     public void SetBaseRevivalCount(int count)
     {
         baseRevivalCount = Mathf.Max(0, count);
         remainingRevivalCount = baseRevivalCount;
+    }
+
+
+    public float ApplyCriticalDamage(float baseDamage)
+    {
+        if (baseDamage <= 0f)
+        {
+            return 0f;
+        }
+
+        float chance = CriticalChancePercent / 100f;
+        bool isCritical = UnityEngine.Random.value <= chance;
+        return isCritical ? baseDamage * CriticalDamageMultiplier : baseDamage;
     }
 
     public bool TryConsumeRevival()

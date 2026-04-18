@@ -66,7 +66,7 @@ public class FireOrbDamageDealer : MonoBehaviour
             return;
         }
 
-        float finalDamage = ResolvePlayerAttack() * damageMultiplier * ResolveCriticalMultiplier();
+        float finalDamage = ApplyCritical(ResolvePlayerAttack() * damageMultiplier);
         if (finalDamage <= 0f)
         {
             return;
@@ -88,6 +88,12 @@ public class FireOrbDamageDealer : MonoBehaviour
 
         nextDamageTimeByTarget[targetId] = now + hitCooldown;
     }
+    private static float ApplyCritical(float baseDamage)
+    {
+        PlayerStatus status = Object.FindFirstObjectByType<PlayerStatus>();
+        return status != null ? status.ApplyCriticalDamage(baseDamage) : baseDamage;
+    }
+
 
     private static float ResolveCriticalMultiplier()
     {

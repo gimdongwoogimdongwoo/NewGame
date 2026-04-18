@@ -10,14 +10,12 @@ public class UpgradePopupUI : MonoBehaviour
 
     private void Awake()
     {
-        if (statRows.Count == 0)
-        {
-            statRows.AddRange(GetComponentsInChildren<UpgradeStatRowUI>(true));
-        }
+        EnsureRows();
     }
 
     private void OnEnable()
     {
+        EnsureRows();
         UpgradeSystem.Instance.UpgradesChanged += RefreshAll;
         TotalCoinPersistence.Instance.TotalCoinsChanged += HandleCoinChanged;
 
@@ -63,6 +61,122 @@ public class UpgradePopupUI : MonoBehaviour
             statRows[i]?.Bind();
         }
     }
+
+    private void EnsureRows()
+    {
+        if (statRows.Count == 0)
+        {
+            statRows.AddRange(GetComponentsInChildren<UpgradeStatRowUI>(true));
+        }
+
+        if (statRows.Count > 0)
+        {
+            return;
+        }
+
+        CreateGeneratedRows();
+    }
+
+    private void CreateGeneratedRows()
+    {
+        GameObject containerGo = new GameObject("GeneratedUpgradeRows", typeof(RectTransform), typeof(VerticalLayoutGroup), typeof(ContentSizeFitter));
+        containerGo.transform.SetParent(transform, false);
+
+        RectTransform container = containerGo.GetComponent<RectTransform>();
+        container.anchorMin = new Vector2(0.1f, 0.15f);
+        container.anchorMax = new Vector2(0.9f, 0.8f);
+        container.offsetMin = Vector2.zero;
+        container.offsetMax = Vector2.zero;
+
+        VerticalLayoutGroup layout = containerGo.GetComponent<VerticalLayoutGroup>();
+        layout.childControlWidth = true;
+        layout.childControlHeight = false;
+        layout.childForceExpandHeight = false;
+        layout.spacing = 10f;
+
+        ContentSizeFitter fitter = containerGo.GetComponent<ContentSizeFitter>();
+        fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+
+        foreach (UpgradeStatType stat in UpgradeSystem.Instance.GetAllStats())
+        {
+            UpgradeStatRowUI row = BuildRow(container, stat);
+            statRows.Add(row);
+        }
+    }
+
+    private static UpgradeStatRowUI BuildRow(Transform parent, UpgradeStatType stat)
+    {
+        GameObject rowGo = new GameObject($"StatRow_{stat}", typeof(RectTransform), typeof(Image), typeof(HorizontalLayoutGroup));
+        rowGo.transform.SetParent(parent, false);
+        rowGo.GetComponent<Image>().color = new Color(1f, 1f, 1f, 0.08f);
+
+        RectTransform rowRt = rowGo.GetComponent<RectTransform>();
+        rowRt.sizeDelta = new Vector2(0f, 70f);
+
+        HorizontalLayoutGroup rowLayout = rowGo.GetComponent<HorizontalLayoutGroup>();
+        rowLayout.spacing = 8f;
+        rowLayout.padding = new RectOffset(8, 8, 8, 8);
+        rowLayout.childAlignment = TextAnchor.MiddleLeft;
+        rowLayout.childForceExpandHeight = true;
+
+        TextMeshProUGUI statusName = CreateText(rowGo.transform, "Text_StatusName", 22, TextAlignmentOptions.Left);
+        statusName.rectTransform.sizeDelta = new Vector2(180f, 54f);
+
+        GameObject dotsWrap = new GameObject("Dots", typeof(RectTransform), typeof(HorizontalLayoutGroup));
+        dotsWrap.transform.SetParent(rowGo.transform, false);
+        HorizontalLayoutGroup dotsLayout = dotsWrap.GetComponent<HorizontalLayoutGroup>();
+        dotsLayout.spacing = 4f;
+        dotsLayout.childControlHeight = true;
+        dotsLayout.childControlWidth = true;
+        dotsLayout.childForceExpandWidth = false;
+        dotsLayout.childForceExpandHeight = false;
+
+        Image[] dots = new Image[5];
+        for (int i = 0; i < 5; i++)
+        {
+            GameObject dotGo = new GameObject($"Dot{i + 1}", typeof(RectTransform), typeof(Image));
+            dotGo.transform.SetParent(dotsWrap.transform, false);
+            Image image = dotGo.GetComponent<Image>();
+            image.color = new Color(0.45f, 0.45f, 0.45f, 1f);
+            dots[i] = image;
+
+            RectTransform dotRt = dotGo.GetComponent<RectTransform>();
+            dotRt.sizeDelta = new Vector2(10f, 10f);
+        }
+
+        TextMeshProUGUI priceText = CreateText(rowGo.transform, "TXT_Price", 20, TextAlignmentOptions.Center);
+        priceText.rectTransform.sizeDelta = new Vector2(90f, 54f);
+
+        GameObject buttonGo = new GameObject("BTN_Price", typeof(RectTransform), typeof(Image), typeof(Button));
+        buttonGo.transform.SetParent(rowGo.transform, false);
+        buttonGo.GetComponent<Image>().color = new Color(0.16f, 0.58f, 0.22f, 0.95f);
+        RectTransform btnRt = buttonGo.GetComponent<RectTransform>();
+        btnRt.sizeDelta = new Vector2(110f, 54f);
+        CreateText(buttonGo.transform, "Label", 18, TextAlignmentOptions.Center).text = "UP";
+        Button btn = buttonGo.GetComponent<Button>();
+
+        GameObject tagMax = new GameObject("Tag_Max", typeof(RectTransform));
+        tagMax.transform.SetParent(rowGo.transform, false);
+        TextMeshProUGUI maxText = CreateText(tagMax.transform, "Text", 18, TextAlignmentOptions.Center);
+        maxText.text = "MAX";
+        tagMax.SetActive(false);
+
+        UpgradeStatRowUI row = rowGo.AddComponent<UpgradeStatRowUI>();
+        row.ConfigureGenerated(stat, statusName, priceText, btn, tagMax, dots);
+        return row;
+    }
+
+    private static TextMeshProUGUI CreateText(Transform parent, string name, float size, TextAlignmentOptions align)
+    {
+        GameObject go = new GameObject(name, typeof(RectTransform), typeof(TextMeshProUGUI));
+        go.transform.SetParent(parent, false);
+        TextMeshProUGUI text = go.GetComponent<TextMeshProUGUI>();
+        text.fontSize = size;
+        text.alignment = align;
+        text.color = Color.white;
+        text.text = string.Empty;
+        return text;
+    }
 }
 
 public class UpgradeStatRowUI : MonoBehaviour
@@ -78,6 +192,23 @@ public class UpgradeStatRowUI : MonoBehaviour
 
     private bool isBound;
     private bool autoResolvedStat;
+
+    public void ConfigureGenerated(
+        UpgradeStatType type,
+        TextMeshProUGUI statusName,
+        TextMeshProUGUI price,
+        Button button,
+        GameObject maxTag,
+        Image[] generatedDots)
+    {
+        statType = type;
+        textStatusName = statusName;
+        textPrice = price;
+        btnPrice = button;
+        tagMax = maxTag;
+        dots = generatedDots ?? Array.Empty<Image>();
+        autoResolvedStat = true;
+    }
 
     public void Bind()
     {
@@ -137,9 +268,14 @@ public class UpgradeStatRowUI : MonoBehaviour
                 continue;
             }
 
+            bool completed = i < level;
             if (dot0Sprite != null && dot1Sprite != null)
             {
-                dots[i].sprite = i < level ? dot1Sprite : dot0Sprite;
+                dots[i].sprite = completed ? dot1Sprite : dot0Sprite;
+            }
+            else
+            {
+                dots[i].color = completed ? new Color(1f, 0.85f, 0.2f, 1f) : new Color(0.45f, 0.45f, 0.45f, 1f);
             }
         }
     }
@@ -198,7 +334,6 @@ public class UpgradeStatRowUI : MonoBehaviour
             dots = foundDots.ToArray();
         }
     }
-
 
     private bool TryInferStatTypeFromName()
     {
