@@ -133,6 +133,31 @@ public class TotalCoinPersistence : MonoBehaviour
         TotalCoinsChanged?.Invoke(current.totalCoins, current.lastUpdatedUtc);
     }
 
+
+    public bool TrySpendCoins(int amount)
+    {
+        if (amount <= 0)
+        {
+            return true;
+        }
+
+        if (current.totalCoins < amount)
+        {
+            return false;
+        }
+
+        current.totalCoins = ValidateCoinValue(current.totalCoins - amount);
+        current.lastUpdatedUtc = DateTime.UtcNow.ToString("O");
+
+        if (!storage.TrySave(current))
+        {
+            Debug.LogWarning("[TotalCoinPersistence] Spend save failed. Data kept in memory for this session.");
+        }
+
+        TotalCoinsChanged?.Invoke(current.totalCoins, current.lastUpdatedUtc);
+        return true;
+    }
+
     public void ResetToDefault()
     {
         current = DefaultData();

@@ -91,6 +91,12 @@ public class ProjectileController : MonoBehaviour
         spriteRenderer.flipX = false;
     }
 
+    private static float ResolveCriticalMultiplier()
+    {
+        PlayerStatus status = Object.FindFirstObjectByType<PlayerStatus>();
+        return status != null ? status.CriticalDamageMultiplier : 1f;
+    }
+
     private static float ResolvePlayerAttack()
     {
         PlayerStatus status = UnityEngine.Object.FindFirstObjectByType<PlayerStatus>();
@@ -129,7 +135,7 @@ public class ProjectileController : MonoBehaviour
         }
 
         float currentAttack = ResolvePlayerAttack();
-        float finalDamage = currentAttack * Mathf.Max(0f, damageMultiplier);
+        float finalDamage = currentAttack * Mathf.Max(0f, damageMultiplier) * ResolveCriticalMultiplier();
 
         int targetId = monster != null ? monster.GetInstanceID() : treasureBox.GetInstanceID();
         if (hitTargetIds.Contains(targetId))

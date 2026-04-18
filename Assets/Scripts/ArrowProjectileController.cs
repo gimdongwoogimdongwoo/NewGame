@@ -114,7 +114,7 @@ public class ArrowProjectileController : MonoBehaviour
             return;
         }
 
-        float finalDamage = ResolvePlayerAttack() * (damageMultiplier / 100f);
+        float finalDamage = ResolvePlayerAttack() * (damageMultiplier / 100f) * ResolveCriticalMultiplier();
         if (monster != null)
         {
             monster.TakeDamage(finalDamage, false);
@@ -125,6 +125,12 @@ public class ArrowProjectileController : MonoBehaviour
         }
 
         Destroy(gameObject);
+    }
+
+    private static float ResolveCriticalMultiplier()
+    {
+        PlayerStatus status = Object.FindFirstObjectByType<PlayerStatus>();
+        return status != null ? status.CriticalDamageMultiplier : 1f;
     }
 
     private static float ResolvePlayerAttack()
