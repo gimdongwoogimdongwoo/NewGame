@@ -97,6 +97,12 @@ public class ProjectileController : MonoBehaviour
     }
 
 
+    private static float ResolveCriticalMultiplier()
+    {
+        PlayerStatus status = Object.FindFirstObjectByType<PlayerStatus>();
+        return status != null ? status.CriticalDamageMultiplier : 1f;
+    }
+
     private static float ResolvePlayerAttack()
     {
         PlayerStatus status = UnityEngine.Object.FindFirstObjectByType<PlayerStatus>();

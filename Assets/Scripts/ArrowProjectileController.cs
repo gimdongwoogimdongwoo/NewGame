@@ -133,6 +133,12 @@ public class ArrowProjectileController : MonoBehaviour
     }
 
 
+    private static float ResolveCriticalMultiplier()
+    {
+        PlayerStatus status = Object.FindFirstObjectByType<PlayerStatus>();
+        return status != null ? status.CriticalDamageMultiplier : 1f;
+    }
+
     private static float ResolvePlayerAttack()
     {
         PlayerStatus status = Object.FindFirstObjectByType<PlayerStatus>();
