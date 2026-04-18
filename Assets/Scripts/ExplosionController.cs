@@ -90,7 +90,7 @@ public class ExplosionController : MonoBehaviour
         Vector3 effectOrigin = new Vector3(origin.x, origin.y, 0f);
         ShowEffect(effectOrigin);
 
-        float finalDamage = ResolvePlayerAttack() * (damageMultiplier / 100f);
+        float finalDamage = ApplyCritical(ResolvePlayerAttack() * (damageMultiplier / 100f));
         if (finalDamage <= 0f)
         {
             return;
@@ -148,6 +148,12 @@ public class ExplosionController : MonoBehaviour
 
         effect.Play(origin);
     }
+    private static float ApplyCritical(float baseDamage)
+    {
+        PlayerStatus status = Object.FindFirstObjectByType<PlayerStatus>();
+        return status != null ? status.ApplyCriticalDamage(baseDamage) : baseDamage;
+    }
+
 
     private static float ResolvePlayerAttack()
     {
