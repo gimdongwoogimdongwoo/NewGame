@@ -312,7 +312,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &289693020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2414,6 +2414,11 @@ MonoBehaviour:
   currentMaxHP: 100
   currentHP: 100
   hpUpMultiplier: 1
+  baseMoveSpeed: 3.5
+  baseAttackInterval: 0.25
+  criticalDamagePercent: 100
+  baseRevivalCount: 0
+  remainingRevivalCount: 0
   basePickupRadius: 2.5
   currentPickupRadius: 2.5
   pickupRadiusMultiplier: 1
