@@ -160,7 +160,7 @@ public class MainScenePopupController : MonoBehaviour
             }
         }
 
-        Debug.LogWarning("[MainScenePopupController] Popup_Upgrade에서 코인 표시용 TextMeshProUGUI를 찾지 못했습니다.");
+        // Popup 구조에 코인 텍스트가 없는 경우도 허용 (경고 로그 과다 방지).
     }
 
 

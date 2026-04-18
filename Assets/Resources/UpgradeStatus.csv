@@ -1,10 +1,10 @@
-﻿ID,Stat,StatName,Level,StatValue,CoinValue
-ATK_0,ATK,공격력,10,0,
-ATK_1,ATK,공격력,15,100,
-ATK_2,ATK,공격력,20,200,
-ATK_3,ATK,공격력,25,300,
-ATK_4,ATK,공격력,30,450,
-ATK_5,ATK,공격력,40,600,
+ID,Stat,StatName,Level,StatValue,CoinValue
+ATK_0,ATK,공격력,0,10,0
+ATK_1,ATK,공격력,1,15,100
+ATK_2,ATK,공격력,2,20,200
+ATK_3,ATK,공격력,3,25,300
+ATK_4,ATK,공격력,4,30,450
+ATK_5,ATK,공격력,5,40,600
 HP_0,HP,체력,0,100,0
 HP_1,HP,체력,1,120,100
 HP_2,HP,체력,2,140,200
@@ -16,19 +16,19 @@ MoveSpeed_1,MoveSpeed,이동 속도,1,3.8,100
 MoveSpeed_2,MoveSpeed,이동 속도,2,4.1,200
 MoveSpeed_3,MoveSpeed,이동 속도,3,4.4,300
 MoveSpeed_4,MoveSpeed,이동 속도,4,4.7,450
-MoveSpeed_5,MoveSpeed,이동 속도,5,5,600
+MoveSpeed_5,MoveSpeed,이동 속도,5,5.0,600
 ATKSpeed_0,ATKSpeed,공격 속도,0,0.25,0
 ATKSpeed_1,ATKSpeed,공격 속도,1,0.23,120
-ATKSpeed_2,ATKSpeed,공격 속도,2,0.2,240
+ATKSpeed_2,ATKSpeed,공격 속도,2,0.20,240
 ATKSpeed_3,ATKSpeed,공격 속도,3,0.17,360
 ATKSpeed_4,ATKSpeed,공격 속도,4,0.14,500
 ATKSpeed_5,ATKSpeed,공격 속도,5,0.11,700
-CRI_0,CRI,치명타 확률,0,100,0
-CRI_1,CRI,치명타 확률,1,120,120
-CRI_2,CRI,치명타 확률,2,150,240
-CRI_3,CRI,치명타 확률,3,180,360
-CRI_4,CRI,치명타 확률,4,220,500
-CRI_5,CRI,치명타 확률,5,260,700
+CRI_0,CRI,치명타 피해,0,100,0
+CRI_1,CRI,치명타 피해,1,120,120
+CRI_2,CRI,치명타 피해,2,150,240
+CRI_3,CRI,치명타 피해,3,180,360
+CRI_4,CRI,치명타 피해,4,220,500
+CRI_5,CRI,치명타 피해,5,260,700
 Revival_0,Revival,부활 횟수,0,0,0
 Revival_1,Revival,부활 횟수,1,1,200
 Revival_2,Revival,부활 횟수,2,2,400
