@@ -48,6 +48,11 @@ public class AutoShooter : MonoBehaviour
         damageMultiplier += amount;
     }
 
+    public void SetFireInterval(float value)
+    {
+        fireInterval = Mathf.Max(0.02f, value);
+    }
+
     public void ImproveFireRateByPercent(float percent)
     {
         if (percent <= 0f)
