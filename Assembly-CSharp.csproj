@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventHandler.cs" />
     <Compile Include="Assets\Scripts\PotionController.cs" />
+    <Compile Include="Assets\Scripts\UpgradePopupUI.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\EnvMapAnimator.cs" />
     <Compile Include="Assets\Scripts\MonsterController.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_A.cs" />
@@ -58,11 +59,13 @@
     <Compile Include="Assets\Scripts\SkillSfxPlayer.cs" />
     <Compile Include="Assets\Scripts\AirProjectileController.cs" />
     <Compile Include="Assets\Scripts\PlayerLocator.cs" />
+    <Compile Include="Assets\Scripts\PopupUpgradeTotalCoinView.cs" />
     <Compile Include="Assets\Scripts\ArrowProjectileController.cs" />
     <Compile Include="Assets\Scripts\LevelUpPanelController.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark02.cs" />
     <Compile Include="Assets\Scripts\CoinManager.cs" />
     <Compile Include="Assets\Scripts\PlayerHealth.cs" />
+    <Compile Include="Assets\Scripts\UpgradeSystem.cs" />
     <Compile Include="Assets\Scripts\LevelUpSfxPlayer.cs" />
     <Compile Include="Assets\Scripts\MainSceneStageCardListController.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_ExampleScript_01.cs" />
@@ -77,6 +80,7 @@
     <Compile Include="Assets\Scripts\LevelUpEffectService.cs" />
     <Compile Include="Assets\Scripts\MonsterChasePlayer.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_UiFrameRateCounter.cs" />
+    <Compile Include="Assets\Scripts\EditorCoinCheatController.cs" />
     <Compile Include="Assets\Scripts\MagnetBoostController.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_B.cs" />
@@ -113,6 +117,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexColorCycler.cs" />
     <Compile Include="Assets\Scripts\TreasureBoxController.cs" />
     <Compile Include="Assets\Scripts\CoinController.cs" />
+    <Compile Include="Assets\Scripts\TotalCoinPersistence.cs" />
     <Compile Include="Assets\Scripts\PlayerMovement2D.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ObjectSpin.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_PhoneNumberValidator.cs" />
