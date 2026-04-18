@@ -71,6 +71,7 @@ public static class UpgradeStatusCsvLoader
     private static bool TryParseRow(string[] cols, Dictionary<string, int> header, out UpgradeStatusRow row)
     {
         row = default;
+
         string id = Read(cols, header, "ID", 0);
         string statRaw = Read(cols, header, "Stat", 1);
         string statName = Read(cols, header, "StatName", 2);
@@ -80,31 +81,52 @@ public static class UpgradeStatusCsvLoader
             return false;
         }
 
-        if (!int.TryParse(Read(cols, header, "Level", 3), NumberStyles.Integer, CultureInfo.InvariantCulture, out int level))
+        // 1) Preferred format: ID,Stat,StatName,Level,StatValue,CoinValue
+        // 2) Legacy format support: ID,Stat,StatName,StatValue,CoinValue[, ...]
+        bool parsedLevel = int.TryParse(Read(cols, header, "Level", 3), NumberStyles.Integer, CultureInfo.InvariantCulture, out int level);
+        bool parsedStatValue = float.TryParse(Read(cols, header, "StatValue", parsedLevel ? 4 : 3), NumberStyles.Float, CultureInfo.InvariantCulture, out float statValue);
+        bool parsedCoinValue = int.TryParse(Read(cols, header, "CoinValue", parsedLevel ? 5 : 4), NumberStyles.Integer, CultureInfo.InvariantCulture, out int coinValue);
+
+        if (!parsedStatValue || !parsedCoinValue)
         {
             return false;
         }
 
-        if (!float.TryParse(Read(cols, header, "StatValue", 4), NumberStyles.Float, CultureInfo.InvariantCulture, out float statValue))
+        if (!parsedLevel)
         {
-            return false;
-        }
-
-        if (!int.TryParse(Read(cols, header, "CoinValue", 5), NumberStyles.Integer, CultureInfo.InvariantCulture, out int coinValue))
-        {
-            return false;
+            level = InferLevelFromId(id);
         }
 
         row = new UpgradeStatusRow
         {
             Id = id,
             Stat = stat,
-            StatName = statName,
+            StatName = string.IsNullOrWhiteSpace(statName) ? stat.ToString() : statName,
             Level = Mathf.Clamp(level, 0, 5),
             StatValue = statValue,
             CoinValue = Mathf.Max(0, coinValue)
         };
+
         return true;
+    }
+
+    private static int InferLevelFromId(string id)
+    {
+        if (string.IsNullOrWhiteSpace(id))
+        {
+            return 0;
+        }
+
+        int underscore = id.LastIndexOf('_');
+        if (underscore < 0 || underscore >= id.Length - 1)
+        {
+            return 0;
+        }
+
+        string suffix = id.Substring(underscore + 1);
+        return int.TryParse(suffix, NumberStyles.Integer, CultureInfo.InvariantCulture, out int level)
+            ? Mathf.Clamp(level, 0, 5)
+            : 0;
     }
 
     private static Dictionary<string, int> BuildHeader(string line)
