@@ -185,7 +185,6 @@ public class TotalCoinPersistence : MonoBehaviour
         if (!storage.TryLoad(out TotalCoinSaveData loaded))
         {
             current = DefaultData();
-            Debug.Log("[TotalCoinPersistence] Save not found. Initialized with default total coin (0).");
             return;
         }
 
