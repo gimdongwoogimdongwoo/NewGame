@@ -47,6 +47,7 @@ public class MainScenePopupController : MonoBehaviour
         GameplayPauseController.ResumeFromLevelUp();
         _ = TotalCoinPersistence.Instance;
         EnsureUpgradeCoinViewBinding();
+        EnsureUpgradePopupBinding();
         CloseAllPopups();
     }
 
@@ -160,6 +161,40 @@ public class MainScenePopupController : MonoBehaviour
         }
 
         Debug.LogWarning("[MainScenePopupController] Popup_Upgrade에서 코인 표시용 TextMeshProUGUI를 찾지 못했습니다.");
+    }
+
+
+    private void EnsureUpgradePopupBinding()
+    {
+        if (popupUpgrade == null)
+        {
+            return;
+        }
+
+        UpgradePopupUI popupUi = popupUpgrade.GetComponent<UpgradePopupUI>();
+        if (popupUi == null)
+        {
+            popupUi = popupUpgrade.AddComponent<UpgradePopupUI>();
+        }
+
+        Transform[] children = popupUpgrade.GetComponentsInChildren<Transform>(true);
+        for (int i = 0; i < children.Length; i++)
+        {
+            Transform child = children[i];
+            if (child == null || child == popupUpgrade.transform)
+            {
+                continue;
+            }
+
+            if (child.name.IndexOf("stat", System.StringComparison.OrdinalIgnoreCase) >= 0 &&
+                child.name.IndexOf("row", System.StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                if (child.GetComponent<UpgradeStatRowUI>() == null)
+                {
+                    child.gameObject.AddComponent<UpgradeStatRowUI>();
+                }
+            }
+        }
     }
 
     private void BindCloseButtonsFromPopup()

@@ -23,6 +23,21 @@ public class EditorCoinCheatController : MonoBehaviour
         Debug.Log("[EditorCoinCheat] Total coin reset to 0.");
     }
 
+
+    [ContextMenu("Cheat/Reset All Upgrade Levels To 0")]
+    private void ResetAllUpgradeLevels()
+    {
+        UpgradeSystem.Instance.ResetAllLevels();
+
+        UpgradePopupUI popupUi = FindFirstObjectByType<UpgradePopupUI>(FindObjectsInactive.Include);
+        if (popupUi != null)
+        {
+            popupUi.RefreshAll();
+        }
+
+        Debug.Log("[EditorCoinCheat] All upgrade levels reset to 0.");
+    }
+
     [ContextMenu("Cheat/Add +100 Total Coin")]
     private void AddHundredCoins()
     {

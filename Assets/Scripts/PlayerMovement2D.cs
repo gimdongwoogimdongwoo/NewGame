@@ -20,6 +20,11 @@ public class PlayerMovement2D : MonoBehaviour
     private string currentAnimState;
 
 
+    public void SetMoveSpeed(float value)
+    {
+        moveSpeed = Mathf.Max(0f, value);
+    }
+
     public void AddMoveSpeed(float amount)
     {
         if (amount <= 0f)
