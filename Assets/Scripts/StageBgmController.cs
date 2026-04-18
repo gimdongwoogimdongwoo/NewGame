@@ -44,27 +44,48 @@ public class StageBgmController : MonoBehaviour
         }
 
         string bgmName = stage.Bgm;
-        AudioClip clip = string.IsNullOrWhiteSpace(bgmName)
-            ? null
-            : Resources.Load<AudioClip>($"{BgmResourceRoot}/{bgmName}");
+        AudioClip clip = ResolveClipByName(bgmName);
         if (clip == null)
         {
-            AudioClip[] candidates = Resources.LoadAll<AudioClip>(BgmResourceRoot);
-            if (candidates != null && candidates.Length > 0)
-            {
-                clip = candidates[0];
-                Debug.LogWarning($"BGM '{bgmName}' 을(를) 찾지 못해 '{clip.name}' 을(를) 대체 재생합니다.");
-            }
-            else
-            {
-                Debug.LogWarning($"BGM clip not found at Resources/{BgmResourceRoot}/{bgmName}");
-                return;
-            }
+            Debug.LogWarning($"BGM clip not found at Resources/{BgmResourceRoot}/{bgmName}");
+            return;
         }
 
         audioSource.clip = clip;
         wasStoppedByResult = false;
         audioSource.Play();
+    }
+
+    private static AudioClip ResolveClipByName(string bgmName)
+    {
+        if (string.IsNullOrWhiteSpace(bgmName))
+        {
+            return null;
+        }
+
+        AudioClip direct = Resources.Load<AudioClip>($"{BgmResourceRoot}/{bgmName}");
+        if (direct != null)
+        {
+            return direct;
+        }
+
+        AudioClip[] candidates = Resources.LoadAll<AudioClip>(BgmResourceRoot);
+        if (candidates == null || candidates.Length == 0)
+        {
+            return null;
+        }
+
+        for (int i = 0; i < candidates.Length; i++)
+        {
+            AudioClip candidate = candidates[i];
+            if (candidate != null &&
+                string.Equals(candidate.name, bgmName, System.StringComparison.OrdinalIgnoreCase))
+            {
+                return candidate;
+            }
+        }
+
+        return candidates[0];
     }
 
     private void Update()

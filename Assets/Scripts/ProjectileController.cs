@@ -90,6 +90,12 @@ public class ProjectileController : MonoBehaviour
         transform.rotation = Quaternion.Euler(0f, 0f, angle + rotationOffset);
         spriteRenderer.flipX = false;
     }
+    private static float ApplyCritical(float baseDamage)
+    {
+        PlayerStatus status = Object.FindFirstObjectByType<PlayerStatus>();
+        return status != null ? status.ApplyCriticalDamage(baseDamage) : baseDamage;
+    }
+
 
     private static float ResolveCriticalMultiplier()
     {
@@ -135,7 +141,7 @@ public class ProjectileController : MonoBehaviour
         }
 
         float currentAttack = ResolvePlayerAttack();
-        float finalDamage = currentAttack * Mathf.Max(0f, damageMultiplier) * ResolveCriticalMultiplier();
+        float finalDamage = ApplyCritical(currentAttack * Mathf.Max(0f, damageMultiplier));
 
         int targetId = monster != null ? monster.GetInstanceID() : treasureBox.GetInstanceID();
         if (hitTargetIds.Contains(targetId))
