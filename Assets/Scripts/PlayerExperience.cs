@@ -9,6 +9,8 @@ using UnityEngine;
 
 public class PlayerExperience : MonoBehaviour
 {
+    public event Action<int> LevelReached;
+
     [Header("Player Experience")]
     [SerializeField] private int totalExp;
 
@@ -124,6 +126,7 @@ public class PlayerExperience : MonoBehaviour
                 needExp = ResolveNeedExp(currentLevel);
 
                 RefreshLevelText();
+                LevelReached?.Invoke(currentLevel);
                 RequestLevelUpSelection(currentLevel);
                 yield return WaitForLevelUpSelectionToClose();
 

@@ -9,6 +9,8 @@ using UnityEngine.UI;
 
 public class LevelUpPanelController : MonoBehaviour
 {
+    public event Action<int> CardSelected;
+
     public static LevelUpPanelController Instance { get; private set; }
 
     [Header("UI References")]
@@ -213,6 +215,7 @@ public class LevelUpPanelController : MonoBehaviour
         selectedCardIds.Add(selectedRow.Id);
         selectedHistoryIds.Add(selectedRow.Id);
 
+        CardSelected?.Invoke(selectedRow.Id);
         ApplyCardEffect(selectedRow);
 
         Debug.Log($"LevelUpPanelController: Level {currentLevelRequest} card selected. ID={selectedRow.Id}, Effect={selectedRow.Effect}, Value={selectedRow.ValueToString}");

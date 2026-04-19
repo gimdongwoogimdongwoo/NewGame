@@ -22,6 +22,7 @@ public class CoinManager : MonoBehaviour
     }
 
     public event Action<int> CoinChanged;
+    public event Action<int> CoinsAdded;
 
     [SerializeField] private int currentCoins;
 
@@ -48,6 +49,7 @@ public class CoinManager : MonoBehaviour
         }
 
         currentCoins = Mathf.Max(0, currentCoins + amount);
+        CoinsAdded?.Invoke(amount);
         CoinChanged?.Invoke(CurrentCoins);
     }
 
