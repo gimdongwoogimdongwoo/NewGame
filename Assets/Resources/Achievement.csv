@@ -1,0 +1,6 @@
+ID,Title,Condition,Value,Count
+ACH_CLEAR_STAGE1,Stage 1 Clear,CLEAR,1,1
+ACH_LEVEL_10,Reach Level 10,LEVEL,10,1
+ACH_CARD_1,Choose Card #1,CARD,1,1
+ACH_COIN_1000,Collect 1000 Coins,COIN,0,1000
+ACH_UPGRADE_10,Buy 10 Upgrades,UPGRADE,0,10

@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class CoinManager : MonoBehaviour
 {
+    public static event Action<int> CoinsAdded;
+
     public static CoinManager Instance
     {
         get
@@ -49,6 +51,7 @@ public class CoinManager : MonoBehaviour
 
         currentCoins = Mathf.Max(0, currentCoins + amount);
         CoinChanged?.Invoke(CurrentCoins);
+        CoinsAdded?.Invoke(amount);
     }
 
     public void SetCoins(int amount)

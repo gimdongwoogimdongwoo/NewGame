@@ -44,5 +44,12 @@ public class EditorCoinCheatController : MonoBehaviour
         TotalCoinPersistence.Instance.AddCheatCoins(100);
         Debug.Log($"[EditorCoinCheat] Added 100. Total={TotalCoinPersistence.Instance.TotalCoins}");
     }
+
+    [ContextMenu("Cheat/Reset All Achievement Progress")]
+    private void ResetAllAchievementProgress()
+    {
+        AchievementManager.Instance.ResetAllProgress();
+        Debug.Log("[EditorCoinCheat] All achievement progress reset.");
+    }
 }
 #endif
