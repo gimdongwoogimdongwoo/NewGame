@@ -62,6 +62,8 @@ public class AchievementManager : MonoBehaviour
         }
     }
 
+    public static event Action<AchievementCompletedEvent> AchievementCompleted;
+    public static event Action AchievementProgressReset;
     public event Action ProgressChanged;
 
     private static AchievementManager instance;
@@ -75,6 +77,7 @@ public class AchievementManager : MonoBehaviour
     private Image barFill;
     private RectTransform content;
     private GameObject rowTemplate;
+    private long completionSerial;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void Bootstrap()
@@ -156,6 +159,8 @@ public class AchievementManager : MonoBehaviour
 
         SaveProgress();
         RefreshAchievementUi();
+        completionSerial = 0;
+        AchievementProgressReset?.Invoke();
         ProgressChanged?.Invoke();
     }
 
@@ -215,7 +220,7 @@ public class AchievementManager : MonoBehaviour
                 continue;
             }
 
-            CompleteOnce(def);
+            CompleteOnce(i, def);
         }
     }
 
@@ -231,7 +236,7 @@ public class AchievementManager : MonoBehaviour
 
             if (level >= Mathf.Max(1, def.Value))
             {
-                CompleteOnce(def);
+                CompleteOnce(i, def);
             }
         }
     }
@@ -246,7 +251,7 @@ public class AchievementManager : MonoBehaviour
                 continue;
             }
 
-            CompleteOnce(def);
+            CompleteOnce(i, def);
         }
     }
 
@@ -265,7 +270,7 @@ public class AchievementManager : MonoBehaviour
                 continue;
             }
 
-            IncreaseProgress(def, amount, Mathf.Max(1, def.Count));
+            IncreaseProgress(i, def, amount, Mathf.Max(1, def.Count));
         }
     }
 
@@ -279,11 +284,11 @@ public class AchievementManager : MonoBehaviour
                 continue;
             }
 
-            IncreaseProgress(def, 1, Mathf.Max(1, def.Count));
+            IncreaseProgress(i, def, 1, Mathf.Max(1, def.Count));
         }
     }
 
-    private void IncreaseProgress(AchievementCsvRow def, int delta, int target)
+    private void IncreaseProgress(int index, AchievementCsvRow def, int delta, int target)
     {
         AchievementRuntimeState state = GetOrCreateState(def.Id);
         if (state.Completed)
@@ -296,6 +301,7 @@ public class AchievementManager : MonoBehaviour
         {
             state.Progress = target;
             state.Completed = true;
+            EmitCompleted(index, def);
         }
 
         SaveProgress();
@@ -303,7 +309,7 @@ public class AchievementManager : MonoBehaviour
         ProgressChanged?.Invoke();
     }
 
-    private void CompleteOnce(AchievementCsvRow def)
+    private void CompleteOnce(int index, AchievementCsvRow def)
     {
         AchievementRuntimeState state = GetOrCreateState(def.Id);
         if (state.Completed)
@@ -313,6 +319,7 @@ public class AchievementManager : MonoBehaviour
 
         state.Completed = true;
         state.Progress = Mathf.Max(1, state.Progress);
+        EmitCompleted(index, def);
 
         SaveProgress();
         RefreshAchievementUi();
@@ -591,6 +598,18 @@ public class AchievementManager : MonoBehaviour
         Instance.HandleStageCleared(stageId);
     }
 
+    private void EmitCompleted(int index, AchievementCsvRow def)
+    {
+        completionSerial++;
+        AchievementCompleted?.Invoke(new AchievementCompletedEvent
+        {
+            Id = def.Id,
+            Title = def.Title,
+            RowIndex = Mathf.Max(0, index),
+            CompletionSerial = completionSerial
+        });
+    }
+
     private sealed class AchievementRuntimeState
     {
         public bool Completed;
@@ -651,4 +670,12 @@ public class AchievementManager : MonoBehaviour
             }
         }
     }
+}
+
+public sealed class AchievementCompletedEvent
+{
+    public string Id;
+    public string Title;
+    public int RowIndex;
+    public long CompletionSerial;
 }

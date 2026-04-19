@@ -1,6 +1,6 @@
-﻿ID,Title,Condition,Value,Count
-1,스테이지 1 클리어,CLEAR,1,1
-2,레벨 10 달성,LEVEL,10,1
-3,카드 선택 1,CARD,1,1
-4,코인 1000개 획득,COIN,0,1000
-5,강화 10회 완료,UPGRADE,0,10
+ID,Title,Condition,Value,Count
+ACH_CLEAR_STAGE1,Stage 1 Clear,CLEAR,1,1
+ACH_LEVEL_10,Reach Level 10,LEVEL,10,1
+ACH_CARD_1,Choose Card #1,CARD,1,1
+ACH_COIN_1000,Collect 1000 Coins,COIN,0,1000
+ACH_UPGRADE_10,Buy 10 Upgrades,UPGRADE,0,10
