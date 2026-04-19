@@ -168,6 +168,7 @@ public class UpgradeStatLevelSave
 public class UpgradeSystem : MonoBehaviour
 {
     private const string SaveKey = "save.upgrade_progress.v1";
+    public static event Action<UpgradeStatType, int> UpgradePurchased;
 
     public static UpgradeSystem Instance
     {
@@ -286,6 +287,7 @@ public class UpgradeSystem : MonoBehaviour
         SaveProgress();
         ApplyToCurrentPlayer();
         UpgradesChanged?.Invoke();
+        UpgradePurchased?.Invoke(stat, currentLevels[stat]);
         return true;
     }
 
