@@ -59,6 +59,7 @@
     <Compile Include="Assets\Scripts\SkillSfxPlayer.cs" />
     <Compile Include="Assets\Scripts\AirProjectileController.cs" />
     <Compile Include="Assets\Scripts\PlayerLocator.cs" />
+    <Compile Include="Assets\Scripts\AchievementManager.cs" />
     <Compile Include="Assets\Scripts\PopupUpgradeTotalCoinView.cs" />
     <Compile Include="Assets\Scripts\ArrowProjectileController.cs" />
     <Compile Include="Assets\Scripts\LevelUpPanelController.cs" />
