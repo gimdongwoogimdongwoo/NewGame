@@ -1,4 +1,5 @@
 # Unity auto-generated folders
+Assets/TextMesh Pro/
 Library/
 Temp/
 Obj/
@@ -6,7 +7,7 @@ Build/
 Logs/
 MemoryCaptures/
 UserSettings/
-Assets/TextMesh Pro/
+
 
 # OS-specific
 .DS_Store
