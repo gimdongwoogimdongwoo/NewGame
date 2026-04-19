@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public class LevelUpPanelController : MonoBehaviour
 {
     public static LevelUpPanelController Instance { get; private set; }
+    public static event Action<int> CardSelected;
 
     [Header("UI References")]
     [SerializeField] private GameObject cardContainer;
@@ -212,6 +213,7 @@ public class LevelUpPanelController : MonoBehaviour
 
         selectedCardIds.Add(selectedRow.Id);
         selectedHistoryIds.Add(selectedRow.Id);
+        CardSelected?.Invoke(selectedRow.Id);
 
         ApplyCardEffect(selectedRow);
 

@@ -46,6 +46,7 @@ public class GameResultManager : MonoBehaviour
         }
 
         isResultConfirmed = true;
+        AchievementManager.NotifyStageClear(StageCsvLoader.ResolveCurrentStageId());
         FinalizeRunAndPersist();
         GameplayPauseController.PauseForGameResult();
         SetResultHudVisible(true);
@@ -107,6 +108,7 @@ public class GameResultManager : MonoBehaviour
     {
         int sessionCoins = CoinManager.Instance != null ? CoinManager.Instance.CurrentCoins : 0;
         TotalCoinPersistence.Instance.CommitSessionCoins(sessionCoins);
+        AchievementManager.Instance.SaveProgress();
     }
     private void HandleHomeClicked()
     {
