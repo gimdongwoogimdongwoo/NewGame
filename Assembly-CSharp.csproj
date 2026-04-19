@@ -116,7 +116,6 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\DropdownSample.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexColorCycler.cs" />
     <Compile Include="Assets\Scripts\TreasureBoxController.cs" />
-    <Compile Include="Assets\NewEmptyCSharpScript.cs" />
     <Compile Include="Assets\Scripts\CoinController.cs" />
     <Compile Include="Assets\Scripts\TotalCoinPersistence.cs" />
     <Compile Include="Assets\Scripts\PlayerMovement2D.cs" />
