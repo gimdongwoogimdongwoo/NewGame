@@ -3378,10 +3378,14 @@ MonoBehaviour:
   popupStage: {fileID: 1289255244}
   popupUpgrade: {fileID: 788453501}
   popupAchievement: {fileID: 1482292887}
+  popupLanguage: {fileID: 1509975141}
   btnGameStart: {fileID: 957498802}
   btnUpgrade: {fileID: 1582491616}
   btnAchievement: {fileID: 1872967054}
+  btnLanguage: {fileID: 556455342}
   btnExit: {fileID: 533262066}
+  btnLanguageEng: {fileID: 1580760672}
+  btnLanguageKor: {fileID: 1944781578}
   backdropButton: {fileID: 727297408}
 --- !u!114 &1467294420
 MonoBehaviour:
@@ -3480,6 +3484,11 @@ GameObject:
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3374420536538438970, guid: 180df7ad08d9c7740abe4054bf09c93d, type: 3}
   m_PrefabInstance: {fileID: 2515460948046213121}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1509975141 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 447849504044516701, guid: 180df7ad08d9c7740abe4054bf09c93d, type: 3}
+  m_PrefabInstance: {fileID: 1888375880}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1553354128
 GameObject:
@@ -4198,7 +4207,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000030518, y: 90}
+  m_AnchoredPosition: {x: -0.000030517578, y: 90}
   m_SizeDelta: {x: 1920, y: 1489.5966}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1652931837
