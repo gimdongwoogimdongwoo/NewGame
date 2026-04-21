@@ -232,10 +232,10 @@ public class UpgradeSystem : MonoBehaviour
     {
         if (!rowsByStat.TryGetValue(stat, out List<UpgradeStatusRow> rows) || rows.Count == 0)
         {
-            return stat.ToString();
+            return LocalizationManager.GetText($"UPGRADE_STAT_{stat.ToString().ToUpperInvariant()}");
         }
 
-        return rows[0].StatName;
+        return LocalizationManager.GetText(rows[0].StatName);
     }
 
     public int GetCurrentLevel(UpgradeStatType stat)
@@ -388,7 +388,7 @@ public class UpgradeSystem : MonoBehaviour
                     {
                         Id = stat.ToString(),
                         Stat = stat,
-                        StatName = stat.ToString(),
+                        StatName = $"UPGRADE_STAT_{stat.ToString().ToUpperInvariant()}",
                         Level = 0,
                         StatValue = 0f,
                         CoinValue = 0
