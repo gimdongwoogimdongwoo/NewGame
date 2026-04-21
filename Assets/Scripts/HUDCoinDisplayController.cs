@@ -51,6 +51,6 @@ public class HUDCoinDisplayController : MonoBehaviour
             return;
         }
 
-        coinText.text = $"Coin: {Mathf.Max(0, amount)}";
+        coinText.text = LocalizationManager.GetTextFormat("UI_HUD_COIN_FORMAT", Mathf.Max(0, amount));
     }
 }

@@ -355,7 +355,7 @@ public class LevelUpPanelController : MonoBehaviour
         }
 
         slotUi.SetIcon(card.LoadIconSprite());
-        slotUi.SetDescription(card.Desc);
+        slotUi.SetDescription(LocalizationManager.GetText(card.Desc));
     }
 
     private void ApplyFallbackCardUi()
@@ -365,7 +365,7 @@ public class LevelUpPanelController : MonoBehaviour
             BindCardToSlot(i, null, false);
             if (cardSlotUis[i] != null)
             {
-                cardSlotUis[i].SetDescription("카드 데이터가 없습니다");
+                cardSlotUis[i].SetDescription(LocalizationManager.GetText("UI_LEVELUP_NO_CARD_DATA"));
             }
         }
     }

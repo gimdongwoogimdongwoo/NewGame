@@ -4,7 +4,7 @@ using UnityEngine;
 public class PopupUpgradeTotalCoinView : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI totalCoinText;
-    [SerializeField] private string labelFormat = "Total Coin: {0}";
+    [SerializeField] private string labelFormatStringKey = "UI_UPGRADE_TOTAL_COIN_FORMAT";
 
     private void Awake()
     {
@@ -47,6 +47,6 @@ public class PopupUpgradeTotalCoinView : MonoBehaviour
             return;
         }
 
-        totalCoinText.text = string.Format(labelFormat, Mathf.Max(0, amount));
+        totalCoinText.text = LocalizationManager.GetTextFormat(labelFormatStringKey, Mathf.Max(0, amount));
     }
 }

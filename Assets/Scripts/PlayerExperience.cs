@@ -172,7 +172,7 @@ public class PlayerExperience : MonoBehaviour
 
     private void RefreshLevelText()
     {
-        string label = $"Level: {currentLevel}";
+        string label = LocalizationManager.GetTextFormat("UI_HUD_LEVEL_FORMAT", currentLevel);
 
         if (hudLevelTMP != null)
         {

@@ -19,7 +19,7 @@ public enum AchievementCondition
 public sealed class AchievementCsvRow
 {
     public string Id;
-    public string Title;
+    public string TitleKey;
     public AchievementCondition Condition;
     public int Value;
     public int Count;
@@ -382,7 +382,7 @@ public class AchievementManager : MonoBehaviour
         row = new AchievementCsvRow
         {
             Id = id,
-            Title = string.IsNullOrWhiteSpace(title) ? id : title,
+            TitleKey = string.IsNullOrWhiteSpace(title) ? id : title,
             Condition = condition,
             Value = value,
             Count = count
@@ -468,7 +468,7 @@ public class AchievementManager : MonoBehaviour
         {
             AchievementCsvRow def = definitions[i];
             AchievementRuntimeState state = GetOrCreateState(def.Id);
-            rowUiRefs[i].Apply(def.Title, state.Completed);
+            rowUiRefs[i].Apply(LocalizationManager.GetText(def.TitleKey), state.Completed);
         }
     }
 
@@ -604,7 +604,7 @@ public class AchievementManager : MonoBehaviour
         AchievementCompleted?.Invoke(new AchievementCompletedEvent
         {
             Id = def.Id,
-            Title = def.Title,
+            TitleKey = def.TitleKey,
             RowIndex = Mathf.Max(0, index),
             CompletionSerial = completionSerial
         });
@@ -675,7 +675,7 @@ public class AchievementManager : MonoBehaviour
 public sealed class AchievementCompletedEvent
 {
     public string Id;
-    public string Title;
+    public string TitleKey;
     public int RowIndex;
     public long CompletionSerial;
 }

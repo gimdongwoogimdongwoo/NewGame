@@ -1,22 +1,21 @@
-﻿ID,Ratio,Require,Icon,Desc,Effect,Value
-,,,,,,
-1,10,1,skill_ATKup.png,공격력이 25% 강화됩니다,ATKUP,125
-2,10,,skill_ATKup.png,공격력이 30% 증가합니다,DAMAGE_UP,130
-3,10,,skill_MAGNET.png,아이템 획득 범위가 2배 증가합니다.,MAGNET,200
-4,10,7,skill_MAGNET.png,아이템 획득 범위가 2배 추가로 증가합니다.,MAGNET,200
-5,10,,skill_Plus1.png,투사체는 1발 더 증가합니다.,PLUS1,
-6,10,,skill_PIERCE.png,투사체에 관통 효과가 적용됩니다.,PIERCE,
-7,10,,skill_Firering.png,주변을 빙글빙글 회전하는 불덩이 1개가 추가됩니다.,FIRERING,1
-8,10,2,skill_Firering.png,불덩이가 1개 더 늘어납니다.,FIRERING,2
-9,10,3,skill_Firering.png,불덩이가 1개 더 늘어납니다.,FIRERING,3
-10,10,4,skill_Firering.png,불덩이가 1개 더 늘어납니다.,FIRERING,4
-11,10,,skill_EXPLOSION.png,마법 피해로 사망한 적이 10% 확률로 폭발해 주변에 피해를 줍니다.,EXPLOSION,10
-12,10,5,skill_EXPLOSION.png,폭발 확률이 20%로 증가합니다.,EXPLOSION,20
-13,10,6,skill_EXPLOSION.png,폭발 확률이 30%로 증가합니다.,EXPLOSION,30
-14,10,7,skill_ARROW.png,유도 화살이 1개 발사됩니다.,ARROW,1
-15,10,8,skill_ARROW.png,유도 화살이 1개 더 추가됩니다.,ARROW,2
-16,10,9,skill_ARROW.png,유도 화살이 1개 더 추가됩니다.,ARROW,3
-17,10,10,skill_Air.png,적을 넉백시키는 회오리 바람이 1개 발사됩니다.,AIR,1
-18,10,11,skill_Air.png,회오리 바람이 1개 더 추가됩니다.,AIR,2
-19,10,12,skill_Air.png,회오리 바람이 1개 더 추가됩니다.,AIR,3
-20,10,13,skill_Air.png,회오리 바람이 1개 더 추가됩니다.,AIR,4
+ID,Ratio,Require,Icon,Desc,Effect,Value
+1,10,1,skill_ATKup.png,LEVELUP_DESC_ATK_25,ATKUP,125
+2,10,,skill_ATKup.png,LEVELUP_DESC_DAMAGE_30,DAMAGE_UP,130
+3,10,,skill_MAGNET.png,LEVELUP_DESC_MAGNET_2X,MAGNET,200
+4,10,7,skill_MAGNET.png,LEVELUP_DESC_MAGNET_2X_MORE,MAGNET,200
+5,10,,skill_Plus1.png,LEVELUP_DESC_PLUS1,PLUS1,
+6,10,,skill_PIERCE.png,LEVELUP_DESC_PIERCE,PIERCE,
+7,10,,skill_Firering.png,LEVELUP_DESC_FIRERING_1,FIRERING,1
+8,10,2,skill_Firering.png,LEVELUP_DESC_FIRERING_2,FIRERING,2
+9,10,3,skill_Firering.png,LEVELUP_DESC_FIRERING_3,FIRERING,3
+10,10,4,skill_Firering.png,LEVELUP_DESC_FIRERING_4,FIRERING,4
+11,10,,skill_EXPLOSION.png,LEVELUP_DESC_EXPLOSION_10,EXPLOSION,10
+12,10,5,skill_EXPLOSION.png,LEVELUP_DESC_EXPLOSION_20,EXPLOSION,20
+13,10,6,skill_EXPLOSION.png,LEVELUP_DESC_EXPLOSION_30,EXPLOSION,30
+14,10,7,skill_ARROW.png,LEVELUP_DESC_ARROW_1,ARROW,1
+15,10,8,skill_ARROW.png,LEVELUP_DESC_ARROW_2,ARROW,2
+16,10,9,skill_ARROW.png,LEVELUP_DESC_ARROW_3,ARROW,3
+17,10,10,skill_Air.png,LEVELUP_DESC_AIR_1,AIR,1
+18,10,11,skill_Air.png,LEVELUP_DESC_AIR_2,AIR,2
+19,10,12,skill_Air.png,LEVELUP_DESC_AIR_3,AIR,3
+20,10,13,skill_Air.png,LEVELUP_DESC_AIR_4,AIR,4

@@ -132,14 +132,14 @@ public class MainSceneStageCardListController : MonoBehaviour
             TMP_Text tmp = titleNode.GetComponent<TMP_Text>();
             if (tmp != null)
             {
-                tmp.text = stage.StageName;
+                tmp.text = LocalizationManager.GetText(stage.StageName);
             }
             else
             {
                 Text text = titleNode.GetComponent<Text>();
                 if (text != null)
                 {
-                    text.text = stage.StageName;
+                    text.text = LocalizationManager.GetText(stage.StageName);
                 }
             }
         }
