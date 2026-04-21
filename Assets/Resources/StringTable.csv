@@ -1,0 +1,41 @@
+StringKey,KOR,ENG
+STAGE_NAME_1,스테이지 1,Stage 1
+STAGE_NAME_2,스테이지 2,Stage 2
+UPGRADE_STAT_ATK,공격력,Attack
+UPGRADE_STAT_HP,체력,Health
+UPGRADE_STAT_MOVESPEED,이동 속도,Move Speed
+UPGRADE_STAT_ATKSPEED,공격 속도,Attack Speed
+UPGRADE_STAT_CRI,치명타 피해,Critical Damage
+UPGRADE_STAT_REVIVAL,부활 횟수,Revivals
+ACH_TITLE_CLEAR_STAGE1,스테이지 1 클리어,Stage 1 Clear
+ACH_TITLE_LEVEL_10,레벨 10 달성,Reach Level 10
+ACH_TITLE_CARD_1,카드 #1 선택,Choose Card #1
+ACH_TITLE_COIN_1000,코인 1000 획득,Collect 1000 Coins
+ACH_TITLE_UPGRADE_10,강화 10회 구매,Buy 10 Upgrades
+UI_ACHIEVEMENT_COMPLETED_TOAST,{0} 달성 완료!,{0} completed!
+UI_LEVELUP_NO_CARD_DATA,카드 데이터가 없습니다,No card data available
+UI_HUD_COIN_FORMAT,코인: {0},Coin: {0}
+UI_UPGRADE_TOTAL_COIN_FORMAT,총 코인: {0},Total Coin: {0}
+UI_HUD_LEVEL_FORMAT,레벨: {0},Level: {0}
+UI_COMMON_MAX,최대,MAX
+UI_UPGRADE_BUTTON_UP,강화,UP
+LEVELUP_DESC_ATK_25,공격력이 25% 강화됩니다,Attack power is increased by 25%
+LEVELUP_DESC_DAMAGE_30,공격력이 30% 증가합니다,Attack power increases by 30%
+LEVELUP_DESC_MAGNET_2X,아이템 획득 범위가 2배 증가합니다,Item pickup range doubles
+LEVELUP_DESC_MAGNET_2X_MORE,아이템 획득 범위가 2배 추가로 증가합니다,Item pickup range doubles again
+LEVELUP_DESC_PLUS1,투사체는 1발 더 증가합니다,Projectiles increase by 1
+LEVELUP_DESC_PIERCE,투사체에 관통 효과가 적용됩니다,Pierce effect is applied to projectiles
+LEVELUP_DESC_FIRERING_1,주변을 빙글빙글 회전하는 불덩이 1개가 추가됩니다,Adds 1 orbiting fireball
+LEVELUP_DESC_FIRERING_2,불덩이가 1개 더 늘어납니다,Adds 1 more fireball
+LEVELUP_DESC_FIRERING_3,불덩이가 1개 더 늘어납니다,Adds 1 more fireball
+LEVELUP_DESC_FIRERING_4,불덩이가 1개 더 늘어납니다,Adds 1 more fireball
+LEVELUP_DESC_EXPLOSION_10,마법 피해로 사망한 적이 10% 확률로 폭발해 주변에 피해를 줍니다,Enemies killed by magic explode with 10% chance
+LEVELUP_DESC_EXPLOSION_20,폭발 확률이 20%로 증가합니다,Explosion chance increases to 20%
+LEVELUP_DESC_EXPLOSION_30,폭발 확률이 30%로 증가합니다,Explosion chance increases to 30%
+LEVELUP_DESC_ARROW_1,유도 화살이 1개 발사됩니다,Launches 1 homing arrow
+LEVELUP_DESC_ARROW_2,유도 화살이 1개 더 추가됩니다,Adds 1 more homing arrow
+LEVELUP_DESC_ARROW_3,유도 화살이 1개 더 추가됩니다,Adds 1 more homing arrow
+LEVELUP_DESC_AIR_1,적을 넉백시키는 회오리 바람이 1개 발사됩니다,Launches 1 knockback whirlwind
+LEVELUP_DESC_AIR_2,회오리 바람이 1개 더 추가됩니다,Adds 1 more whirlwind
+LEVELUP_DESC_AIR_3,회오리 바람이 1개 더 추가됩니다,Adds 1 more whirlwind
+LEVELUP_DESC_AIR_4,회오리 바람이 1개 더 추가됩니다,Adds 1 more whirlwind
