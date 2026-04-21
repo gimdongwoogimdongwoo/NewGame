@@ -9,12 +9,16 @@ public class MainScenePopupController : MonoBehaviour
     [SerializeField] private GameObject popupStage;
     [SerializeField] private GameObject popupUpgrade;
     [SerializeField] private GameObject popupAchievement;
+    [SerializeField] private GameObject popupLanguage;
 
     [Header("Buttons")]
     [SerializeField] private Button btnGameStart;
     [SerializeField] private Button btnUpgrade;
     [SerializeField] private Button btnAchievement;
+    [SerializeField] private Button btnLanguage;
     [SerializeField] private Button btnExit;
+    [SerializeField] private Button btnLanguageEng;
+    [SerializeField] private Button btnLanguageKor;
     [SerializeField] private Button backdropButton;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
@@ -62,10 +66,14 @@ public class MainScenePopupController : MonoBehaviour
         popupStage = popupStage != null ? popupStage : FindByAnyName("Popup_Stage", "PopupStage");
         popupUpgrade = popupUpgrade != null ? popupUpgrade : FindByAnyName("Popup_Upgrade", "PopupUpgrade");
         popupAchievement = popupAchievement != null ? popupAchievement : FindByAnyName("Popup_Achivement", "Popup_Achievement", "PopupAchievement");
+        popupLanguage = popupLanguage != null ? popupLanguage : FindByAnyName("Popup_Language", "PopupLanguage");
 
         btnGameStart = btnGameStart != null ? btnGameStart : FindButtonAny("BTN_GameStart", "Btn_GameStart", "GameStart");
         btnUpgrade = btnUpgrade != null ? btnUpgrade : FindButtonAny("BTN_Upgrade", "Btn_Upgrade", "Upgrade");
         btnAchievement = btnAchievement != null ? btnAchievement : FindButtonAny("BTN_Achivement", "BTN_Achievement", "Btn_Achievement", "Achievement");
+        btnLanguage = btnLanguage != null ? btnLanguage : FindButtonAny("Button_Language", "BTN_Language", "Btn_Language");
+        btnLanguageEng = btnLanguageEng != null ? btnLanguageEng : FindButtonAny("Language_ENG", "BTN_Language_ENG");
+        btnLanguageKor = btnLanguageKor != null ? btnLanguageKor : FindButtonAny("Language_KOR", "BTN_Language_KOR");
         btnExit = btnExit != null ? btnExit : FindButtonAny("BTN_Exit", "Btn_Exit", "Exit");
     }
 
@@ -87,6 +95,24 @@ public class MainScenePopupController : MonoBehaviour
         {
             btnAchievement.onClick.RemoveListener(OpenAchievementPopup);
             btnAchievement.onClick.AddListener(OpenAchievementPopup);
+        }
+
+        if (btnLanguage != null)
+        {
+            btnLanguage.onClick.RemoveListener(OpenLanguagePopup);
+            btnLanguage.onClick.AddListener(OpenLanguagePopup);
+        }
+
+        if (btnLanguageEng != null)
+        {
+            btnLanguageEng.onClick.RemoveListener(HandleLanguageEngClicked);
+            btnLanguageEng.onClick.AddListener(HandleLanguageEngClicked);
+        }
+
+        if (btnLanguageKor != null)
+        {
+            btnLanguageKor.onClick.RemoveListener(HandleLanguageKorClicked);
+            btnLanguageKor.onClick.AddListener(HandleLanguageKorClicked);
         }
 
         if (btnExit != null)
@@ -116,6 +142,21 @@ public class MainScenePopupController : MonoBehaviour
         if (btnAchievement != null)
         {
             btnAchievement.onClick.RemoveListener(OpenAchievementPopup);
+        }
+
+        if (btnLanguage != null)
+        {
+            btnLanguage.onClick.RemoveListener(OpenLanguagePopup);
+        }
+
+        if (btnLanguageEng != null)
+        {
+            btnLanguageEng.onClick.RemoveListener(HandleLanguageEngClicked);
+        }
+
+        if (btnLanguageKor != null)
+        {
+            btnLanguageKor.onClick.RemoveListener(HandleLanguageKorClicked);
         }
 
         if (btnExit != null)
@@ -202,6 +243,7 @@ public class MainScenePopupController : MonoBehaviour
         BindCloseButtonsIn(popupStage);
         BindCloseButtonsIn(popupUpgrade);
         BindCloseButtonsIn(popupAchievement);
+        BindCloseButtonsIn(popupLanguage);
     }
 
     private void BindCloseButtonsIn(GameObject popup)
@@ -238,6 +280,21 @@ public class MainScenePopupController : MonoBehaviour
         OpenOnly(popupAchievement);
     }
 
+    private void OpenLanguagePopup()
+    {
+        OpenOnly(popupLanguage);
+    }
+
+    private void HandleLanguageEngClicked()
+    {
+        LocalizationManager.SetLanguage(LanguageCode.ENG);
+    }
+
+    private void HandleLanguageKorClicked()
+    {
+        LocalizationManager.SetLanguage(LanguageCode.KOR);
+    }
+
     private void OpenOnly(GameObject targetPopup)
     {
         if (popupPanel != null)
@@ -248,6 +305,7 @@ public class MainScenePopupController : MonoBehaviour
         if (popupStage != null) popupStage.SetActive(popupStage == targetPopup);
         if (popupUpgrade != null) popupUpgrade.SetActive(popupUpgrade == targetPopup);
         if (popupAchievement != null) popupAchievement.SetActive(popupAchievement == targetPopup);
+        if (popupLanguage != null) popupLanguage.SetActive(popupLanguage == targetPopup);
     }
 
     private void CloseAllPopups()
@@ -255,6 +313,7 @@ public class MainScenePopupController : MonoBehaviour
         if (popupStage != null) popupStage.SetActive(false);
         if (popupUpgrade != null) popupUpgrade.SetActive(false);
         if (popupAchievement != null) popupAchievement.SetActive(false);
+        if (popupLanguage != null) popupLanguage.SetActive(false);
         if (popupPanel != null) popupPanel.SetActive(false);
     }
 

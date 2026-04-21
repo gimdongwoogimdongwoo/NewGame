@@ -19,6 +19,7 @@ public class PopupUpgradeTotalCoinView : MonoBehaviour
     private void OnEnable()
     {
         TotalCoinPersistence.Instance.TotalCoinsChanged += HandleTotalCoinsChanged;
+        LocalizationManager.LanguageChanged += HandleLanguageChanged;
         Refresh();
     }
 
@@ -28,6 +29,7 @@ public class PopupUpgradeTotalCoinView : MonoBehaviour
         {
             TotalCoinPersistence.Instance.TotalCoinsChanged -= HandleTotalCoinsChanged;
         }
+        LocalizationManager.LanguageChanged -= HandleLanguageChanged;
     }
 
     private void HandleTotalCoinsChanged(int totalCoins, string _)
@@ -38,6 +40,11 @@ public class PopupUpgradeTotalCoinView : MonoBehaviour
     private void Refresh()
     {
         SetText(TotalCoinPersistence.Instance.TotalCoins);
+    }
+
+    private void HandleLanguageChanged(LanguageCode _)
+    {
+        Refresh();
     }
 
     private void SetText(int amount)

@@ -101,6 +101,8 @@ public class AchievementManager : MonoBehaviour
 
         SceneManager.sceneLoaded -= HandleSceneLoaded;
         SceneManager.sceneLoaded += HandleSceneLoaded;
+        LocalizationManager.LanguageChanged -= HandleLanguageChanged;
+        LocalizationManager.LanguageChanged += HandleLanguageChanged;
 
         SubscribeGameplayEvents();
     }
@@ -118,6 +120,7 @@ public class AchievementManager : MonoBehaviour
         }
 
         SceneManager.sceneLoaded -= HandleSceneLoaded;
+        LocalizationManager.LanguageChanged -= HandleLanguageChanged;
         UnsubscribeGameplayEvents();
     }
 
@@ -470,6 +473,11 @@ public class AchievementManager : MonoBehaviour
             AchievementRuntimeState state = GetOrCreateState(def.Id);
             rowUiRefs[i].Apply(LocalizationManager.GetText(def.TitleKey), state.Completed);
         }
+    }
+
+    private void HandleLanguageChanged(LanguageCode _)
+    {
+        RefreshAchievementUi();
     }
 
     private void EnsureRowsBuilt()

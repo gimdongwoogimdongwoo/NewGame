@@ -70,6 +70,7 @@ public class LevelUpPanelController : MonoBehaviour
         ResolveCardSlotUis();
         LoadCardTable();
         SetPanelVisible(false);
+        LocalizationManager.LanguageChanged += HandleLanguageChanged;
     }
 
     private void Update()
@@ -93,7 +94,21 @@ public class LevelUpPanelController : MonoBehaviour
         }
 
         UnbindCardButtons();
+        LocalizationManager.LanguageChanged -= HandleLanguageChanged;
         GameplayPauseController.ResumeFromLevelUp();
+    }
+
+    private void HandleLanguageChanged(LanguageCode _)
+    {
+        if (!isPanelOpen)
+        {
+            return;
+        }
+
+        for (int i = 0; i < currentDrawCards.Length; i++)
+        {
+            BindCardToSlot(i, currentDrawCards[i], cardButtons[i] != null && cardButtons[i].interactable);
+        }
     }
 
     public void EnqueueLevelUpSelection(int level)
