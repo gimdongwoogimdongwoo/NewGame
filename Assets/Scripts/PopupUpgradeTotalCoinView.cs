@@ -4,7 +4,7 @@ using UnityEngine;
 public class PopupUpgradeTotalCoinView : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI totalCoinText;
-    [SerializeField] private string labelFormat = "Total Coin: {0}";
+    [SerializeField] private string labelFormatStringKey = "UI_UPGRADE_TOTAL_COIN_FORMAT";
 
     private void Awake()
     {
@@ -19,6 +19,7 @@ public class PopupUpgradeTotalCoinView : MonoBehaviour
     private void OnEnable()
     {
         TotalCoinPersistence.Instance.TotalCoinsChanged += HandleTotalCoinsChanged;
+        LocalizationManager.LanguageChanged += HandleLanguageChanged;
         Refresh();
     }
 
@@ -28,6 +29,7 @@ public class PopupUpgradeTotalCoinView : MonoBehaviour
         {
             TotalCoinPersistence.Instance.TotalCoinsChanged -= HandleTotalCoinsChanged;
         }
+        LocalizationManager.LanguageChanged -= HandleLanguageChanged;
     }
 
     private void HandleTotalCoinsChanged(int totalCoins, string _)
@@ -40,6 +42,11 @@ public class PopupUpgradeTotalCoinView : MonoBehaviour
         SetText(TotalCoinPersistence.Instance.TotalCoins);
     }
 
+    private void HandleLanguageChanged(LanguageCode _)
+    {
+        Refresh();
+    }
+
     private void SetText(int amount)
     {
         if (totalCoinText == null)
@@ -47,6 +54,6 @@ public class PopupUpgradeTotalCoinView : MonoBehaviour
             return;
         }
 
-        totalCoinText.text = string.Format(labelFormat, Mathf.Max(0, amount));
+        totalCoinText.text = LocalizationManager.GetTextFormat(labelFormatStringKey, Mathf.Max(0, amount));
     }
 }

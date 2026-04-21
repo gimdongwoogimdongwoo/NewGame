@@ -70,6 +70,7 @@ public class LevelUpPanelController : MonoBehaviour
         ResolveCardSlotUis();
         LoadCardTable();
         SetPanelVisible(false);
+        LocalizationManager.LanguageChanged += HandleLanguageChanged;
     }
 
     private void Update()
@@ -93,7 +94,21 @@ public class LevelUpPanelController : MonoBehaviour
         }
 
         UnbindCardButtons();
+        LocalizationManager.LanguageChanged -= HandleLanguageChanged;
         GameplayPauseController.ResumeFromLevelUp();
+    }
+
+    private void HandleLanguageChanged(LanguageCode _)
+    {
+        if (!isPanelOpen)
+        {
+            return;
+        }
+
+        for (int i = 0; i < currentDrawCards.Length; i++)
+        {
+            BindCardToSlot(i, currentDrawCards[i], cardButtons[i] != null && cardButtons[i].interactable);
+        }
     }
 
     public void EnqueueLevelUpSelection(int level)
@@ -355,7 +370,7 @@ public class LevelUpPanelController : MonoBehaviour
         }
 
         slotUi.SetIcon(card.LoadIconSprite());
-        slotUi.SetDescription(card.Desc);
+        slotUi.SetDescription(LocalizationManager.GetText(card.Desc));
     }
 
     private void ApplyFallbackCardUi()
@@ -365,7 +380,7 @@ public class LevelUpPanelController : MonoBehaviour
             BindCardToSlot(i, null, false);
             if (cardSlotUis[i] != null)
             {
-                cardSlotUis[i].SetDescription("카드 데이터가 없습니다");
+                cardSlotUis[i].SetDescription(LocalizationManager.GetText("UI_LEVELUP_NO_CARD_DATA"));
             }
         }
     }

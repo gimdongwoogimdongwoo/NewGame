@@ -79,7 +79,7 @@ public class AchievementToastQueueService : MonoBehaviour
         pending.Add(new QueuedToast
         {
             Id = evt.Id,
-            Message = $"{evt.Title} 달성 완료!",
+            Message = LocalizationManager.GetTextFormat("UI_ACHIEVEMENT_COMPLETED_TOAST", LocalizationManager.GetText(evt.TitleKey)),
             RowIndex = evt.RowIndex,
             CompletionSerial = evt.CompletionSerial
         });

@@ -86,6 +86,16 @@ public class PlayerExperience : MonoBehaviour
         ResolveLevelUpPanelReference();
     }
 
+    private void OnEnable()
+    {
+        LocalizationManager.LanguageChanged += HandleLanguageChanged;
+    }
+
+    private void OnDisable()
+    {
+        LocalizationManager.LanguageChanged -= HandleLanguageChanged;
+    }
+
     public void AddExperience(int amount)
     {
         if (amount <= 0)
@@ -172,7 +182,7 @@ public class PlayerExperience : MonoBehaviour
 
     private void RefreshLevelText()
     {
-        string label = $"Level: {currentLevel}";
+        string label = LocalizationManager.GetTextFormat("UI_HUD_LEVEL_FORMAT", currentLevel);
 
         if (hudLevelTMP != null)
         {
@@ -183,6 +193,11 @@ public class PlayerExperience : MonoBehaviour
         {
             hudLevelText.text = label;
         }
+    }
+
+    private void HandleLanguageChanged(LanguageCode _)
+    {
+        RefreshLevelText();
     }
 
     private void UpdateExpBarImmediate()

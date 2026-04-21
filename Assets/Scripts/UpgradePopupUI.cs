@@ -18,6 +18,7 @@ public class UpgradePopupUI : MonoBehaviour
         EnsureRows();
         UpgradeSystem.Instance.UpgradesChanged += RefreshAll;
         TotalCoinPersistence.Instance.TotalCoinsChanged += HandleCoinChanged;
+        LocalizationManager.LanguageChanged += HandleLanguageChanged;
 
         BindRows();
         RefreshAll();
@@ -34,6 +35,7 @@ public class UpgradePopupUI : MonoBehaviour
         {
             TotalCoinPersistence.Instance.TotalCoinsChanged -= HandleCoinChanged;
         }
+        LocalizationManager.LanguageChanged -= HandleLanguageChanged;
 
         for (int i = 0; i < statRows.Count; i++)
         {
@@ -50,6 +52,11 @@ public class UpgradePopupUI : MonoBehaviour
     }
 
     private void HandleCoinChanged(int _, string __)
+    {
+        RefreshAll();
+    }
+
+    private void HandleLanguageChanged(LanguageCode _)
     {
         RefreshAll();
     }
@@ -152,13 +159,16 @@ public class UpgradePopupUI : MonoBehaviour
         buttonGo.GetComponent<Image>().color = new Color(0.16f, 0.58f, 0.22f, 0.95f);
         RectTransform btnRt = buttonGo.GetComponent<RectTransform>();
         btnRt.sizeDelta = new Vector2(110f, 54f);
-        CreateText(buttonGo.transform, "Label", 18, TextAlignmentOptions.Center).text = "UP";
+        TextMeshProUGUI upLabel = CreateText(buttonGo.transform, "Label", 18, TextAlignmentOptions.Center);
+        LocalizedTMP upLocalized = upLabel.gameObject.AddComponent<LocalizedTMP>();
+        upLocalized.StringKey = "UI_UPGRADE_BUTTON_UP";
         Button btn = buttonGo.GetComponent<Button>();
 
         GameObject tagMax = new GameObject("Tag_Max", typeof(RectTransform));
         tagMax.transform.SetParent(rowGo.transform, false);
         TextMeshProUGUI maxText = CreateText(tagMax.transform, "Text", 18, TextAlignmentOptions.Center);
-        maxText.text = "MAX";
+        LocalizedTMP maxLocalized = maxText.gameObject.AddComponent<LocalizedTMP>();
+        maxLocalized.StringKey = "UI_COMMON_MAX";
         tagMax.SetActive(false);
 
         UpgradeStatRowUI row = rowGo.AddComponent<UpgradeStatRowUI>();
@@ -247,7 +257,7 @@ public class UpgradeStatRowUI : MonoBehaviour
 
         if (textPrice != null)
         {
-            textPrice.text = isMax ? "MAX" : upgrade.GetNextCoinCost(statType).ToString();
+            textPrice.text = isMax ? LocalizationManager.GetText("UI_COMMON_MAX") : upgrade.GetNextCoinCost(statType).ToString();
         }
 
         if (btnPrice != null)

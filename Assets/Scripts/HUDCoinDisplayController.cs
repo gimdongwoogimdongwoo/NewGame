@@ -15,6 +15,7 @@ public class HUDCoinDisplayController : MonoBehaviour
     private void OnEnable()
     {
         ResolveReferences();
+        LocalizationManager.LanguageChanged += HandleLanguageChanged;
 
         if (coinManager != null)
         {
@@ -25,10 +26,16 @@ public class HUDCoinDisplayController : MonoBehaviour
 
     private void OnDisable()
     {
+        LocalizationManager.LanguageChanged -= HandleLanguageChanged;
         if (coinManager != null)
         {
             coinManager.CoinChanged -= RefreshText;
         }
+    }
+
+    private void HandleLanguageChanged(LanguageCode _)
+    {
+        RefreshText(coinManager != null ? coinManager.CurrentCoins : 0);
     }
 
     private void ResolveReferences()
@@ -51,6 +58,6 @@ public class HUDCoinDisplayController : MonoBehaviour
             return;
         }
 
-        coinText.text = $"Coin: {Mathf.Max(0, amount)}";
+        coinText.text = LocalizationManager.GetTextFormat("UI_HUD_COIN_FORMAT", Mathf.Max(0, amount));
     }
 }

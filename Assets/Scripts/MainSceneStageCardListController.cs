@@ -1,4 +1,5 @@
 using TMPro;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -12,6 +13,7 @@ public class MainSceneStageCardListController : MonoBehaviour
     [SerializeField] private string stageTitleObjectName = "StageTitle";
     [SerializeField] private bool clearExistingChildren = true;
     [SerializeField] private string templateCardName = "StageCard";
+    private readonly List<BoundStageCard> boundCards = new();
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     private static void Bootstrap()
@@ -34,6 +36,17 @@ public class MainSceneStageCardListController : MonoBehaviour
     {
         ResolveReferences();
         BuildStageCards();
+    }
+
+    private void OnEnable()
+    {
+        LocalizationManager.LanguageChanged -= HandleLanguageChanged;
+        LocalizationManager.LanguageChanged += HandleLanguageChanged;
+    }
+
+    private void OnDisable()
+    {
+        LocalizationManager.LanguageChanged -= HandleLanguageChanged;
     }
 
     private void ResolveReferences()
@@ -76,6 +89,7 @@ public class MainSceneStageCardListController : MonoBehaviour
 
         if (clearExistingChildren)
         {
+            boundCards.Clear();
             for (int i = stageCardPanel.childCount - 1; i >= 0; i--)
             {
                 Transform child = stageCardPanel.GetChild(i);
@@ -132,14 +146,16 @@ public class MainSceneStageCardListController : MonoBehaviour
             TMP_Text tmp = titleNode.GetComponent<TMP_Text>();
             if (tmp != null)
             {
-                tmp.text = stage.StageName;
+                tmp.text = LocalizationManager.GetText(stage.StageName);
+                boundCards.Add(new BoundStageCard(stage.StageName, tmp, null));
             }
             else
             {
                 Text text = titleNode.GetComponent<Text>();
                 if (text != null)
                 {
-                    text.text = stage.StageName;
+                    text.text = LocalizationManager.GetText(stage.StageName);
+                    boundCards.Add(new BoundStageCard(stage.StageName, null, text));
                 }
             }
         }
@@ -187,5 +203,41 @@ public class MainSceneStageCardListController : MonoBehaviour
 
         fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
         fitter.horizontalFit = ContentSizeFitter.FitMode.Unconstrained;
+    }
+
+    private void HandleLanguageChanged(LanguageCode _)
+    {
+        for (int i = 0; i < boundCards.Count; i++)
+        {
+            boundCards[i].Apply();
+        }
+    }
+
+    private readonly struct BoundStageCard
+    {
+        private readonly string stageNameKey;
+        private readonly TMP_Text tmpText;
+        private readonly Text legacyText;
+
+        public BoundStageCard(string stageNameKey, TMP_Text tmpText, Text legacyText)
+        {
+            this.stageNameKey = stageNameKey;
+            this.tmpText = tmpText;
+            this.legacyText = legacyText;
+        }
+
+        public void Apply()
+        {
+            string value = LocalizationManager.GetText(stageNameKey);
+            if (tmpText != null)
+            {
+                tmpText.text = value;
+            }
+
+            if (legacyText != null)
+            {
+                legacyText.text = value;
+            }
+        }
     }
 }
