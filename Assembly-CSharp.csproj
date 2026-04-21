@@ -68,7 +68,9 @@
     <Compile Include="Assets\Scripts\PlayerHealth.cs" />
     <Compile Include="Assets\Scripts\UpgradeSystem.cs" />
     <Compile Include="Assets\Scripts\LevelUpSfxPlayer.cs" />
+    <Compile Include="Assets\Scripts\LocalizedTMP.cs" />
     <Compile Include="Assets\Scripts\MainSceneStageCardListController.cs" />
+    <Compile Include="Assets\Scripts\LocalizationManager.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_ExampleScript_01.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMPro_InstructionOverlay.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeB.cs" />
